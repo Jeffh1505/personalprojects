@@ -8,16 +8,19 @@ def main():
     s = input("Please input a word: ").lower()
     if s in words:
          a = numper_split(s)
-         return a 
+         return print(a) 
     else:
          return print("That is not a word")
 
 def numper_split(s):
      import random
-     a = s.split()
-     b = random.randint(0,10)
+     a = []
+     
+     b = str(random.randint(0,9))
      number_splitted_word = ""
+     for i in s:
+          a.append(i)
      for i in a:
-          number_splitted_word += a[i] + b
+          number_splitted_word += i + b
      return number_splitted_word
 main()
