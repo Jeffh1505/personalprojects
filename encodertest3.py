@@ -64,4 +64,5 @@ def encode_binary(a):
     for x in binary_encoded_list:
         binary_encoded_word += x + "_"
     return binary_encoded_word
-main()
+if __name__ == "__main__":
+    main()
