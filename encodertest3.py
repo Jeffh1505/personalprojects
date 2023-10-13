@@ -8,14 +8,27 @@ def main():
     s = input("Please input a word: ").lower()
     
     if s in words:
-        a = encode_numerically(s)
+        x = caesar_cypher(s)
+        a = encode_numerically(x)
         b = encode_binary(a)
         b = b.split("_")
         random.shuffle(b) #This shuffles the binary encoded string 
         return print("Encoded word:", b) 
     else:
         return print("That is not a word.")
-
+def caesar_cypher(s):
+    letter_to_number = {'a': "f", "b": "g", 'c':"h", 'd':"i", 'e': "j",'f':"k",'g':"l",
+                    'h':"m", 'i':"n", 'j':"o", 'k':"p", 'l':"q", 'm':"r", 'n':"s",
+                     'o':"t", 'p': "u", 'q': "v", 'r':"w", 's':"x", 't':"y", 'u':"z",
+                     'v':"a", 'w':"b", 'x':"c", 'y':"d", 'z':"e"}
+    encoded_word_list = []
+    encoded_word = ""
+    
+    for char in s:
+        encoded_word_list.append(letter_to_number[char])    
+    for x in encoded_word_list:
+        encoded_word += x
+    return encoded_word    
 
 def encode_numerically(s):
     #This function encodes the letter to a number 1 through 26
