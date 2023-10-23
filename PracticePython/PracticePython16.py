@@ -3,7 +3,7 @@ def main():
     User_input = input("Would you like a password? (y/n): ")
     if User_input == 'y':
         c = generate_password()
-        print(c)
+        print("Password:", c)
     else:
         print("Ok, then.")
 
@@ -19,7 +19,7 @@ def generate_password():
                                         , '%', '^', '&', '*', '?','~']
     password = ""
     for i in range(15):
-        numbers_to_add = random.randint(0, 9)
+        numbers_to_add = str(random.randint(0, 9))
         characters = random.choice(possible_password_character_list)
         password_character_list.append(characters)
         password_character_list.append(numbers_to_add)
