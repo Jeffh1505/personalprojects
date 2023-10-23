@@ -26,4 +26,5 @@ def generate_password():
     for char in range(len(password_character_list)):
         password += password_character_list[char]
     return password
+
 main()
