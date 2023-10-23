@@ -7,8 +7,9 @@ def main():
 def reverse_sentence(s):
     s = s.split(" ")
     print(s)
-    reversed_list = ""
-    for char in s:
-        reversed_list += s[::-1]
-    return reversed_list
+    reversed_list = s[::-1]
+    reversed_string = ""
+    for char in range(len(reversed_list)):
+        reversed_string += reversed_list[char] + " "
+    return reversed_string
 main()
