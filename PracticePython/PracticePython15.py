@@ -6,7 +6,6 @@ def main():
 
 def reverse_sentence(s):
     s = s.split(" ")
-    print(s)
     reversed_list = s[::-1]
     reversed_string = ""
     for char in range(len(reversed_list)):
