@@ -10,10 +10,16 @@ def main():
     if s in words:
         x = caesar_cypher(s)
         a = encode_numerically(x)
-        b = encode_binary(a)
-        b = b.split("_")
-        random.shuffle(b) #This shuffles the binary encoded string 
-        return print("Encoded word:", b) 
+        a = a.split("_")
+        a = a[:-1]
+        b_list = []
+        for number in a:
+            number = int(number)
+            b = encode_binary(number)
+            b_list.append(b)
+        
+        random.shuffle(b_list) #This shuffles the binary encoded string 
+        return print("Encoded word:", b_list) 
     else:
         return print("That is not a word.")
 def caesar_cypher(s):
@@ -47,22 +53,13 @@ def encode_numerically(s):
 
 def encode_binary(a):
     #This function encodes the number that results from encoding the word into binary
-    number_to_binary = {'1': "1", '2': "10", '3':"11", '4': "100", 
-                        '5': "101", '6': "110", '7':"111", '8': "1000", 
-                        '9':"1001", '10':"101", '11':"1011", '12':"1100",
-                        '13': "1101", '14':"1110", '15':"1111", '16':"10000",
-                        '17':"10001", '18':"10010", '19':"10011", '20':"10100",
-                        '21':"10101", '22':"10110", '23':"10111", '24':"11000",
-                        '25':"11001", '26':"11010"}
-    binary_encoded_list = []
-    binary_encoded_word = ""
-    split_a = a.split('_')
-    
-    split_a_2 = split_a[:-1]
-    for number in split_a_2:
-        binary_encoded_list.append(number_to_binary[number])
-    for x in binary_encoded_list:
-        binary_encoded_word += x + "_"
-    return binary_encoded_word
+    if a == 0:
+        return ''
+    if a % 2 == 1:
+        last_bit = '1'
+    else:
+        last_bit = '0'
+    prefix = encode_binary(a//2)
+    return prefix + last_bit
 if __name__ == "__main__":
     main()
