@@ -14,7 +14,7 @@ print(latitude, longitude)
 url1 = f'https://api.weather.gov/points/{latitude},{longitude}'
 response2 = requests.get(url1)
 if response2.status_code == 200:
-    data = response.json()
+    data = response2.json()
     forecast_link = data['properties']['forecast']
 else: 
     print("Invalid location")
