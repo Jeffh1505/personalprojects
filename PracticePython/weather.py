@@ -6,6 +6,8 @@ response = requests.get(url1)
 if response.status_code == 200:
     data = response.json()
     forecast_link = data['properties']['forecast']
+else: 
+    print("Invalid location")
 
 response2 = requests.get(forecast_link)
 if response2.status_code == 200:
