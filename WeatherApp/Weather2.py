@@ -8,8 +8,8 @@ if response1.status_code == 200:
 
 else:
     print("Invalid Location.")
-latitude = str(data1['result']['addressMatches'][0]['coordinates']['y'])[:-8]
-longitude = str(data1['result']['addressMatches'][0]['coordinates']['x'])[:-8]
+latitude = str(data1['result']['addressMatches'][0]['coordinates']['y'])[:-10]
+longitude = str(data1['result']['addressMatches'][0]['coordinates']['x'])[:-10]
 print(latitude, longitude)
 url1 = f'https://api.weather.gov/points/{latitude},{longitude}'
 response2 = requests.get(url1)
