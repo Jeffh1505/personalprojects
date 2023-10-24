@@ -1,4 +1,3 @@
-from urllib import response
 import requests
 user_address = input("Please input your address: ")
 address_url = f'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address={user_address}&benchmark=2020&format=json'
@@ -21,7 +20,8 @@ else:
 
 response3 = requests.get(forecast_link)
 if response3.status_code == 200:
-    data2 = response2.json()
+    data2 = response3.json()
+    print(data2)
     forecast = data2['properties']['periods'][0]['detailedForecast']
     print("Today's forecast: ", forecast)
 else:
