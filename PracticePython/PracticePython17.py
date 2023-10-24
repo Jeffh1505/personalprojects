@@ -6,12 +6,13 @@ response = requests.get(url)
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
-    title_element = soup.find('h1', {'data-testid': 'headline'})
+    headline_elements = soup.find_all('h2', {'data-testid': 'headline'})
     
-    if title_element:
-        title = title_element.get_text()
-        print(title)
+    if headline_elements:
+        for headline_element in headline_elements:
+            headline = headline_element.get_text()
+            print(headline)
     else:
-        print('Title not found on the page.')
+        print('Headlines not found on the page.')
 else:
     print('Failed to fetch the webpage.')
