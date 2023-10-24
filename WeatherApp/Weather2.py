@@ -9,7 +9,7 @@ else:
     print("Invalid Location.")
 latitude = str(data1['result']['addressMatches'][0]['coordinates']['y'])[:-10]
 longitude = str(data1['result']['addressMatches'][0]['coordinates']['x'])[:-10]
-print(latitude, longitude)
+
 url1 = f'https://api.weather.gov/points/{latitude},{longitude}'
 response2 = requests.get(url1)
 if response2.status_code == 200:
