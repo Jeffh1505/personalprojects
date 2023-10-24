@@ -19,7 +19,10 @@ def main():
             b_list.append(b)
         
         random.shuffle(b_list) #This shuffles the binary encoded string 
-        return print("Encoded word:", b_list) 
+        encoded_word_string = ""
+        for i in range(len(b_list)):
+            encoded_word_string += b_list[i] + "_"
+        return print("Encoded word:", encoded_word_string) 
     else:
         return print("That is not a word.")
 def caesar_cypher(s):
