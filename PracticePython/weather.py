@@ -1,7 +1,7 @@
 import requests
 latitude = input("Please input a latitude: ")
 longitude = input("Please input a longitude: ")
-url1 = 'https://api.weather.gov/points/latitude,longitude'
+url1 = 'https://api.weather.gov/points/{latitude},{longitude}'
 response = requests.get(url1)
 if response.status_code == 200:
     data = response.json()
