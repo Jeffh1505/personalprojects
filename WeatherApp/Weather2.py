@@ -7,7 +7,7 @@ if response1.status_code == 200:
     data1 = response1.json()
 else:
     print("Invalid Location.")
-latitude = data1['result']['coordinates']['y'][:-1]
+latitude = data1['result']['address']['coordinates']['y'][:-1]
 longitude = data1['result']['coordinates']['x'][:-1]
 url1 = f'https://api.weather.gov/points/{latitude},{longitude}'
 response2 = requests.get(url1)
