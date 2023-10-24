@@ -5,11 +5,12 @@ address_url = f'https://geocoding.geo.census.gov/geocoder/locations/onelineaddre
 response1 = requests.get(address_url)
 if response1.status_code == 200:
     data1 = response1.json()
-    print(data1)
+
 else:
     print("Invalid Location.")
-latitude = str(data1['result']['addressMatches'][0]['coordinates']['y'])[:-1]
-longitude = str(data1['result']['addressMatches'][0]['coordinates']['x'])[:-1]
+latitude = str(data1['result']['addressMatches'][0]['coordinates']['y'])[:-8]
+longitude = str(data1['result']['addressMatches'][0]['coordinates']['x'])[:-8]
+print(latitude, longitude)
 url1 = f'https://api.weather.gov/points/{latitude},{longitude}'
 response2 = requests.get(url1)
 if response2.status_code == 200:
