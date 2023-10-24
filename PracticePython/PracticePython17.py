@@ -6,7 +6,7 @@ response = requests.get(url)
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
-    headline_elements = soup.find_all('h2', {'data-testid': 'headline'})
+    headline_elements = soup.find_all('h3', {'data-testid': 'css-miszbp e1hr934v2'})
     
     if headline_elements:
         for headline_element in headline_elements:
