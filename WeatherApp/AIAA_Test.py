@@ -17,7 +17,7 @@ parameters = np.array([Wpl, M2, bc, laps, Pas], dtype='float')
 parameters_max = np.array([Wpl_max, M2_min, bc_max, laps_max, Pas_max], dtype='float')
 # Arrays created to store values generated during sensitivity analysis
 
-def M2(parameters, parameters_max):
+def M2a(parameters, parameters_max):
     payload_weight_time = parameters[0] / parameters[1]
     max_payload_weight_time = parameters_max[1] / parameters_max[1]
     if max_payload_weight_time == 0:
@@ -32,7 +32,7 @@ def M3(parameters, parameters_max):
     return 2 + (laps_passengers_capacity / max_laps_passengers_capacity)
 
 def total(parameters, parameters_max):
-    return M2(parameters, parameters_max) + M3(parameters, parameters_max)
+    return M2a(parameters, parameters_max) + M3(parameters, parameters_max)
 # All definitions from scoring equations given in 2024 rule set
 # M1 was excluded since participation in other missions depends on successful M1 completion--taken as given
 def vary_param(parameters, parameters_max, param_index, p):
