@@ -5,7 +5,7 @@ def main():
         user_input = input("Please input a number: ")
         c = cow_bulls(user_input)
         if c == "4 cows, 0 bulls":
-            print("You got it")
+            print("You got it!")
             break
         else:
             print(c)
@@ -19,4 +19,5 @@ def cow_bulls(s):
         elif s[num] in number_to_guess and s[num] != number_to_guess[num]:
             bulls += 1
     return f"{cows} cows, {bulls} bulls"
-main()
+if __name__ =="__main__":
+    main()
