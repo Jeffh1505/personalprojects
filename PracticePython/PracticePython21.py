@@ -5,7 +5,7 @@ base_url = 'http://www.nytimes.com'
 r = requests.get(base_url)
 soup = BeautifulSoup(r.text)
  
-for story_heading in soup.find_all(class_="story-heading"): 
+for story_heading in soup.find_all(class_="story-heading", features="html.parser"): 
     if story_heading.a: 
         print(story_heading.a.text.replace("\n", " ").strip())
     else: 
