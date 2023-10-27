@@ -11,7 +11,7 @@ for i in range(len(result[line])):
     name1 += 1
     name2 += 1
     name3 += 1    
-
+print(result)
 print(name1)
 print(name2)
 print(name3)
