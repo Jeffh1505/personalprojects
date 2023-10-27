@@ -9,6 +9,7 @@ if response.status_code == 200:
     headline_elements = soup.find_all('h3', class_='css-miszbp e1hr934v2')
     
     if headline_elements:
+        with open("Headlines.txt", "")
         for headline_element in headline_elements:
             headline = headline_element.get_text()
             print(headline)
