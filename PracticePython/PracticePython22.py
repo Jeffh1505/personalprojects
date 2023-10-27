@@ -8,9 +8,9 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PracticePython\name
         line = file.readline().strip()
         result.setdefault(line, []).append(1)
 for i in result.values():
-    name1 += 1
-    name2 += 1
-    name3 += 1    
+        name1 += 1
+        name2 += 1
+        name3 += 1    
 print(result)
 print(name1)
 print(name2)
