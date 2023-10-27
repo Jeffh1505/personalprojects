@@ -7,7 +7,7 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PracticePython\name
     for line in file:
         line = file.readline()
         result.setdefault(line, []).append(1)
-for i in range(len(result[line])):
+for i in range(len(result.values())):
     name1 += 1
     name2 += 1
     name3 += 1    
