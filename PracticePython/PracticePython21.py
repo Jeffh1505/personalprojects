@@ -13,7 +13,7 @@ if response.status_code == 200:
 
             for headline_element in headline_elements:
                 headline = headline_element.get_text()
-                print(headline)
+                file.write(headline + "\n")
     else:
         print('Headlines not found on the page.')
 else:
