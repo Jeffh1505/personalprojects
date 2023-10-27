@@ -5,7 +5,7 @@ name3 = 0
 with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PracticePython\nameslist.txt", "r") as file:
 
     for line in file:
-        line = file.readline()
+        line = file.readline().strip()
         result.setdefault(line, []).append(1)
 for i in result.values():
     name1 += 1
