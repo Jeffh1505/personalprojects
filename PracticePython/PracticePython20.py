@@ -18,7 +18,7 @@ def get_number_binary(arr, low, high, x):
  
         # If element is present at the middle itself
         if arr[mid] == x:
-            return mid
+            return True
  
         # If element is smaller than mid, then it can only
         # be present in left subarray
@@ -31,7 +31,7 @@ def get_number_binary(arr, low, high, x):
  
     else:
         # Element is not present in the array
-        return -1
+        return False
     
-a = get_number_binary([1,5,9,15,25,47, 360], 1, 360, 3)
+a = get_number_binary([1,2,3,4,5,6,7], 1, 7, 100)
 print(a)
