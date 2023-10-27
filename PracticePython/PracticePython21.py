@@ -1,12 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
- 
-base_url = 'http://www.nytimes.com'
-r = requests.get(base_url)
-soup = BeautifulSoup(r.text)
- 
-for story_heading in soup.find_all(class_="story-heading", features="html.parser"): 
-    if story_heading.a: 
-        print(story_heading.a.text.replace("\n", " ").strip())
-    else: 
-        print(story_heading.contents[0].strip())
+
+url = 'https://www.nytimes.com/section/todayspaper?redirect_uri=https%3A%2F%2Fwww.nytimes.com%2F'
+response = requests.get(url)
+
+if response.status_code == 200:
+    soup = BeautifulSoup(response.text, 'html.parser')
+    headline_elements = soup.find_all('h3', class_='css-miszbp e1hr934v2')
+    
+    if headline_elements:
+        for headline_element in headline_elements:
+            headline = headline_element.get_text()
+            print(headline)
+    else:
+        print('Headlines not found on the page.')
+else:
+    print('Failed to fetch the webpage.')
