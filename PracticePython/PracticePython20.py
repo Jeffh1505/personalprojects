@@ -33,5 +33,5 @@ def get_number_binary(arr, low, high, x):
         # Element is not present in the array
         return False
     
-a = get_number_binary([1,2,3,4,5,6,7], 1, 7, 100)
+a = get_number_binary([1,2,3,4,5,6,7], 1, 7, 9)
 print(a)
