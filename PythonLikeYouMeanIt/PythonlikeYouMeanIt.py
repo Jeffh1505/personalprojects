@@ -5,6 +5,9 @@ class Dog:
     def speak(s):
         return f"*woof* {s} *woof*"
     
+    def __repr__(self):
+        return "The dog's name is {}".format(self.name)
+    
 
 print(Dog("Bob"))
-Dog.speak("Hello")
+print(Dog.speak("Hello"))
