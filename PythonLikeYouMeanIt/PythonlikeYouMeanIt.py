@@ -6,5 +6,5 @@ class Dog:
         return f"*woof* {s} *woof*"
     
 
-Dog.name("Bob")
+print(Dog("Bob"))
 Dog.speak("Hello")
