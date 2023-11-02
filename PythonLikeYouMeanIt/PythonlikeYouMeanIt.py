@@ -9,5 +9,5 @@ class Dog:
         return "The dog's name is {}".format(self.name)
     
 
-print(Dog("Bob"))
+print(Dog("Charlie"))
 print(Dog.speak("Hello"))
