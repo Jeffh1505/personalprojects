@@ -1,6 +1,6 @@
 def sum_num(n):
     if n == 1:
-        return 1
+        return n
     else:
         return sum_num(n-1) 
     
