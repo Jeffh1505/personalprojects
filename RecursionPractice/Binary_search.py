@@ -19,5 +19,5 @@ def binary_search(list, target, low, high):
     else:
         return binary_search(list, target, middle + 1, high)
     
-
-main()
+if __name__ == "__main__":
+    main()
