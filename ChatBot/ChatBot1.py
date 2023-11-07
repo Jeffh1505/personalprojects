@@ -14,10 +14,10 @@ with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as file:
         country, capital, type = row
         countries.setdefault(country, capital)
 
-print(countries)
 
 
 
+#Create the ChatBot class
 
 class Chatbot:
 
@@ -25,6 +25,7 @@ class Chatbot:
         self.greetings = ["Hi there!", "How can I help you?", "Hows it going?", "Hello there!", "Hey!"]
         self.random_words = dictionary
         self.random_number = number_list
+        self.country = country
 
     def respond(self, message):
         if message == "hello" or message == "hi" or message == "hey":
@@ -35,6 +36,8 @@ class Chatbot:
             return f"Your random word is {random.choice(self.random_words)}."
         elif message == "Give me a random number":
             return f"Your random number is {random.choice(self.random_number)}"
+        elif message == "Give me a random country":
+            return f"Your random country is {random.choice(self.country)}"
         elif message == "random":
             random_choice = random.choice([0, 1])
             if random_choice == 0:
