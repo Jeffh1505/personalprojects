@@ -8,15 +8,16 @@ with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as file:
 class Chatbot:
 
     def __init__(self):
-        self.responses = ["Hi there!", "How can I help you?", "I'm not sure what you mean."]
+        self.greetings = ["Hi there!", "How can I help you?", "I'm not sure what you mean."]
+        self.random_words = dictionary
 
     def respond(self, message):
-        if message == "hello":
-            return "Hi there!"
+        if message == "hello" or message == "hi" or message == "hello":
+            return random.choice(self.greetings)
         elif message == "bye":
             return "Goodbye!"
-        else:
-            return random.choice(self.responses)
+        elif message == "Give me a random word" or message == "random":
+            return random.choice(self.random_words)
 
 chatbot = Chatbot()
 exit = True
