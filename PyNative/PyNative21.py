@@ -3,12 +3,12 @@ class vehicle:
         self.max_speed = max_speed
         self.mileage = mileage
     
-    def __repr__(self) -> str:
-        return f"Vehicle Max Speed: {self.max_speed} \nVehicle Mileage: {self.mileage}"
+    def __repr__(self):
+        return f"Vehicle Max Speed: {self.max_speed} mph \nVehicle Mileage: {self.mileage} mpg"
 
 
 
 
-c = vehicle(25, 25)
+c = vehicle(250, 25)
 
 print(c)
