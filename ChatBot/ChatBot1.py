@@ -1,5 +1,6 @@
 import random
 import csv
+import cowsay
 dictionary = []
 number_list = []
 countries = {}
