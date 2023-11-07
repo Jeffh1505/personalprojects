@@ -24,7 +24,7 @@ class Chatbot:
         elif message == "Give me a random number":
             return f"Your random number is {random.choice(self.random_number)}"
         elif message == "random":
-            random_choice = random.choices(self.random_number, self.random_words)
+            random_choice = random.choices(self.random_number, self.random_words, k = 1)
             if random_choice == int:
                 return f"Your random number is {random.choice(self.random_number)}"
             elif random_choice == str:
