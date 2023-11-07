@@ -1,11 +1,11 @@
-
+cache = {}
 def fib(n):
-    cache = {}
     if n == 0 or n == 1:
         return 1
-    if fib(n) in cache:
+    if n in cache:
         return cache[n]
-    else:
-        return fib(n-1) + fib(n-2)
+    result =  fib(n-1) + fib(n-2)
+    cache[n] = result             
+    return result
     
-print(fib(5))
+print(fib(40))
