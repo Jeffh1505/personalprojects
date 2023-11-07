@@ -9,7 +9,7 @@ def binary_search(list, target, low, high):
         return list[middle]
     elif list[middle] > target:
         return binary_search(list, target, middle + 1, high)
-    else:
+    elif target > list[middle]:
         return binary_search(list, target, low, middle-1)
     
 
