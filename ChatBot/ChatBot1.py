@@ -57,7 +57,11 @@ exit = True
 print(['beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
 'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
 'turkey', 'turtle', 'tux'])
-chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list:")
+chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list: ")
+if chatbot_representation == "random":
+    chatbot_representation = random.choice(['beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
+'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
+'turkey', 'turtle', 'tux'])
 while exit:
     message = input("What would you like to say to the chatbot? ").lower()
     response = chatbot.respond(message)
