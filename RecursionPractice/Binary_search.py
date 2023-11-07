@@ -5,7 +5,7 @@ def main():
 def binary_search(list, target, low, high):
     middle = (low + high) // 2
     print(middle)
-    if list[middle] == target:
+    if target == list[middle]:
         return list[middle]
     elif middle > target:
         return binary_search(list, target, middle + 1, high)
