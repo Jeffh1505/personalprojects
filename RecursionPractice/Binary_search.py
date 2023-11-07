@@ -8,9 +8,9 @@ def binary_search(list, target, low, high):
     if target == list[middle]:
         return list[middle]
     elif list[middle] > target:
-        return binary_search(list, target, middle + 1, high)
+        return binary_search(list, target, middle - 1, high)
     elif target > list[middle]:
-        return binary_search(list, target, low, middle-1)
+        return binary_search(list, target, low, middle + 1)
     
 
 main()
