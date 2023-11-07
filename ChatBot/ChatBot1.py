@@ -8,6 +8,9 @@ with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as file:
         dictionary.append(line.strip())
 for i in range(101):
     number_list.append(int(i))
+
+
+
 with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as file:
     reader = csv.reader(file)
     for row in reader:
