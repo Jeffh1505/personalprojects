@@ -8,5 +8,5 @@ def fib(n):
     cache[n] = result             
     return result
 
-user_input = int(input("What number of the Fibonnaci sequnce would you like? "))    
+user_input = int(input("What number of the Fibonnaci sequence would you like? "))    
 print(fib(user_input))
