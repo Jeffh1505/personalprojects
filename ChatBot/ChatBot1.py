@@ -11,7 +11,10 @@ for i in range(101):
 with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as file:
     reader = csv.reader(file)
     for row in reader:
-        
+        country, capital, type = row
+        countries.setdefault(country, capital)
+
+print(countries)
 
 
 
