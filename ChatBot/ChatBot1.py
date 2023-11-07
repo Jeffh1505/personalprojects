@@ -3,6 +3,9 @@ import csv
 dictionary = []
 number_list = []
 countries = {}
+
+# Open files
+
 with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as file:
     for line in file:
         dictionary.append(line.strip())
@@ -10,15 +13,11 @@ for i in range(101):
     number_list.append(int(i))
 
 
-
 with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as country_file:
     reader = csv.reader(country_file)
     for row in reader:
         country, capital, type = row
         countries.setdefault(country, capital)
-
-
-
 
 #Create the ChatBot class
 
@@ -35,24 +34,27 @@ class Chatbot:
             return random.choice(self.greetings)
         elif message == "bye":
             return "Goodbye!"
-        elif message == "Give me a random word":
+        elif message == "give me a random word":
             return f"Your random word is {random.choice(self.random_words)}."
-        elif message == "Give me a random number":
+        elif message == "give me a random number":
             return f"Your random number is {random.choice(self.random_number)}"
-        elif message == "Give me a random country":
+        elif message == "give me a random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
         elif message == "random":
-            random_choice = random.choice([0, 1])
+            random_choice = random.choice([0, 1, 2])
             if random_choice == 0:
                 return f"Your random number is {random.choice(self.random_number)}"
             elif random_choice == 1:
                 return f"Your random word is {random.choice(self.random_words)}."
+            elif random_choice == 2:
+                random_country = random.choice(self.country)
+                return f"Your random country is {random_country} whose capital is {countries[random_country]}."
 
 chatbot = Chatbot()
 exit = True
 while exit:
-    message = input("What would you like to say to the chatbot? ")
+    message = input("What would you like to say to the chatbot? ").lower()
     response = chatbot.respond(message)
     if message == "bye":
         exit = False
