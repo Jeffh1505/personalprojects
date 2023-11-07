@@ -24,10 +24,10 @@ class Chatbot:
         elif message == "Give me a random number":
             return f"Your random number is {random.choice(self.random_number)}"
         elif message == "random":
-            random_choice = random.choices(self.random_number, self.random_words, k = 1)
-            if random_choice == int:
+            random_choice = random.choice([0, 1])
+            if random_choice == 0:
                 return f"Your random number is {random.choice(self.random_number)}"
-            elif random_choice == str:
+            elif random_choice == 1:
                 return f"Your random word is {random.choice(self.random_words)}."
 
 chatbot = Chatbot()
