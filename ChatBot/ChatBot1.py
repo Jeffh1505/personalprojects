@@ -54,6 +54,8 @@ class Chatbot:
 
 chatbot = Chatbot()
 exit = True
+print()
+chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list:")
 while exit:
     message = input("What would you like to say to the chatbot? ").lower()
     response = chatbot.respond(message)
