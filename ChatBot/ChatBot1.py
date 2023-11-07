@@ -28,7 +28,7 @@ class Chatbot:
         self.greetings = ["Hi there!", "How can I help you?", "Hows it going?", "Hello there!", "Hey!"]
         self.random_words = dictionary
         self.random_number = number_list
-        self.country = countries.keys()
+        self.country = list(countries.keys())
 
     def respond(self, message):
         if message == "hello" or message == "hi" or message == "hey":
