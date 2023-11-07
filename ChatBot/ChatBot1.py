@@ -54,7 +54,7 @@ class Chatbot:
 
 chatbot = Chatbot()
 exit = True
-print('beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
+print('beavis, cheese ,cow, daemon, dragon, fox, ghostbusters, kitty',
 'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
 'turkey', 'turtle', 'tux')
 chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list: ")
