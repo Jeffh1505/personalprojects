@@ -1,23 +1,34 @@
 import random
 dictionary = []
+number_list = []
 with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as file:
     for line in file:
         dictionary.append(line.strip())
-
+for i in range(101):
+    number_list.append(int(i))
 
 class Chatbot:
 
     def __init__(self):
         self.greetings = ["Hi there!", "How can I help you?", "Hows it going?", "Hello there!", "Hey!"]
         self.random_words = dictionary
+        self.random_number = number_list
 
     def respond(self, message):
         if message == "hello" or message == "hi" or message == "hey":
             return random.choice(self.greetings)
         elif message == "bye":
             return "Goodbye!"
-        elif message == "Give me a random word" or message == "random":
+        elif message == "Give me a random word":
             return f"Your random word is {random.choice(self.random_words)}."
+        elif message == "Give me a random number":
+            return f"Your random number is {random.choice(self.random_number)}"
+        elif message == "random":
+            random_choice = random.choice(self.random_number, self.random_words)
+            if random_choice == int:
+                return f"Your random number is {random.choice(self.random_number)}"
+            elif random_choice == str:
+                return f"Your random word is {random.choice(self.random_words)}."
 
 chatbot = Chatbot()
 exit = True
