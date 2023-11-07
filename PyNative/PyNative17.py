@@ -1,7 +1,7 @@
-def sum_num(n):
-    if n == 1:
+def sum_num(n, x):
+    if n == x:
         return n
     else:
-        return sum_num(n-1) 
+        return sum_num(n + (n-1), x) 
     
-print(sum_num(10))
+print(sum_num(0, 10))
