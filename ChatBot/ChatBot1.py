@@ -40,7 +40,8 @@ class Chatbot:
         elif message == "Give me a random number":
             return f"Your random number is {random.choice(self.random_number)}"
         elif message == "Give me a random country":
-            return f"Your random country is {random.choice(self.country)}"
+            random_country = random.choice(self.country)
+            return f"Your random country is {random_country} whose capital is {countries[random_country]}."
         elif message == "random":
             random_choice = random.choice([0, 1])
             if random_choice == 0:
