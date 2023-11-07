@@ -3,7 +3,7 @@ def main():
     print(binary_search(list, 5, 3, 11))
 
 def binary_search(list, target, low, high):
-    middle = (high + low) // 2
+    middle = (low + high) // 2
     print(middle)
     if list[middle] == target:
         return list[middle]
