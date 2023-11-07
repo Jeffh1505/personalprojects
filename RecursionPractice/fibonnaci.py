@@ -7,5 +7,6 @@ def fib(n):
     result =  fib(n-1) + fib(n-2)
     cache[n] = result             
     return result
-    
-print(fib(40))
+
+user_input = int(input("What number of the Fibonnaci sequnce would you like? "))    
+print(fib(user_input))
