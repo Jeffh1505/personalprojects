@@ -11,8 +11,8 @@ for i in range(101):
 
 
 
-with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as file:
-    reader = csv.reader(file)
+with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as country_file:
+    reader = csv.reader(country_file)
     for row in reader:
         country, capital, type = row
         countries.setdefault(country, capital)
