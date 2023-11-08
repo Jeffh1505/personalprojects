@@ -46,7 +46,7 @@ class Chatbot:
             random_factorial = factorial(int(random_number))
             cache = {}
             fibonacci = fib(int(random_number))
-            return f"Your random number is {random_number} whose factorial is {factorial} and fibonacci number is {fibonacci}."
+            return f"Your random number is {random_number} whose factorial is {random_factorial} and fibonacci number is {fibonacci}."
         elif message == "give me a random country" or message == "random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
