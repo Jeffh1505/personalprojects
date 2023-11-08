@@ -52,20 +52,23 @@ class Chatbot:
                 random_country = random.choice(self.country)
                 return f"Your random country is {random_country} whose capital is {countries[random_country]}."
 
-chatbot = Chatbot()
-exit = True
-print('beavis, cheese ,cow, daemon, dragon, fox, ghostbusters, kitty, meow, miki, milk, octopus, pig, stegosaurus, stimpy, trex, turkey, turtle, tux')
-chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list: ")
-if chatbot_representation == "random":
-    chatbot_representation = random.choice(['beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
-'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
-'turkey', 'turtle', 'tux'])
-while exit:
-    message = input("What would you like to say to the chatbot? ").lower()
-    response = chatbot.respond(message)
-    if message == "bye":
-        exit = False
-    if chatbot_representation == "cow":
-        print(cowsay.get_output_string(chatbot_representation, f"Mooo! {response} Mooo!"))
-    else:
-        print(cowsay.get_output_string(chatbot_representation, response))
+try:
+    chatbot = Chatbot()
+    exit = True
+    print('beavis, cheese ,cow, daemon, dragon, fox, ghostbusters, kitty, meow, miki, milk, octopus, pig, stegosaurus, stimpy, trex, turkey, turtle, tux')
+    chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list: ")
+    if chatbot_representation == "random":
+        chatbot_representation = random.choice(['beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
+    'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
+    'turkey', 'turtle', 'tux'])
+    while exit:
+        message = input("What would you like to say to the chatbot? ").lower()
+        response = chatbot.respond(message)
+        if message == "bye":
+            exit = False
+        if chatbot_representation == "cow":
+            print(cowsay.get_output_string(chatbot_representation, f"Mooo! {response} Mooo!"))
+        else:
+            print(cowsay.get_output_string(chatbot_representation, response))
+except TypeError:
+    print("That is not a valid input.")
