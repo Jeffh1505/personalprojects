@@ -54,9 +54,7 @@ class Chatbot:
 
 chatbot = Chatbot()
 exit = True
-print('beavis, cheese ,cow, daemon, dragon, fox, ghostbusters, kitty',
-'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 
-'turkey', 'turtle', 'tux')
+print('beavis, cheese ,cow, daemon, dragon, fox, ghostbusters, kitty, meow, miki, milk, octopus, pig, stegosaurus, stimpy, trex, turkey, turtle, tux')
 chatbot_representation = input("Please pick which animal you would like your Chat bot to look like from the list: ")
 if chatbot_representation == "random":
     chatbot_representation = random.choice(['beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty',
@@ -68,6 +66,6 @@ while exit:
     if message == "bye":
         exit = False
     if chatbot_representation == "cow":
-        print(cowsay.get_output_string(chatbot_representation, f"Mooo! {response}. Mooo!"))
+        print(cowsay.get_output_string(chatbot_representation, f"Mooo! {response} Mooo!"))
     else:
         print(cowsay.get_output_string(chatbot_representation, response))
