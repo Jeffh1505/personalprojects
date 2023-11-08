@@ -30,6 +30,7 @@ class Chatbot:
         self.random_words = dictionary
         self.random_number = number_list
         self.country = list(countries.keys())
+        self.weather = get_weather()
 
     def respond(self, message):
         if message == "hello" or message == "hi" or message == "hey":
@@ -44,7 +45,7 @@ class Chatbot:
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
         elif message == "Get me the weather" or message == "weather" or message == "What's the weather?":
-            return get_weather()
+            return self.weather
         elif message == "random":
             random_choice = random.choice([0, 1, 2, 3])
             if random_choice == 0:
@@ -55,7 +56,7 @@ class Chatbot:
                 random_country = random.choice(self.country)
                 return f"Your random country is {random_country} whose capital is {countries[random_country]}."
             elif random_choice == 3:
-                return get_weather()
+                return self.weather
 
 try:
     chatbot = Chatbot()
