@@ -7,14 +7,14 @@ countries = {}
 
 # Open files
 
-with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as file:
+with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\ChatBot\dictionary.txt", 'r') as file:
     for line in file:
         dictionary.append(line.strip())
 for i in range(101):
     number_list.append(int(i))
 
 
-with open(r"C:\Users\summe\Downloads\country-list.csv", 'r') as country_file:
+with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\ChatBot\country-list.csv", 'r') as country_file:
     reader = csv.reader(country_file)
     for row in reader:
         country, capital, type = row
