@@ -1,7 +1,7 @@
 def get_weather():
     import requests
-    user_address = input("Please input your address: ")
-    address_url = f'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address={user_address}&benchmark=2020&format=json'
+    user_location = input("Please input your address or a city: ")
+    address_url = f'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address={user_location}&benchmark=2020&format=json'
     response1 = requests.get(address_url)
     if response1.status_code == 200:
         data1 = response1.json()
