@@ -40,7 +40,7 @@ class Chatbot:
         elif message == "give me a random word" or message == "random word":
             return f"Your random word is {random.choice(self.random_words)}."
         elif message == "give me a random number" or message == "random number":
-            return f"Your random number is {random.choice(self.random_number)}"
+            return f"Your random number is {random.choice(self.random_number)}."
         elif message == "give me a random country" or message == "random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
@@ -49,7 +49,7 @@ class Chatbot:
         elif message == "random":
             random_choice = random.choice([0, 1, 2, 3])
             if random_choice == 0:
-                return f"Your random number is {random.choice(self.random_number)}"
+                return f"Your random number is {random.choice(self.random_number)}."
             elif random_choice == 1:
                 return f"Your random word is {random.choice(self.random_words)}."
             elif random_choice == 2:
