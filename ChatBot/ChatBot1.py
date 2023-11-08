@@ -68,6 +68,6 @@ while exit:
     if message == "bye":
         exit = False
     if chatbot_representation == "cow":
-        print(cowsay.get_output_string(chatbot_representation, response + " Mooo!"))
+        print(cowsay.get_output_string(chatbot_representation, f"Mooo! {response} Mooo!"))
     else:
         print(cowsay.get_output_string(chatbot_representation, response))
