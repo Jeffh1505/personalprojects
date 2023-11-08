@@ -2,6 +2,7 @@ import random
 import csv
 import cowsay
 from weather_functionality import get_weather
+from factorial_functionality import factorial
 dictionary = []
 number_list = []
 countries = {}
@@ -40,7 +41,9 @@ class Chatbot:
         elif message == "give me a random word" or message == "random word":
             return f"Your random word is {random.choice(self.random_words)}."
         elif message == "give me a random number" or message == "random number":
-            return f"Your random number is {random.choice(self.random_number)}."
+            random_number = random.choice(self.random_number)
+            factorial = factorial(int(random_number))
+            return f"Your random number is {random_number} whose factorial is {factorial} and ."
         elif message == "give me a random country" or message == "random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
@@ -57,6 +60,8 @@ class Chatbot:
                 return f"Your random country is {random_country} whose capital is {countries[random_country]}."
             elif random_choice == 3:
                 return self.weather
+        else:
+            raise TypeError
 
 try:
     chatbot = Chatbot()
