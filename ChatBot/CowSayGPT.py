@@ -1,6 +1,7 @@
 import random
 import csv
 import cowsay
+from weather_functionality import get_weather
 dictionary = []
 number_list = []
 countries = {}
@@ -42,8 +43,10 @@ class Chatbot:
         elif message == "give me a random country" or message == "random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
+        elif message == "Get me the weather" or message == "weather" or message == "What's the weather?":
+            return get_weather()
         elif message == "random":
-            random_choice = random.choice([0, 1, 2])
+            random_choice = random.choice([0, 1, 2, 3])
             if random_choice == 0:
                 return f"Your random number is {random.choice(self.random_number)}"
             elif random_choice == 1:
@@ -51,6 +54,8 @@ class Chatbot:
             elif random_choice == 2:
                 random_country = random.choice(self.country)
                 return f"Your random country is {random_country} whose capital is {countries[random_country]}."
+            elif random_choice == 3:
+                return get_weather()
 
 try:
     chatbot = Chatbot()
