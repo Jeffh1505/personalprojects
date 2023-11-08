@@ -3,6 +3,7 @@ import csv
 import cowsay
 from weather_functionality import get_weather
 from factorial_functionality import factorial
+from fibonacci_functionality import fib
 dictionary = []
 number_list = []
 countries = {}
@@ -42,8 +43,10 @@ class Chatbot:
             return f"Your random word is {random.choice(self.random_words)}."
         elif message == "give me a random number" or message == "random number":
             random_number = random.choice(self.random_number)
-            factorial = factorial(int(random_number))
-            return f"Your random number is {random_number} whose factorial is {factorial} and ."
+            random_factorial = factorial(int(random_number))
+            cache = {}
+            fibonacci = fib(int(random_number))
+            return f"Your random number is {random_number} whose factorial is {factorial} and fibonacci number is {fibonacci}."
         elif message == "give me a random country" or message == "random country":
             random_country = random.choice(self.country)
             return f"Your random country is {random_country} whose capital is {countries[random_country]}."
