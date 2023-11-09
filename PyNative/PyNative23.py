@@ -16,4 +16,4 @@ class Car(Vehicle):
     pass
 
 
-print(Car("BMW", 250, 25))
+print(Car("BMW", 250, 25, "Magenta"))
