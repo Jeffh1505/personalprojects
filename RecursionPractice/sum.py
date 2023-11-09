@@ -6,5 +6,6 @@ def sum(x):
 # you complete this function recursively
     if x == 1:
         return 1
-    else: return x + sum(x-1)
+    else: 
+        return x + sum(x-1)
 main()
