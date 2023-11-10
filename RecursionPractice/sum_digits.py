@@ -1,3 +1,7 @@
+def main():
+    n = int(input("What is your number? "))
+    print(sum_digits(n))
+
 def sum_digits(n):
     sum_of_digits = 0
     if n == 0:
@@ -7,4 +11,5 @@ def sum_digits(n):
     return sum_of_digits
 
 
-print(sum_digits(1234567890))
+if __name__ == "__main__":
+    main()
