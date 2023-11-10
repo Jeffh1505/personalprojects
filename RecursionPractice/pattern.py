@@ -1,6 +1,9 @@
 def main():
-    n = int(input("What is your number? "))
-    pattern(n, n, True)
+    try:
+        n = int(input("What is your number? "))
+        pattern(n, n, True)
+    except ValueError:
+        print("That is not a valid input.")
 
 def pattern(n, m, flag):
     print(m)
