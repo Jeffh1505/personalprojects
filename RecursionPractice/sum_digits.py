@@ -1,6 +1,6 @@
 def main():
     n = int(input("What is your number? "))
-    print(sum_digits(n))
+    print(f"Your number's digits sum to: {sum_digits(n)}")
 
 def sum_digits(n):
     sum_of_digits = 0
