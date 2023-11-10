@@ -1,4 +1,5 @@
 def pattern(n, m, flag):
+    print(m)
     if flag == False and m == n:
         return 
     if flag == True:
@@ -12,4 +13,4 @@ def pattern(n, m, flag):
         pattern(n, m+5, False)
 
 
-pattern(16, 16, True)
+pattern(10, 10, True)
