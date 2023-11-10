@@ -1,3 +1,7 @@
+def main():
+    n = int(input("What is your number? "))
+    pattern(n, n, True)
+
 def pattern(n, m, flag):
     print(m)
     if flag == False and m == n:
@@ -12,5 +16,5 @@ def pattern(n, m, flag):
     else:
         pattern(n, m+5, False)
 
-
-pattern(10, 10, True)
+if __name__ == "__main__":
+    main()
