@@ -12,4 +12,4 @@ def pattern(n, m, flag):
         pattern(n, m+5, False)
 
 
-print(pattern(16, 16, True))
+pattern(16, 16, True)
