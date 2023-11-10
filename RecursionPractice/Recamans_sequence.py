@@ -10,4 +10,4 @@ def recaman(n):
         return recaman(n-1) + n
     
 
-print(recaman(6))
+print(recaman(2))
