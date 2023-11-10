@@ -6,7 +6,7 @@ def sum_digits(n):
     print(right_most_number)
     sum_of_digits += right_most_number 
     
-    return sum_digits(sum_of_digits)
+    return sum_digits(n/10)
 
 
 print(sum_digits(687))
