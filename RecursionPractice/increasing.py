@@ -11,4 +11,4 @@ def increasing(start, out, n):
         increasing(i + 1, str1, n - 1)
 
 
-increasing(0, "", 3)
+increasing(0, "", 9)
