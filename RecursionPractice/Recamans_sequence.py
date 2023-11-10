@@ -5,9 +5,11 @@ def recaman(n):
         return 0
     
     if n > 0 and n not in reacman_sequence_list:
-        return recaman(n-1) - n
+        c = recaman(n-1) - n
+        return reacman_sequence_list
     else:
-        return recaman(n-1) + n
+         c = recaman(n-1) + n
+         return reacman_sequence_list
     
 
 print(recaman(2))
