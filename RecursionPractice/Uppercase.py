@@ -5,4 +5,4 @@ def uppercase(str, i):
         return uppercase(str, i+1)
     
 
-print(uppercase("BiNg BoNg", 0))
+print(uppercase("geeksforGeekS", 0))
