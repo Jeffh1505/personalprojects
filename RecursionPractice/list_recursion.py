@@ -3,7 +3,8 @@ def list_recursion(li):
         return li
     else:
         new_list = li.append(li[-1] + 1)
-        return list_recursion(new_list)
+        list_recursion(new_list)
+        return new_list
     
 
 numbers = [1,3,4,5,10,11]
