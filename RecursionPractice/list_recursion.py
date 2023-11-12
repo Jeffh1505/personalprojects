@@ -2,11 +2,11 @@ def list_recursion(li):
     if len(li) % 5 == 0:
         return li
     else:
-        new_list = li.append(li[-1] + 1)
-        list_recursion(new_list)
-        return new_list
+        c = li[-1] + 1
+        li.append(c)
+        return list_recursion(li)
+         
     
 
 numbers = [1,3,4,5,10,11]
-list_recursion(numbers)
-print(numbers)
+print(list_recursion(numbers))
