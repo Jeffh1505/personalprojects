@@ -1,7 +1,7 @@
 def sum_lists(li, i=0):
     if len(li) == 1:
-        return li[i]
-    
+        return li
+    print(sum_lists(li[i:], i+1))
     
 
 
