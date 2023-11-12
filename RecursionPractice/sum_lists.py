@@ -1,8 +1,11 @@
-def sum_lists(li, i=0):
-    if len(li) == 1:
-        return li
-    print(sum_lists(li[i:], i+1))
-    
 
+def recursive_list_sum(data_list):
+	total = 0
+	for element in data_list:
+		if type(element) == type([]):
+			total = total + recursive_list_sum(element)
+		else:
+			total = total + element
 
-sum_lists([1, 2, [3,4], [5,6]])
+	return total
+print( recursive_list_sum([1, 2, [3,4],[5,6]]))
