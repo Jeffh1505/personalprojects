@@ -5,4 +5,4 @@ def geometric_series(n):
         return (1/(3**n)) + geometric_series(n-1)
     
 
-print(geometric_series(25))
+print(geometric_series(1))
