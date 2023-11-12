@@ -2,7 +2,7 @@ def list_recursion(li):
     if len(li) % 5 == 0:
         return li
     else:
-        new_list = li.append(li[:-1] + 1)
+        new_list = li.append(li[:] + 1)
         return list_recursion(new_list)
     
 
