@@ -1,3 +1,6 @@
+import csv
+
+
 class Student:
     def __init__(self, name, grade):
         self.name = name
@@ -30,8 +33,7 @@ class Classroom:
         return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)} \nClass Average: {Classroom.class_average(self)}"
 
 
-students = [Student("Bob", 10), Student("Jill", 9), Student("George", 12), Student("Jane", 8)]
-classroom = Classroom()
-for student in students:
-    classroom.add_student(student)
-print(classroom)
+with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\OOPPractice\students.csv") as file:
+    reader = csv.reader(file)
+    for row in  reader:
+        
