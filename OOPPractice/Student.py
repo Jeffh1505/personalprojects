@@ -25,7 +25,7 @@ class Classroom:
     def class_average(self):
         Sum_of_grades = 0
         for student in self.students:
-            Sum_of_grades += student.grade
+            Sum_of_grades += int(student.grade)
 
         return Sum_of_grades / Classroom.amount_of_students(self)
 
