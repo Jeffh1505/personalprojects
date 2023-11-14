@@ -20,8 +20,8 @@ class Classroom:
         self.students.append(student)
 
     def __repr__(self):
-        students = (student for student in self.students)
-        return f"Students: {students} \nNumber of students: {Classroom.amount_of_students(self)}"
+        students_in_class = (student for student in self.students)
+        return f"Students: {students_in_class} \nNumber of students: {Classroom.amount_of_students(self)}"
 
 
 students = [Student("Bob", 10), Student("Jill", 9), Student("George", 12), Student("Jane", 8)]
