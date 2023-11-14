@@ -1,10 +1,10 @@
 class Student:
-    def __init__(self, name, age):
+    def __init__(self, name, grade):
         self.name = name
-        self.age = age
+        self.grade = grade
 
     def __repr__(self):
-        return f"Name: {self.name} \nAge: {self.age}"
+        return f"Name: {self.name} \nGrade: {self.grade}"
     
 class Classroom:
     def __init__(self):
@@ -19,8 +19,15 @@ class Classroom:
     def add_student(self, student):
         self.students.append(student)
 
+    def class_average(self):
+        Sum_of_grades = 0
+        for student in self.students:
+            Sum_of_grades += student.grade
+
+        return Sum_of_grades / Classroom.amount_of_students(self)
+
     def __repr__(self):
-        return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)}"
+        return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)} \nClass Average: {Classroom.class_average(self)}"
 
 
 students = [Student("Bob", 10), Student("Jill", 9), Student("George", 12), Student("Jane", 8)]
