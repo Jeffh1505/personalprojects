@@ -7,7 +7,7 @@ class Student:
         return f"Name: {self.name} \nAge: {self.age}"
     
 class Classroom:
-    def __init__(self, students) -> None:
+    def __init__(self) -> None:
         self.students = []
 
     def amount_of_students(self):
@@ -17,9 +17,9 @@ class Classroom:
         return amount_of_students
     
     def add_student(self, student):
-        self.students.append()
+        self.students.append(student)
 
 
 student = Student("Bob", 10)
-
-print(student)
+classroom = Classroom().add_student(student)
+print(classroom.amount_of_students())
