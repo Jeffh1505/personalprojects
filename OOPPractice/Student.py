@@ -1,5 +1,5 @@
 class Student:
-    def __init__(self, name, age) -> None:
+    def __init__(self, name, age):
         self.name = name
         self.age = age
 
@@ -7,7 +7,7 @@ class Student:
         return f"Name: {self.name} \nAge: {self.age}"
     
 class Classroom:
-    def __init__(self) -> None:
+    def __init__(self):
         self.students = []
 
     def amount_of_students(self):
@@ -20,7 +20,6 @@ class Classroom:
         self.students.append(student)
 
     def __repr__(self):
-        
         return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)}"
 
 
