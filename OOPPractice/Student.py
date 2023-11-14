@@ -3,7 +3,7 @@ class Student:
         self.name = name
         self.age = age
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"Name: {self.name} \nAge: {self.age}"
     
 
