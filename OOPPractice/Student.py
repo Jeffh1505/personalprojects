@@ -32,8 +32,15 @@ class Classroom:
     def __repr__(self):
         return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)} \nClass Average: {Classroom.class_average(self)}"
 
-
+student_list = []
 with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\OOPPractice\students.csv") as file:
     reader = csv.reader(file)
-    for row in  reader:
-        
+    for row in reader:
+        Name, grade = row
+        student_list.append(Student(Name, grade))
+
+classroom = Classroom()
+for student in student_list:
+    classroom.add_student(student)
+
+print(classroom)
