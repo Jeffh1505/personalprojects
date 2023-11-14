@@ -4,7 +4,7 @@ class Student:
         self.age = age
 
     def __repr__(self) -> str:
-        return f"Name: {self.name} Age: {self.age}"
+        return f"Name: {self.name} \nAge: {self.age}"
     
 
 student = Student("Bob", 10)
