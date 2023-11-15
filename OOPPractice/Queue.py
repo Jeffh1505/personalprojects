@@ -18,6 +18,7 @@ class Queue:
 queue = Queue()
 queue.insert(5)
 queue.insert(6)
+queue.insert(7)
 
 print(queue)
 
@@ -27,4 +28,7 @@ print(queue)
 
 queue.remove()
 
+print(queue)
+
+queue.remove()
 print(queue)
