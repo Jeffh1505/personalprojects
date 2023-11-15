@@ -7,15 +7,21 @@ class Queue:
         self.queue.append(element)
 
     def remove(self):
-        if len(self.queue) == 0:
-            return print("The queue is empty.")
-        return self.queue[:-3]
+        self.queue = self.queue[:-1]
+        return self.queue
     def __repr__(self) -> str:
-        return f"Queue: {self.queue}"
+        if len(self.queue) == 0:
+            return "The queue is empty."
+        else:
+            return f"Queue: {self.queue}"
 
 queue = Queue()
 queue.insert(5)
 queue.insert(6)
+
+print(queue)
+
+queue.remove()
 
 print(queue)
 
