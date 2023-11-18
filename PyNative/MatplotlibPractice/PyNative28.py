@@ -15,4 +15,6 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PyNative\Matplotlib
         
 month_array = np.array(month_list).reshape(12,1)
 profit_array = np.array(profit_list)
+print(profit_array)
 plt.plot(month_array, profit_array)
+plt.show()
