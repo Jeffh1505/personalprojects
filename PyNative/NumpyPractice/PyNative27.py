@@ -5,5 +5,6 @@ sampleArray = np.array([[3 ,6, 9, 12], [15 ,18, 21, 24],
 
 a = sampleArray[:,1]
 b = sampleArray[:,3]
-print(a)
+c = np.hstack((a,b))
+print(c)
 
