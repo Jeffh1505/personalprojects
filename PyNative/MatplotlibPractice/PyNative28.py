@@ -6,6 +6,6 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PyNative\Matplotlib
     reader = csv.reader(file)
     for row in reader:
         month,facecream,facewash,toothpaste,bathingsoap,shampoo,moisturizer,total_units,total_profit = row
-        month_array[row] = month
+        
 
 print(month_array)
