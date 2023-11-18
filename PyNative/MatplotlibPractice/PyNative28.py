@@ -7,7 +7,8 @@ profit_list = []
 with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PyNative\MatplotlibPractice\company_sales_data.csv") as file:
     reader = csv.reader(file)
     for row in reader:
-        month,facecream,facewash,toothpaste,bathingsoap,shampoo,moisturizer,total_units,total_profit = row
+        month = row[0]
+        total_profit = row[8]
         month_list.append(int(month))
         profit_list.append(int(total_profit))
         
