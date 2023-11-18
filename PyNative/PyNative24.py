@@ -1,5 +1,5 @@
 import numpy as np
-arr = np.array([64392, 32579, 49248, 0, 31655, 0, 462, 0])
+arr = np.array([[64392, 31655], [32579, 0], [49248, 462], [0,0]])
 
 print(arr)
 dimensions = 0
