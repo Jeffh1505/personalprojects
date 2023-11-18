@@ -1,6 +1,6 @@
 import csv
 import numpy as np
-import matplotlib as plt 
+from matplotlib import pyplot as plt
 
 month_list = []
 profit_list = []
@@ -15,3 +15,4 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PyNative\Matplotlib
         
 month_array = np.array(month_list).reshape(12,1)
 profit_array = np.array(profit_list)
+plt.plot(month_array, profit_array)
