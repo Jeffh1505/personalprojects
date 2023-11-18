@@ -5,4 +5,4 @@ sampleArray = np.array([[3 ,6, 9, 12], [15 ,18, 21, 24],
 
 print(sampleArray)
 
-print(sampleArray[:1,:])
+print(sampleArray[:,1:2])
