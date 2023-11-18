@@ -9,8 +9,9 @@ with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\PyNative\Matplotlib
     for row in reader:
         month = row[0]
         total_profit = row[8]
-        month_list.append(int(month))
-        profit_list.append(int(total_profit))
+        if month.isnumeric() == True:
+            month_list.append(int(month))
+            profit_list.append(int(total_profit))
         
 month_array = np.array(month_list[1:]).reshape(12,1)
 profit_array = np.array(profit_list[1:])
