@@ -1,6 +1,6 @@
 #Load Library
 import numpy as np
-
+import SciPy
 #Create a Matrix
 matrix = np.array([[0,0],[0,1],[3,0]])
 print(matrix)
