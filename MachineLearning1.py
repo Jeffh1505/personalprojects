@@ -123,3 +123,5 @@ def predict(x, w1, w2):
 w1 = generate_wt(30, 5)
 w2 = generate_wt(5, 3)
 print(w1, "\n\n", w2)
+
+acc, losss, w1, w2 = train(x, y, w1, w2, 0.1, 100)
