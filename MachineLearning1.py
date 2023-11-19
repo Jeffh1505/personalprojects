@@ -134,13 +134,13 @@ print(w1, "\n\n", w2)
 
 acc, losss, w1, w2 = train(x, y, w1, w2, 0.1, 100)
 
-plt1.plot(acc)
-plt1.ylabel('Accuracy')
-plt1.xlabel("Epochs:")
-plt1.show()
+plt.plot(acc)
+plt.ylabel('Accuracy')
+plt.xlabel("Epochs:")
+plt.show()
  
 # plotting Loss
-plt1.plot(losss)
-plt1.ylabel('Loss')
-plt1.xlabel("Epochs:")
-plt1.show()
+plt.plot(losss)
+plt.ylabel('Loss')
+plt.xlabel("Epochs:")
+plt.show()
