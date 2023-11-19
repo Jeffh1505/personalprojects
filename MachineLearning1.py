@@ -30,7 +30,15 @@ y =[[1, 0, 0],
 
 
 # activation function
+x =[np.array(a).reshape(1, 30), np.array(b).reshape(1, 30), 
+                                np.array(c).reshape(1, 30)]
  
+ 
+# Labels are also converted into NumPy array
+y = np.array(y)
+ 
+ 
+print(x, "\n\n", y)
 def sigmoid(x):
     return(1/(1 + np.exp(-x)))
    
@@ -125,3 +133,14 @@ w2 = generate_wt(5, 3)
 print(w1, "\n\n", w2)
 
 acc, losss, w1, w2 = train(x, y, w1, w2, 0.1, 100)
+
+plt1.plot(acc)
+plt1.ylabel('Accuracy')
+plt1.xlabel("Epochs:")
+plt1.show()
+ 
+# plotting Loss
+plt1.plot(losss)
+plt1.ylabel('Loss')
+plt1.xlabel("Epochs:")
+plt1.show()
