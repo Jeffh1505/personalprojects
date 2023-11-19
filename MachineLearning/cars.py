@@ -22,4 +22,21 @@ headers = ["symboling", "normalized-losses", "make",
            "horsepower", "peak-rpm","city-mpg","highway-mpg","price"] 
   
 df.columns=headers 
-print(df.head()) 
+print(df.head())
+
+
+data = df 
+  
+# Finding the missing values 
+print(data.isna().any()) 
+  
+# Finding if missing values  
+print(data.isnull().any())  
+# converting mpg to L / 100km 
+data['city-mpg'] = 235 / df['city-mpg'] 
+data.rename(columns = {'city_mpg': "city-L / 100km"}, inplace = True) 
+  
+print(data.columns) 
+  
+# checking the data type of each column 
+data.dtypes  
