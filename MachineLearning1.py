@@ -144,3 +144,5 @@ plt.plot(losss)
 plt.ylabel('Loss')
 plt.xlabel("Epochs:")
 plt.show()
+
+predict(x[1], w1, w2)
