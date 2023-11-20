@@ -21,5 +21,6 @@ plt.ylabel("Profit (in USD)")
 plt.xticks(month_array.reshape(12,))
 plt.title('Company profit per month')
 plt.yticks([100000, 200000, 300000, 400000, 500000])
-plt.plot(month_array, profit_array, 'r.--')
+plt.plot(month_array, profit_array, color='r', marker='o', markerfacecolor='k', 
+      linestyle='--', linewidth=3)
 plt.show()
