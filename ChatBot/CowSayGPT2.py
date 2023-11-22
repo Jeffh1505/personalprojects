@@ -51,9 +51,9 @@ class ChatBot:
         if response3.status_code == 200:
             data2 = response3.json()
             forecast = data2['properties']['periods'][0]['detailedForecast']
-            return f"Today's forecast: {forecast}"
+            return print(cowsay.get_output_string("cow",f"Today's forecast: {forecast}"))
         else:
-            return "Forecast not found"
+            return print(cowsay.get_output_string("cow","Forecast not found"))
 
 
 def main():
