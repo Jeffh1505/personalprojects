@@ -18,7 +18,7 @@ class ChatBot:
 
         for i in range(num_samples):
             out = tokenizer.decode(y[i].cpu().squeeze())
-            print(cowsay.get_output_string("cow", out))
+        print(cowsay.get_output_string("cow", out))
 
 
 def main():
