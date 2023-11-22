@@ -14,11 +14,11 @@ class ChatBot:
         x = encoded_input['input_ids'].expand(num_samples, -1) if prompt else None
 
         # Forward the model `steps` times to get samples, in a batch
-        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=40)
+        y = self.model.generate(x, max_length=None, do_sample=do_sample, top_k=40)
 
         for i in range(num_samples):
             out = tokenizer.decode(y[i].cpu().squeeze())
-        print(cowsay.get_output_string("cow", out))
+        return print(cowsay.get_output_string("cow", out))
     def get_weather(self, user_location):
         import requests
         
@@ -54,6 +54,19 @@ class ChatBot:
             return print(cowsay.get_output_string("cow",f"Today's forecast: {forecast}"))
         else:
             return print(cowsay.get_output_string("cow","Forecast not found"))
+        
+    def math(self, user_input):
+        x, y, z= user_input.split(" ")
+        x = float(x)
+        z = float(z)
+        if y == "+":
+            print(x + z)
+        elif y == "-":
+            print(x - z)
+        elif y == "*":
+            print(x*z)
+        elif y == "/":
+            print(x/z)
 
 
 def main():
