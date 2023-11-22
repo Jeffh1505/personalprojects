@@ -1,6 +1,36 @@
-from mingpt.model import GPT
-model_config = GPT.get_default_config()
-model_config.model_type = 'gpt2'
-model_config.vocab_size = 50257 # openai's model vocabulary
-model_config.block_size = 1024  # openai's model block_size (i.e. input context length)
-model = GPT(model_config)
+class ChatBot:
+
+    def __init__(self):
+        from transformers import GPT2Tokenizer, GPT2LMHeadModel
+        self.model_type = 'gpt2-xl'
+        self.device = 'cuda'
+
+    
+        self.model = GPT2LMHeadModel.from_pretrained(self.model_type)
+        self.model.config.pad_token_id = self.model.config.eos_token_id # suppress a warning
+    def generate(self, prompt='', num_samples=10, steps=20, do_sample=True):
+        import torch
+        from transformers import GPT2Tokenizer, GPT2LMHeadModel
+        tokenizer = GPT2Tokenizer.from_pretrained(self.model_type)
+        if prompt == '': 
+            # to create unconditional samples...
+            # huggingface/transformers tokenizer special cases these strings
+            prompt = '<|endoftext|>'
+            encoded_input = tokenizer(prompt, return_tensors='pt').to(self.device)
+            x = encoded_input['input_ids']
+        x = x.expand(num_samples, -1)
+
+    # forward the model `steps` times to get samples, in a batch
+        y = self.model.generate(x, max_new_tokens=steps, do_sample=do_sample, top_k=40)
+                
+        for i in range(num_samples):
+                    out = tokenizer.decode(y[i].cpu().squeeze())
+                    print('-'*80)
+                    print(out)
+
+
+
+user_input = input("What would you like to say to the chatbot?: ")
+chatbot = ChatBot()
+
+chatbot.generate(user_input)
