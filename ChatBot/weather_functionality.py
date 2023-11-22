@@ -5,7 +5,8 @@ def get_weather():
               , "Chicago": "233 S Wacker Dr, Chicago, IL 60606", "San Francisco": "600 Montgomery St, San Francisco, CA 94111",
               "Houston": "2800 Post Oak Blvd, Houston, TX 77056", "Miami":" 1 Washington Ave, Miami Beach, FL 33139", 
               "Philadelphia": "520 Chestnut St, Philadelphia, PA 19106", "Seattle": "400 Broad St, Seattle, WA 98109", 
-              "Boston": "206 Washington St, Boston, MA 02109", "Washington DC": "1600 Pennsylvania Avenue NW, Washington, DC 20500"}
+              "Boston": "206 Washington St, Boston, MA 02109", "Washington DC": "1600 Pennsylvania Avenue NW, Washington, DC 20500", 
+              "Columbia University": "116th and Broadway, New York, NY 10027"}
     if user_location in cities.keys():
         user_location = cities[user_location]
     address_url = f'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address={user_location}&benchmark=2020&format=json'
@@ -30,6 +31,8 @@ def get_weather():
     if response3.status_code == 200:
         data2 = response3.json()
         forecast = data2['properties']['periods'][0]['detailedForecast']
-        return f"Today's forecast: {forecast}"
+        return print(f"Today's forecast: {forecast}")
     else:
         return "Forecast not found"
+    
+get_weather()
