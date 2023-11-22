@@ -90,28 +90,38 @@ class ChatBot:
                 return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
 
 
-    def calculus_calulator(self, method, function):
-        if method == "derivative":
-            x = sym.symbols('x')
+    # Inside the ChatBot class
+    # ... (other methods unchanged)
+    
+    def calculus_calculator(self, method, function):
+        x = sym.symbols('x')
+        
+        if method.lower() == "derivative":
             derivative = sym.diff(function, x)
-            print(cowsay.get_output_string("cow", f"The derivative of {function} with respect to x is {derivative}"))
-        elif method == "integration":
-            x = sym.symbols('x')
-            check_for_limits = input("Would you like to add limits? (y/n): ")
+            return print(cowsay.get_output_string("cow", f"The derivative of {function} with respect to x is {derivative}"))
+
+        elif method.lower() == "integration":
+            check_for_limits = input("Would you like to add limits? (y/n): ").lower()
             if check_for_limits == 'y':
-                upper_limit = input("What is the upper limit?: ")
-                lower_limit = input("What is the lower limit?: ")
-                definite_ingegral = sym.integrate(function, (x, lower_limit, upper_limit))
-                print(cowsay.get_output_string("cow", f"The integral of {function} over the interval {lower_limit} to {upper_limit} is {definite_ingegral}"))
+                upper_limit = float(input("What is the upper limit?: "))
+                lower_limit = float(input("What is the lower limit?: "))
+                definite_integral = sym.integrate(function, (x, lower_limit, upper_limit))
+                return print(cowsay.get_output_string("cow", f"The integral of {function} over the interval {lower_limit} to {upper_limit} is {definite_integral}"))
+            
             elif check_for_limits == 'n':
                 indefinite_integral = sym.integrate(function, x)
-                print(cowsay.get_output_string("Cow", f"The integral of {function} is {indefinite_integral}"))
-        elif method == "Limit":
-            approaching = input("What is x approaching?: ")
-            limit = sym.limit(function, approaching)
-            
-            
+                return print(cowsay.get_output_string("cow", f"The indefinite integral of {function} is {indefinite_integral}"))
 
+            else:
+                return print(cowsay.get_output_string("cow", "Invalid choice for limits. Please enter 'y' or 'n'."))
+
+        elif method.lower() == "limit":
+            approaching = float(input("What is x approaching?: "))
+            limit = sym.limit(function, x, approaching)
+            return print(cowsay.get_output_string("cow", f"The limit of {function} as x approaches {approaching} is {limit}"))
+
+        else:
+            return print(cowsay.get_output_string("cow", "Invalid method choice. Please choose 'Derivative', 'Integration', or 'Limit'."))
 
 
 def main():
