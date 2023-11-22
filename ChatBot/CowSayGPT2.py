@@ -139,7 +139,7 @@ def main():
         elif user_input == "calculus":
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit):")
-            chatbot.calculus_calulator(method, function)
+            chatbot.calculus_calculator(method, function)
         
         else:
             chatbot.generate(user_input)
