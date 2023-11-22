@@ -64,26 +64,31 @@ class ChatBot:
     def basic_calculator(self, user_input):
         if "**" in user_input:
             x, z = user_input.split("**")
-            print(cowsay.get_output_string("cow",f"{x} raised to {z} = {x ** z}"))
-        elif "square root" or "sqrt" in user_input:
+            x = float(x)
+            z = float(z)
+            return print(cowsay.get_output_string("cow", f"{x} raised to {z} = {x ** z}"))
+
+        elif "sqrt" in user_input or "square root" in user_input:
             if "sqrt" in user_input:
-                x = user_input.split("sqrt")
+                x = float(user_input.split("sqrt")[1])
             else:
-                x = user_input.split("square root")
-            
-            print(cowsay.get_output_string("cow", str(math.sqrt(x))))
+                x = float(user_input.split("square root")[1])
+
+            return print(cowsay.get_output_string("cow", f"Square root of {x} = {math.sqrt(x)}"))
+
         else:
-            x, y, z= user_input.split(" ")
+            x, y, z = user_input.split(" ")
             x = float(x)
             z = float(z)
             if y == "+":
-                print(cowsay.get_output_string("cow",f"{x} + {z} = {x + z}"))
+                return print(cowsay.get_output_string("cow", f"{x} + {z} = {x + z}"))
             elif y == "-":
-                print(cowsay.get_output_string("cow",f"{x} - {z} = {x - z}"))
+                return print(cowsay.get_output_string("cow", f"{x} - {z} = {x - z}"))
             elif y == "*":
-                print(cowsay.get_output_string("cow",f"{x} * {z} = {x * z}"))
+                return print(cowsay.get_output_string("cow", f"{x} * {z} = {x * z}"))
             elif y == "/":
-                print(cowsay.get_output_string("cow",f"{x} / {z} = {x / z}"))
+                return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
+
 
     def calculus_calulator(self, method, function):
         if method == "derivative":
