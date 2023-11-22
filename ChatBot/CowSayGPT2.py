@@ -66,7 +66,8 @@ def main():
         elif user_input == "Get me the weather" or user_input == "weather" or user_input == "What's the weather?":
             user_location = input("Where would you like the weather?: ")
             chatbot.get_weather(user_location)
-        chatbot.generate(user_input)
+        else:
+            chatbot.generate(user_input)
 
 
 if __name__ == "__main__":
