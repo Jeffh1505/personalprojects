@@ -1,6 +1,6 @@
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import torch
-
+import cowsay
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -14,12 +14,11 @@ class ChatBot:
         x = encoded_input['input_ids'].expand(num_samples, -1) if prompt else None
 
         # Forward the model `steps` times to get samples, in a batch
-        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=40)
+        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=1)
 
         for i in range(num_samples):
             out = tokenizer.decode(y[i].cpu().squeeze())
-            print('-' * 80)
-            print(out)
+            print(cowsay.get_output_string("cow", out))
 
 
 def main():
