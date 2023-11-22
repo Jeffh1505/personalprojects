@@ -14,7 +14,7 @@ class ChatBot:
         x = encoded_input['input_ids'].expand(num_samples, -1) if prompt else None
 
         # Forward the model `steps` times to get samples, in a batch
-        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=1)
+        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=40)
 
         for i in range(num_samples):
             out = tokenizer.decode(y[i].cpu().squeeze())
@@ -26,6 +26,7 @@ def main():
     while True:
         user_input = input("What would you like to say to the chatbot?: ")
         if user_input.lower() in ['exit', 'quit']:
+            print(cowsay.get_output_string("cow", "Goodbye!"))
             break
         chatbot.generate(user_input)
 
