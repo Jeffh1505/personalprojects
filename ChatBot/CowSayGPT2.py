@@ -122,6 +122,18 @@ class ChatBot:
 
         else:
             return print(cowsay.get_output_string("cow", "Invalid method choice. Please choose 'Derivative', 'Integration', or 'Limit'."))
+    def space_image(self):
+        import requests
+        import json
+        import webbrowser
+        
+        params = {"api_key": "auVKThbI6c5rw8C9CXubfHaK2lOiV631jbocLL0F", "hd": True, "count" : 1}    
+        f = r"https://api.nasa.gov/planetary/apod?"
+        data = requests.get(f, params = params)
+        tt = json.loads(data.text)
+    
+        print(cowsay.get_output_string("cow",tt[0]["title"]))
+        webbrowser.open(tt[0]["url"])
 
 
 def main():
@@ -131,16 +143,21 @@ def main():
         if user_input.lower() in ['exit', 'quit']:
             print(cowsay.get_output_string("cow", "Goodbye!"))
             break
-        elif user_input == "Get me the weather" or user_input == "weather" or user_input == "What's the weather?":
+
+        elif user_input == "get me the weather" or user_input == "weather" or user_input == "what's the weather?":
             user_location = input("Where would you like the weather?: ")
+
             chatbot.get_weather(user_location)
         elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input or "**" in user_input or ("sqrt" or "square root") in user_input:
             chatbot.basic_calculator(user_input)
+
         elif user_input == "calculus":
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit):")
             chatbot.calculus_calculator(method, function)
         
+        elif user_input == "space":
+            chatbot.space_image()
         else:
             chatbot.generate(user_input)
 
