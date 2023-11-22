@@ -14,7 +14,7 @@ class ChatBot:
         x = encoded_input['input_ids'].expand(num_samples, -1) if prompt else None
 
         # Forward the model `steps` times to get samples, in a batch
-        y = self.model.generate(x, max_length=1000, do_sample=do_sample, top_k=40)
+        y = self.model.generate(x, max_length=30, do_sample=do_sample, top_k=40)
 
         for i in range(num_samples):
             out = tokenizer.decode(y[i].cpu().squeeze())
