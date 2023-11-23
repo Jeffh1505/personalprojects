@@ -200,10 +200,12 @@ class ChatBot:
 
             if guesser_letter not in guessed_letters:
                 guessed_letters.append(guesser_letter)
-                tries += 1
+                
 
             if guesser_letter in word_to_guess:
                 correct_letters.append(guesser_letter)
+            elif guesser_letter not in word_to_guess:
+                tries += 1
 
             if set(correct_letters) == set(word_to_guess):
                 print(cowsay.get_output_string("cow", f"{word_to_guess} is the word!"))
@@ -220,7 +222,7 @@ class ChatBot:
                 else:
                     word_to_display += "_"
             
-            print(word_to_display)
+            print(cowsay.get_output_string("cow",word_to_display))
 
 
 def main():
