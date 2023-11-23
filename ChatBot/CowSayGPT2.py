@@ -186,36 +186,42 @@ class ChatBot:
     def word_guessing_game(self):
         import random
         with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as f:
-            words = []
-            for line in f:
-                line = line.strip().lower()
-                words.append(line)
+            words = [line.strip().lower() for line in f]
+
         word_to_guess = random.choice(words)
         print(word_to_guess)
+
         guessed_letters = []
         correct_letters = []
         tries = 0
+
         while True:
             guesser_letter = input("Guess letter: ")
-            a = guessed_letters.append(guessed_letters)
-            guessed_letters.append(guesser_letter)
-            if guesser_letter in word_to_guess:
-                correct_letters.append(guesser_letter)
+
+            if guesser_letter not in guessed_letters:
+                guessed_letters.append(guesser_letter)
+
+                if guesser_letter in word_to_guess:
+                    correct_letters.append(guesser_letter)
+
             if set(correct_letters) == set(word_to_guess):
-                print(cowsay.get_output_string("cow",f"{word_to_guess} is the word!"))
+                print(cowsay.get_output_string("cow", f"{word_to_guess} is the word!"))
                 break
-            else:
-                tries += 1
-                if tries == 5:
-                    print(cowsay.get_output_string("cow",f"You lost, {word_to_guess} was the word."))
-                    break
-                word_to_display = ""
-                for letter in word_to_guess:
-                    if letter in correct_letters:
-                        word_to_display += letter
-                    else:
-                        word_to_display +="_"
-                        print(word_to_display)
+
+            tries += 1
+
+            if tries == 5:
+                print(cowsay.get_output_string("cow", f"You lost, {word_to_guess} was the word."))
+                break
+
+            word_to_display = ""
+            for letter in word_to_guess:
+                if letter in correct_letters:
+                    word_to_display += letter
+                else:
+                    word_to_display += "_"
+            
+            print(word_to_display)
 
 
 def main():
