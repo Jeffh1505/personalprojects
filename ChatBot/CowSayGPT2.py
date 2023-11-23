@@ -89,9 +89,6 @@ class ChatBot:
             elif y == "/":
                 return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
 
-
-    # Inside the ChatBot class
-    # ... (other methods unchanged)
     
     def calculus_calculator(self, method, function):
         x = sym.symbols('x')
@@ -103,8 +100,19 @@ class ChatBot:
         elif method.lower() == "integration":
             check_for_limits = input("Would you like to add limits? (y/n): ").lower()
             if check_for_limits == 'y':
-                upper_limit = float(input("What is the upper limit?: "))
-                lower_limit = float(input("What is the lower limit?: "))
+                upper_limit = input("What is the upper limit (or 'inf' for infinity)?: ").lower()
+                lower_limit = input("What is the lower limit (or '-inf' for negative infinity)?: ").lower()
+                
+                if upper_limit == 'inf':
+                    upper_limit = sym.oo
+                else:
+                    upper_limit = float(upper_limit)
+                
+                if lower_limit == '-inf':
+                    lower_limit = -sym.oo
+                else:
+                    lower_limit = float(lower_limit)
+                
                 definite_integral = sym.integrate(function, (x, lower_limit, upper_limit))
                 return print(cowsay.get_output_string("cow", f"The integral of {function} over the interval {lower_limit} to {upper_limit} is {definite_integral}"))
             
@@ -116,12 +124,21 @@ class ChatBot:
                 return print(cowsay.get_output_string("cow", "Invalid choice for limits. Please enter 'y' or 'n'."))
 
         elif method.lower() == "limit":
-            approaching = float(input("What is x approaching?: "))
+            approaching = input("What is x approaching (or 'inf' for infinity)?: ").lower()
+            
+            if approaching == 'inf':
+                approaching = sym.oo
+            else:
+                approaching = float(approaching)
+            
             limit = sym.limit(function, x, approaching)
             return print(cowsay.get_output_string("cow", f"The limit of {function} as x approaches {approaching} is {limit}"))
 
         else:
             return print(cowsay.get_output_string("cow", "Invalid method choice. Please choose 'Derivative', 'Integration', or 'Limit'."))
+
+
+
     def space_image(self):
         import requests
         import json
@@ -134,6 +151,37 @@ class ChatBot:
     
         print(cowsay.get_output_string("cow",tt[0]["title"]))
         webbrowser.open(tt[0]["url"])
+
+    def guessing_game(self):
+        import random
+
+        code = str(random.randint(1000, 9999))
+        print(code)
+        guessed_codes = []
+        correct_numbers = []
+        tries = 0
+        #Creates game loop
+        while True:
+            user_input = str(input("Guess the code: ")) #Takes user input
+
+            if user_input in code:
+                correct_numbers.append(user_input)
+                print("Correct guess")
+                if set(correct_numbers) == set(code):
+                    print(f"You got it, {code} was the code!")
+                    break    
+            else: 
+                tries += 1
+                if tries == 5:
+                    print(f"You lost, {code} was the code.")
+                    break
+            part_of_code_to_display = ""
+            for number in code:
+                if number in correct_numbers:
+                    part_of_code_to_display += number
+                else: 
+                    part_of_code_to_display += "_"
+            print(cowsay.get_output_string("cow",part_of_code_to_display))
 
 
 def main():
@@ -158,6 +206,9 @@ def main():
         
         elif user_input == "space":
             chatbot.space_image()
+
+        elif user_input == "game":
+            chatbot.guessing_game()
         else:
             chatbot.generate(user_input)
 
