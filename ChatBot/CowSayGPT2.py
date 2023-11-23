@@ -3,6 +3,7 @@ import torch
 import cowsay
 import math
 import sympy as sym
+import random
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -60,7 +61,8 @@ class ChatBot:
             return print(cowsay.get_output_string("cow",f"Today's forecast: {forecast}"))
         else:
             return print(cowsay.get_output_string("cow","Forecast not found"))
-    #Performs mathematical operations     
+        
+    #Performs basic mathematical operations     
     def basic_calculator(self, user_input):
         if "**" in user_input:
             x, z = user_input.split("**")
@@ -89,7 +91,7 @@ class ChatBot:
             elif y == "/":
                 return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
 
-    
+    #Performs calculus operations
     def calculus_calculator(self, method, function):
         x = sym.symbols('x')
         
@@ -136,9 +138,7 @@ class ChatBot:
 
         else:
             return print(cowsay.get_output_string("cow", "Invalid method choice. Please choose 'Derivative', 'Integration', or 'Limit'."))
-
-
-
+    #Gets an image from NASA API
     def space_image(self):
         import requests
         import json
@@ -151,12 +151,12 @@ class ChatBot:
     
         print(cowsay.get_output_string("cow",tt[0]["title"]))
         webbrowser.open(tt[0]["url"])
-
-    def guessing_game(self):
+    #Creates a code guessing game
+    def code_guessing_game(self):
         import random
 
         code = str(random.randint(1000, 9999))
-        print(code)
+        
         guessed_codes = []
         correct_numbers = []
         tries = 0
@@ -166,14 +166,14 @@ class ChatBot:
 
             if user_input in code:
                 correct_numbers.append(user_input)
-                print("Correct guess")
+                print(cowsay.get_output_string("cow","Correct guess"))
                 if set(correct_numbers) == set(code):
-                    print(f"You got it, {code} was the code!")
+                    print(cowsay.get_output_string("cow",f"You got it, {code} was the code!"))
                     break    
             else: 
                 tries += 1
                 if tries == 5:
-                    print(f"You lost, {code} was the code.")
+                    print(cowsay.get_output_string("cow",f"You lost, {code} was the code."))
                     break
             part_of_code_to_display = ""
             for number in code:
@@ -182,6 +182,40 @@ class ChatBot:
                 else: 
                     part_of_code_to_display += "_"
             print(cowsay.get_output_string("cow",part_of_code_to_display))
+    #Creates a word guessing game
+    def word_guessing_game(self):
+        import random
+        with open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r') as f:
+            words = []
+            for line in f:
+                line = line.strip().lower()
+                words.append(line)
+        word_to_guess = random.choice(words)
+        print(word_to_guess)
+        guessed_letters = []
+        correct_letters = []
+        tries = 0
+        while True:
+            guesser_letter = input("Guess letter: ")
+            a = guessed_letters.append(guessed_letters)
+            guessed_letters.append(guesser_letter)
+            if guesser_letter in word_to_guess:
+                correct_letters.append(guesser_letter)
+            if set(correct_letters) == set(word_to_guess):
+                print(cowsay.get_output_string("cow",f"{word_to_guess} is the word!"))
+                break
+            else:
+                tries += 1
+                if tries == 5:
+                    print(cowsay.get_output_string("cow",f"You lost, {word_to_guess} was the word."))
+                    break
+                word_to_display = ""
+                for letter in word_to_guess:
+                    if letter in correct_letters:
+                        word_to_display += letter
+                    else:
+                        word_to_display +="_"
+                        print(word_to_display)
 
 
 def main():
@@ -208,7 +242,11 @@ def main():
             chatbot.space_image()
 
         elif user_input == "game":
-            chatbot.guessing_game()
+            game_to_play = random.randint(1,2)
+            if game_to_play == 1:
+                chatbot.code_guessing_game()
+            elif game_to_play == 2:
+                chatbot.word_guessing_game()
         else:
             chatbot.generate(user_input)
 
