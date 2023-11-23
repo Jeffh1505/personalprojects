@@ -200,15 +200,14 @@ class ChatBot:
 
             if guesser_letter not in guessed_letters:
                 guessed_letters.append(guesser_letter)
+                tries += 1
 
-                if guesser_letter in word_to_guess:
-                    correct_letters.append(guesser_letter)
+            if guesser_letter in word_to_guess:
+                correct_letters.append(guesser_letter)
 
             if set(correct_letters) == set(word_to_guess):
                 print(cowsay.get_output_string("cow", f"{word_to_guess} is the word!"))
                 break
-
-            tries += 1
 
             if tries == 5:
                 print(cowsay.get_output_string("cow", f"You lost, {word_to_guess} was the word."))
