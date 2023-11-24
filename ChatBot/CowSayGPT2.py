@@ -8,6 +8,11 @@ from factorial_functionality import factorial
 from fibonacci_functionality import fib
 import csv
 class ChatBot:
+    """This is the ChatBot class for CowSay GPT-2. CowSay GPT-2 has the following methods:
+            generate-Generates text using the GPT2 model
+            get_weather-gets the weather for a user specified location, with some major US cities already included 
+                        (Note: This functionality works ONLY for the US)
+            basic_calculator- Performs basic mathematical operations"""
     def __init__(self):
         self.model_type = 'gpt2-xl'
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -335,9 +340,8 @@ def main():
         elif user_input == "news" or user_input == "headlines":
             chatbot.news()
 
-        elif user_input == "translate":
-            text_to_translate = input("Please input some text to translate: ")
-            chatbot.translation(text_to_translate)
+        elif user_input == "fun fact":
+            chatbot.fun_fact()
         #Implements the generative portion of the chatbot
         else:
             chatbot.generate(user_input)
