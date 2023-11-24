@@ -250,9 +250,12 @@ class ChatBot:
             headline_elements = soup.find_all('h3', class_='css-miszbp e1hr934v2')
             
             if headline_elements:
+                headlines = []
                 for headline_element in headline_elements:
                     headline = headline_element.get_text()
-                    print(cowsay.get_output_string("cow",headline))
+                    headlines.append(headline)
+                all_headlines = '\n'.join(headlines)
+                print(cowsay.get_output_string("cow",all_headlines))
             else:
                 print(cowsay.get_output_string("cow",'Headlines not found on the page.'))
         else:
