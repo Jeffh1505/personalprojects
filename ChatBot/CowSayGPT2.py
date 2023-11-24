@@ -26,13 +26,12 @@ class ChatBot:
             num_return_sequences=num_samples
         )
         
-        # Decode the generated output
-        generated_text = []
         for sequence in output:
             text = self.tokenizer.decode(sequence, skip_special_tokens=True)
-            generated_text.append(text)
-        
-        return print(cowsay.get_output_string("cow",generated_text))
+            cowsay_str = cowsay.get_output_string("cow", text)
+            print(cowsay_str)
+
+            
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
