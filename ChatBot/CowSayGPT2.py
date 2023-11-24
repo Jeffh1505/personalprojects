@@ -255,11 +255,15 @@ class ChatBot:
                     headline = headline_element.get_text()
                     headlines.append(headline)
                 all_headlines = '\n'.join(headlines)
-                print(cowsay.get_output_string("cow",f"Today's headlines: {all_headlines} \nSource: The New York Times"))
+                print(cowsay.get_output_string("cow",f"Today's headlines:\n {all_headlines} \nSource: The New York Times"))
             else:
                 print(cowsay.get_output_string("cow",'Headlines not found on the page.'))
         else:
             print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
+
+    def translation(self, user_input):
+        import translators as ts
+        print(cowsay.get_output_string("cow", ts.google(user_input)))
 
 
 
@@ -305,6 +309,10 @@ def main():
         #Implements the news functionality 
         elif user_input == "news" or user_input == "headlines":
             chatbot.news()
+
+        elif user_input == "translate":
+            text_to_translate = input("Please input some text to translate: ")
+            chatbot.translation(text_to_translate)
         #Implements the generative portion of the chatbot
         else:
             chatbot.generate(user_input)
