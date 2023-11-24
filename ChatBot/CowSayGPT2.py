@@ -262,9 +262,14 @@ class ChatBot:
             print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
 
     def translation(self, user_input):
-        import translators as ts
-        print(cowsay.get_output_string("cow", ts.google(user_input)))
+        from googletrans import Translator
 
+        translator = Translator()
+
+        # Translate a string from English to French
+        translation = translator.translate(user_input, dest="en")
+
+        print(translation.text)
 
 
 #Main function implements the functionalities of the chatbot class
