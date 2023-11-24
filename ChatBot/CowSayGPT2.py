@@ -17,26 +17,31 @@ class ChatBot:
         import openai
         
         # OpenAI API key
-        api_key = "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"  # Replace with your actual OpenAI API key
+        api_key = "YOUR_API_KEY"  # Replace with your actual OpenAI API key
         
         # Set up the OpenAI API client
         openai.api_key = api_key
 
         # Prepare the request payload
         prompt_text = f"{prompt}\nChatbot:"
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt_text,
+
+        response = openai.ChatCompletion.create(
+            model="text-davinci-003",
+            messages=[
+                {"role": "user", "content": prompt_text},
+                {"role": "assistant"}
+            ],
             max_tokens=steps,
-            n=num_samples,
-            temperature=temperature
+            temperature=temperature,
+            n=num_samples
         )
         
         # Collect generated responses
-        outputs = [response.choices[i].text.strip() for i in range(num_samples)]
+        outputs = [message['content'] for message in response['messages'][1:]]
 
         for output in outputs:
             print(cowsay.get_output_string("cow", output))
+
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
