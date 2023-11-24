@@ -4,6 +4,7 @@ import cowsay
 import math
 import sympy as sym
 import random
+import openai
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -12,28 +13,21 @@ class ChatBot:
         self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
 
     #This is the generative portion of the chatbot using the GPT2 model
-    def generate(PROMPT, MaxToken=50, outputs=3): 
-        import openai
-    # using OpenAI's Completion module that helps execute  
-    # any tasks involving text  
-        openai.api_key = "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"
-        response = openai.Completion.create( 
-            # model name used here is text-davinci-003 
-            # there are many other models available under the  
-            # umbrella of GPT-3 
-            model="text-davinci-003", 
-            # passing the user input  
-            prompt=PROMPT, 
-            # generated output can have "max_tokens" number of tokens  
-            max_tokens=MaxToken, 
-            # number of outputs generated in one call 
-            n=outputs 
-        ) 
-        # creating a list to store all the outputs 
-        output = list() 
-        for k in response['choices']: 
-            output.append(k['text'].strip()) 
-        return print(cowsay.get_output_string("cow",output))
+    def generate(self, prompt='', num_samples=1, temperature=0.7):
+        
+        openai.api_key = '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'
+
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=100,
+            n=num_samples,
+            temperature=temperature
+        )
+
+        for choice in response['choices']:
+            out = choice['text']
+            print(cowsay.get_output_string("cow", out))
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
