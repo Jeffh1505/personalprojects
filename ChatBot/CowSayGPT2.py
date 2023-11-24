@@ -4,7 +4,7 @@ import cowsay
 import math
 import sympy as sym
 import random
-from openai import OpenAI
+from openai import ChatCompletion, OpenAI
 import os
 class ChatBot:
     def __init__(self):
@@ -15,19 +15,21 @@ class ChatBot:
 
     #This is the generative portion of the chatbot using the GPT2 model
     def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
-        from openai import OpenAI
-        client = OpenAI(api_key=os.environ['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'])
+        openai = OpenAI(api_key=os.environ['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'])
 
-        completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Hello!"}
-        ]
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=steps,
+            temperature=temperature,
+            n=num_samples
         )
 
-        print(completion.choices[0].message)
-
+        for choice in completion.choices:
+            print(choice.message['content'])
 
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
