@@ -12,18 +12,18 @@ class ChatBot:
         self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
 
     #This is the generative portion of the chatbot using the GPT2 model
-    def generate(self, prompt='', num_samples=10, steps=40, do_sample=True):
-        tokenizer = GPT2Tokenizer.from_pretrained(self.model_type)
-        encoded_input = tokenizer(prompt, return_tensors='pt').to(self.device)
-        x = encoded_input['input_ids'].expand(num_samples, -1) if prompt else None
+    def generate(self, prompt):
+        import openai
 
-        # Forward the model `steps` times to get samples, in a batch
-        y = self.model.generate(x, max_length=steps, do_sample=do_sample, top_k=40)
+        # Get your API key from https://openai.com/api/
+        openai.api_key = "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"
 
-        for i in range(num_samples):
-            out = tokenizer.decode(y[i].cpu().squeeze())
-        return print(cowsay.get_output_string("cow", out))
-    
+        # Make a request to the API
+        response = openai.create_text(prompt)
+
+        # Print the response
+        print(response)
+            
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
@@ -261,15 +261,7 @@ class ChatBot:
         else:
             print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
 
-    def translation(self, user_input):
-        from googletrans import Translator
-
-        translator = Translator()
-
-        # Translate a string from English to French
-        translation = translator.translate(user_input, dest="en")
-
-        print(translation.text)
+    
 
 
 #Main function implements the functionalities of the chatbot class
