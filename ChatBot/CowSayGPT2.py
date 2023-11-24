@@ -6,7 +6,7 @@ import sympy as sym
 import random
 from openai import ChatCompletion, OpenAI
 import os
-os.environ['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'] = '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'
+os.environ['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'] = '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'
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -16,7 +16,7 @@ class ChatBot:
 
     #This is the generative portion of the chatbot using the GPT2 model
     def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
-        openai = OpenAI(api_key=os.environ['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'])
+        openai = OpenAI(api_key=os.environ['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'])
 
         completion = openai.chat.completions.create(
             model="gpt-3.5-turbo",
