@@ -12,7 +12,7 @@ class ChatBot:
         self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
 
     #This is the generative portion of the chatbot using the GPT2 model
-    def comp(PROMPT, MaxToken=50, outputs=3): 
+    def generate(PROMPT, MaxToken=50, outputs=3): 
         import openai
     # using OpenAI's Completion module that helps execute  
     # any tasks involving text  
