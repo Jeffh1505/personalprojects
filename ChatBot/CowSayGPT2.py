@@ -255,7 +255,7 @@ class ChatBot:
                     headline = headline_element.get_text()
                     headlines.append(headline)
                 all_headlines = '\n'.join(headlines)
-                print(cowsay.get_output_string("cow",all_headlines))
+                print(cowsay.get_output_string("cow",f"Today's headlines: {all_headlines} \nSource: The New York Times"))
             else:
                 print(cowsay.get_output_string("cow",'Headlines not found on the page.'))
         else:
