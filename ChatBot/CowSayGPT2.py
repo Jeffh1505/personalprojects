@@ -14,7 +14,7 @@ class ChatBot:
         self.model.to(self.device)
         self.model.eval()
 
-    def generate(self, prompt='', num_samples=1, max_length=150, top_p=0.925):
+    def generate(self, prompt='', num_samples=1, max_length=150, top_p=0.91):
         input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
         
         # Generate text based on the provided prompt using top-p sampling
