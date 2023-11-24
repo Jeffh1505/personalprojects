@@ -224,6 +224,26 @@ class ChatBot:
             
             print(cowsay.get_output_string("cow",word_to_display))
 
+    def news(self):
+        import requests
+        from bs4 import BeautifulSoup
+
+        url = 'https://www.nytimes.com/section/todayspaper?redirect_uri=https%3A%2F%2Fwww.nytimes.com%2F'
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            headline_elements = soup.find_all('h3', class_='css-miszbp e1hr934v2')
+            
+            if headline_elements:
+                for headline_element in headline_elements:
+                    headline = headline_element.get_text()
+                    print(cowsay.get_output_string("cow",headline))
+            else:
+                print(cowsay.get_output_string("cow",'Headlines not found on the page.'))
+        else:
+            print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
+
 
 def main():
     chatbot = ChatBot()
@@ -242,7 +262,7 @@ def main():
 
         elif user_input == "calculus":
             function = input("What is the function?: ")
-            method = input("What would you like to do to the function? (Derivative, Integration, Limit):")
+            method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
             chatbot.calculus_calculator(method, function)
         
         elif user_input == "space":
