@@ -92,8 +92,10 @@ class ChatBot:
             return print(cowsay.get_output_string("cow", f"Square root of {x} = {math.sqrt(x)}"))
         
         #Implements all other mathematical operations
-        else:
+        elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
             x, y, z = user_input.split(" ")
+            if x.isnumeric() == False or z.isnumeric() == False:
+                raise Exception("One input is not a number")
             x = float(x)
             z = float(z)
             if y == "+":
@@ -104,6 +106,7 @@ class ChatBot:
                 return print(cowsay.get_output_string("cow", f"{x} * {z} = {x * z}"))
             elif y == "/":
                 return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
+        
 
     #Performs calculus operations
     def calculus_calculator(self, method, function):
