@@ -4,41 +4,35 @@ import cowsay
 import math
 import sympy as sym
 import random
-from openai import ChatCompletion, OpenAI
-from dotenv import load_dotenv
-import os
+
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.model = GPT2LMHeadModel.from_pretrained(self.model_type)
-        self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
+        self.tokenizer = GPT2Tokenizer.from_pretrained(self.model_type)
+        self.model.to(self.device)
+        self.model.eval()
 
-    #This is the generative portion of the chatbot using the GPT2 model
-    def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
+    def generate(self, prompt='', num_samples=1, max_length=100, temperature=0.7):
+        input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
         
-
-        # Get the API key from the environment variables
-        api_key = os.getenv('OPENAI_API_KEY')
-
-        # Use the API key in your code
-        openai = OpenAI(api_key=api_key)
-        
-
-        completion = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=steps,
+        # Generate text based on the provided prompt
+        output = self.model.generate(
+            input_ids=input_ids,
+            do_sample=True,
+            max_length=max_length,
             temperature=temperature,
-            n=num_samples
+            num_return_sequences=num_samples
         )
-
-        for choice in completion.choices:
-            print(choice.message['content'])
-
+        
+        # Decode the generated output
+        generated_text = []
+        for sequence in output:
+            text = self.tokenizer.decode(sequence, skip_special_tokens=True)
+            generated_text.append(text)
+        
+        return generated_text
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
