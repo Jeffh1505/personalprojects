@@ -4,7 +4,9 @@ import cowsay
 import math
 import sympy as sym
 import random
-
+from factorial_functionality import factorial
+from fibonacci_functionality import fib
+import csv
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -74,38 +76,38 @@ class ChatBot:
         
     #Performs basic mathematical operations     
     def basic_calculator(self, user_input):
-
+        try:
         #Implements raising a number to a power
-        if "**" in user_input:
-            x, z = user_input.split("**")
-            x = float(x)
-            z = float(z)
-            return print(cowsay.get_output_string("cow", f"{x} raised to {z} = {x ** z}"))
-        
-        #Implements the square root of a number
-        elif "sqrt" in user_input or "square root" in user_input:
-            if "sqrt" in user_input:
-                x = float(user_input.split("sqrt")[1])
-            else:
-                x = float(user_input.split("square root")[1])
+            if "**" in user_input:
+                x, z = user_input.split("**")
+                x = float(x)
+                z = float(z)
+                return print(cowsay.get_output_string("cow", f"{x} raised to {z} = {x ** z}"))
+            
+            #Implements the square root of a number
+            elif "sqrt" in user_input or "square root" in user_input:
+                if "sqrt" in user_input:
+                    x = float(user_input.split("sqrt")[1])
+                else:
+                    x = float(user_input.split("square root")[1])
 
-            return print(cowsay.get_output_string("cow", f"Square root of {x} = {math.sqrt(x)}"))
-        
-        #Implements all other mathematical operations
-        elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
-            x, y, z = user_input.split(" ")
-            if x.isnumeric() == False or z.isnumeric() == False:
-                raise Exception("One input is not a number")
-            x = float(x)
-            z = float(z)
-            if y == "+":
-                return print(cowsay.get_output_string("cow", f"{x} + {z} = {x + z}"))
-            elif y == "-":
-                return print(cowsay.get_output_string("cow", f"{x} - {z} = {x - z}"))
-            elif y == "*":
-                return print(cowsay.get_output_string("cow", f"{x} * {z} = {x * z}"))
-            elif y == "/":
-                return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
+                return print(cowsay.get_output_string("cow", f"Square root of {x} = {math.sqrt(x)}"))
+            
+            #Implements all other mathematical operations
+            elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
+                x, y, z = user_input.split(" ")
+                x = float(x)
+                z = float(z)
+                if y == "+":
+                    return print(cowsay.get_output_string("cow", f"{x} + {z} = {x + z}"))
+                elif y == "-":
+                    return print(cowsay.get_output_string("cow", f"{x} - {z} = {x - z}"))
+                elif y == "*":
+                    return print(cowsay.get_output_string("cow", f"{x} * {z} = {x * z}"))
+                elif y == "/":
+                    return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
+        except ValueError:
+            print(cowsay.get_output_string("Cow", "That is not a valid input"))
         
 
     #Performs calculus operations
@@ -213,7 +215,6 @@ class ChatBot:
             words = [line.strip().lower() for line in f]
 
         word_to_guess = random.choice(words)
-        print(word_to_guess)
 
         guessed_letters = []
         correct_letters = []
@@ -272,7 +273,23 @@ class ChatBot:
         else:
             print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
 
-    
+    def fun_fact(self):
+        with open(r"C:\Users\summe\OneDrive\Desktop\personalprojects\ChatBot\country-list.csv", 'r') as country_file:
+            reader = csv.reader(country_file)
+            countries = {}
+            for row in reader:
+                country, capital, type = row
+                countries.setdefault(country, capital)
+        fact_to_pick = random.randint(1,2)
+
+        if fact_to_pick == 1:
+            number_for_fun_fact = random.randint(0, 50)
+            number_for_fun_fact_factorial = factorial(number_for_fun_fact)
+            number_for_fun_fact_fibonacci = fib(number_for_fun_fact)
+            print(cowsay.get_output_string("cow", f"{number_for_fun_fact} has a fibonnaci number of {number_for_fun_fact_fibonacci} and a factorial of {number_for_fun_fact_factorial}"))
+        elif fact_to_pick == 2:
+            random_country = random.choice(self.country)
+            print(cowsay.get_output_string("cow", f"Your random country is {random_country} whose capital is {countries[random_country]}.")) 
 
 
 #Main function implements the functionalities of the chatbot class
