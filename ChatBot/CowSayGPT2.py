@@ -4,7 +4,7 @@ import cowsay
 import math
 import sympy as sym
 import random
-import openai
+from openai import OpenAI
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
@@ -13,21 +13,30 @@ class ChatBot:
         self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
 
     #This is the generative portion of the chatbot using the GPT2 model
-    def generate(self, prompt='', num_samples=1, temperature=0.7):
+    def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
+        import openai
         
-        openai.api_key = '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'
+        # OpenAI API key
+        api_key = "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"  # Replace with your actual OpenAI API key
+        
+        # Set up the OpenAI API client
+        openai.api_key = api_key
 
+        # Prepare the request payload
+        prompt_text = f"{prompt}\nChatbot:"
         response = openai.Completion.create(
             engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=100,
+            prompt=prompt_text,
+            max_tokens=steps,
             n=num_samples,
             temperature=temperature
         )
+        
+        # Collect generated responses
+        outputs = [response.choices[i].text.strip() for i in range(num_samples)]
 
-        for choice in response['choices']:
-            out = choice['text']
-            print(cowsay.get_output_string("cow", out))
+        for output in outputs:
+            print(cowsay.get_output_string("cow", output))
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
