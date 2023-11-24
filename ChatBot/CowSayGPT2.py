@@ -6,6 +6,9 @@ import sympy as sym
 import random
 from openai import ChatCompletion, OpenAI
 import os
+
+api_key = os.environ.get('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')
+print(api_key)
 class ChatBot:
     def __init__(self):
         self.model_type = 'gpt2-xl'
