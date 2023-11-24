@@ -14,24 +14,24 @@ class ChatBot:
         self.model.to(self.device)
         self.model.eval()
 
-    def generate(self, prompt='', num_samples=1, max_length=100, temperature=0.7):
+    def generate(self, prompt='', num_samples=1, max_length=100, top_p=0.92):
         input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
         
-        # Generate text based on the provided prompt
+        # Generate text based on the provided prompt using top-p sampling
         output = self.model.generate(
             input_ids=input_ids,
             do_sample=True,
             max_length=max_length,
-            temperature=temperature,
+            top_p=top_p,
             num_return_sequences=num_samples
         )
         
+        # Decode the generated output and print it using cowsay
         for sequence in output:
             text = self.tokenizer.decode(sequence, skip_special_tokens=True)
             cowsay_str = cowsay.get_output_string("cow", text)
             print(cowsay_str)
 
-            
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
