@@ -28,6 +28,8 @@ class ChatBot:
     def get_weather(self, user_location):
         import requests
         
+        #Dictionary of famous landmarks in each city to get the cooridnates to pass into the weather api 
+        # (i.e. New York has the Empire State Building, Washington DC has the White House)
         cities = {"New York": "20 W 34th St., New York, NY 10001", "Los Angeles": "1111 S Figueroa St, Los Angeles, CA 90015"
                 , "Chicago": "233 S Wacker Dr, Chicago, IL 60606", "San Francisco": "600 Montgomery St, San Francisco, CA 94111",
                 "Houston": "2800 Post Oak Blvd, Houston, TX 77056", "Miami":" 1 Washington Ave, Miami Beach, FL 33139", 
@@ -64,12 +66,15 @@ class ChatBot:
         
     #Performs basic mathematical operations     
     def basic_calculator(self, user_input):
+
+        #Implements raising a number to a power
         if "**" in user_input:
             x, z = user_input.split("**")
             x = float(x)
             z = float(z)
             return print(cowsay.get_output_string("cow", f"{x} raised to {z} = {x ** z}"))
-
+        
+        #Implements the square root of a number
         elif "sqrt" in user_input or "square root" in user_input:
             if "sqrt" in user_input:
                 x = float(user_input.split("sqrt")[1])
@@ -77,7 +82,8 @@ class ChatBot:
                 x = float(user_input.split("square root")[1])
 
             return print(cowsay.get_output_string("cow", f"Square root of {x} = {math.sqrt(x)}"))
-
+        
+        #Implements all other mathematical operations
         else:
             x, y, z = user_input.split(" ")
             x = float(x)
@@ -94,11 +100,13 @@ class ChatBot:
     #Performs calculus operations
     def calculus_calculator(self, method, function):
         x = sym.symbols('x')
-        
+
+        #Takes the derivative of a function
         if method.lower() == "derivative":
             derivative = sym.diff(function, x)
             return print(cowsay.get_output_string("cow", f"The derivative of {function} with respect to x is {derivative}"))
-
+        
+        #Takes the integral of a function
         elif method.lower() == "integration":
             check_for_limits = input("Would you like to add limits? (y/n): ").lower()
             if check_for_limits == 'y':
@@ -124,7 +132,8 @@ class ChatBot:
 
             else:
                 return print(cowsay.get_output_string("cow", "Invalid choice for limits. Please enter 'y' or 'n'."))
-
+        
+        #Takes the limit of a function
         elif method.lower() == "limit":
             approaching = input("What is x approaching (or 'inf' for infinity)?: ").lower()
             
@@ -138,6 +147,7 @@ class ChatBot:
 
         else:
             return print(cowsay.get_output_string("cow", "Invalid method choice. Please choose 'Derivative', 'Integration', or 'Limit'."))
+        
     #Gets an image from NASA API
     def space_image(self):
         import requests
@@ -151,6 +161,7 @@ class ChatBot:
     
         print(cowsay.get_output_string("cow",tt[0]["title"]))
         webbrowser.open(tt[0]["url"])
+
     #Creates a code guessing game
     def code_guessing_game(self):
         import random
@@ -160,6 +171,7 @@ class ChatBot:
         guessed_codes = []
         correct_numbers = []
         tries = 0
+
         #Creates game loop
         while True:
             user_input = str(input("Guess the code: ")) #Takes user input
@@ -182,6 +194,7 @@ class ChatBot:
                 else: 
                     part_of_code_to_display += "_"
             print(cowsay.get_output_string("cow",part_of_code_to_display))
+
     #Creates a word guessing game
     def word_guessing_game(self):
         import random
@@ -224,6 +237,7 @@ class ChatBot:
             
             print(cowsay.get_output_string("cow",word_to_display))
 
+    #Gets the headlines from the front page of the New York Times
     def news(self):
         import requests
         from bs4 import BeautifulSoup
@@ -245,35 +259,50 @@ class ChatBot:
             print(cowsay.get_output_string("cow",'Failed to fetch the webpage.'))
 
 
+
+#Main function implements the functionalities of the chatbot class
 def main():
     chatbot = ChatBot()
     while True:
         user_input = input("What would you like to say to the chatbot?: ").lower()
+
+        #Checks if user wants to exit
         if user_input.lower() in ['exit', 'quit']:
             print(cowsay.get_output_string("cow", "Goodbye!"))
             break
 
+        #Activates weather functionality
         elif user_input == "get me the weather" or user_input == "weather" or user_input == "what's the weather?":
             user_location = input("Where would you like the weather?: ")
-
             chatbot.get_weather(user_location)
+        
+        #Implements calculator functionality
         elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input or "**" in user_input or ("sqrt" or "square root") in user_input:
             chatbot.basic_calculator(user_input)
 
+        #Implements calculus functionality
         elif user_input == "calculus":
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
             chatbot.calculus_calculator(method, function)
         
+        #Implements functionality to get an image from NASA's website
         elif user_input == "space":
             chatbot.space_image()
 
+        #Implements the functionality for the games associated with the bot, it chooses at random between the two games in the chatbot 
+        #class and then begins the game methods
         elif user_input == "game":
             game_to_play = random.randint(1,2)
             if game_to_play == 1:
                 chatbot.code_guessing_game()
             elif game_to_play == 2:
                 chatbot.word_guessing_game()
+
+        #Implements the news functionality 
+        elif user_input == "news" or user_input == "headlines":
+            chatbot.news()
+        #Implements the generative portion of the chatbot
         else:
             chatbot.generate(user_input)
 
