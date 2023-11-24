@@ -16,6 +16,7 @@ class ChatBot:
         import openai
     # using OpenAI's Completion module that helps execute  
     # any tasks involving text  
+        openai.api_key = "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"
         response = openai.Completion.create( 
             # model name used here is text-davinci-003 
             # there are many other models available under the  
