@@ -12,18 +12,27 @@ class ChatBot:
         self.model.config.pad_token_id = self.model.config.eos_token_id  # suppress a warning
 
     #This is the generative portion of the chatbot using the GPT2 model
-    def generate(self, prompt):
+    def comp(PROMPT, MaxToken=50, outputs=3): 
         import openai
-
-        # Get your API key from https://openai.com/api/
-        openai.api_key = "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"
-
-        # Make a request to the API
-        response = openai.create_text(prompt)
-
-        # Print the response
-        print(response)
-            
+    # using OpenAI's Completion module that helps execute  
+    # any tasks involving text  
+        response = openai.Completion.create( 
+            # model name used here is text-davinci-003 
+            # there are many other models available under the  
+            # umbrella of GPT-3 
+            model="text-davinci-003", 
+            # passing the user input  
+            prompt=PROMPT, 
+            # generated output can have "max_tokens" number of tokens  
+            max_tokens=MaxToken, 
+            # number of outputs generated in one call 
+            n=outputs 
+        ) 
+        # creating a list to store all the outputs 
+        output = list() 
+        for k in response['choices']: 
+            output.append(k['text'].strip()) 
+        return print(cowsay.get_output_string("cow",output))
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
