@@ -32,7 +32,7 @@ class ChatBot:
             text = self.tokenizer.decode(sequence, skip_special_tokens=True)
             generated_text.append(text)
         
-        return generated_text
+        return print(cowsay.get_output_string("cow",generated_text))
     #Gets the weather for a specified place (Be it a specific address or a city)
     def get_weather(self, user_location):
         import requests
