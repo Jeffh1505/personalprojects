@@ -18,7 +18,7 @@ class ChatBot:
     def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
         openai = OpenAI(api_key=os.environ['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'])
 
-        completion = openai.ChatCompletion.create(
+        completion = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
