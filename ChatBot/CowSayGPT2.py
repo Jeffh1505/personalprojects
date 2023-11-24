@@ -16,7 +16,7 @@ class ChatBot:
 
     #This is the generative portion of the chatbot using the GPT2 model
     def generate(self, prompt='', num_samples=10, steps=40, temperature=0.7):
-        load_dotenv()
+        
 
         # Get the API key from the environment variables
         api_key = os.getenv('OPENAI_API_KEY')
