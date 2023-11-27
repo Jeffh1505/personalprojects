@@ -112,7 +112,7 @@ class ChatBot:
                 elif y == "/":
                     return print(cowsay.get_output_string("cow", f"{x} / {z} = {x / z}"))
         except ValueError:
-            print(cowsay.get_output_string("Cow", "That is not a valid input"))
+            print(cowsay.get_output_string("cow", "That is not a valid input"))
         
 
     #Performs calculus operations
