@@ -9,10 +9,17 @@ from fibonacci_functionality import fib
 import csv
 class ChatBot:
     """This is the ChatBot class for CowSay GPT-2. CowSay GPT-2 has the following methods:
-            generate-Generates text using the GPT2 model
+            generate-Generates text using the GPT2 model (note it spits out text that may seem nonsensical)
             get_weather-gets the weather for a user specified location, with some major US cities already included 
                         (Note: This functionality works ONLY for the US)
-            basic_calculator- Performs basic mathematical operations"""
+            basic_calculator- Performs basic mathematical operations
+            calculus_calculator- performs calulus operations
+            space_image- Gets NASA's astronomy picture of the day using the NASA API
+            code_guessing_game- a simple game to guess a code of numbers
+            word_guessing game- a simple game to guess a word
+            news- gets the headlines of the front page of the New York Times using the BeautifulSoup web scraping method
+            fun_fact- chooses either a number or a random country, for the number it returns the factorial and fibonnaci number of the
+                       random number, for the country it returns the country name and its capital"""
     def __init__(self):
         self.model_type = 'gpt2-xl'
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
