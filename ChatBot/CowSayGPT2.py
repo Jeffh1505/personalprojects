@@ -293,7 +293,7 @@ class ChatBot:
             number_for_fun_fact_fibonacci = fib(number_for_fun_fact)
             print(cowsay.get_output_string("cow", f"{number_for_fun_fact} has a fibonnaci number of {number_for_fun_fact_fibonacci} and a factorial of {number_for_fun_fact_factorial}"))
         elif fact_to_pick == 2:
-            random_country = random.choice(countries)
+            random_country = random.choice(list(countries.keys()))
             print(cowsay.get_output_string("cow", f"Your random country is {random_country} whose capital is {countries[random_country]}.")) 
 
 
