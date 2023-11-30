@@ -78,10 +78,20 @@ class GraphingCalculator:
                 return print("Invalid choice for limits. Please enter 'y' or 'n'.")
     def graphing(self, function, plot_range):
             # Generate a range of values using numpy linspace
-            self.range = np.linspace(*eval(plot_range))  # Assuming plot_range is a tuple of range (start, stop, num_points)
-            
+            x = sym.symbols('x')
+
+        # Convert the input function string into a SymPy expression
+            expr = sym.sympify(function)
+
+            # Generate a range of values using numpy linspace
+            start, stop, num_points = eval(plot_range)
+            self.range = np.linspace(start, stop, num_points)
+
+            # Create a lambda function to evaluate the SymPy expression numerically
+            f = sym.lambdify(x, expr, modules=["numpy"])
+
             # Evaluate the function for each value in the range
-            y_values = [eval(function) for i in self.range]
+            y_values = f(self.range)
 
             # Plot the graph
             plt.plot(self.range, y_values)
@@ -89,7 +99,6 @@ class GraphingCalculator:
             plt.ylabel('y-axis')
             plt.title('Graph of ' + function)
             plt.show()
-
 
             
 
