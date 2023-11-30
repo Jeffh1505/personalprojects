@@ -7,3 +7,5 @@ equal = arr1 == arr2
 print(equal)
 less_than = arr1 < arr2
 print(less_than)
+greater_than = arr1 > arr2
+print(greater_than)
