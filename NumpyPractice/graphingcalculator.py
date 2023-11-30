@@ -80,15 +80,18 @@ class GraphingCalculator:
 
 def main():
     calculator = GraphingCalculator()
-    user_input = input("What would you like the calculator to do? ")
-    if "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input or "**" in user_input or ("sqrt" or "square root") in user_input:
-            calculator.basic_calculator(user_input)
+    while True:
+        user_input = input("What would you like the calculator to do? ")
+        if "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input or "**" in user_input or ("sqrt" or "square root") in user_input:
+                print(calculator.basic_calculator(user_input))
 
-        #Implements calculus functionality
-    elif user_input == "calculus":
-        function = input("What is the function?: ")
-        method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
-        calculator.calculus_calculator(method, function)
+            #Implements calculus functionality
+        elif user_input == "calculus":
+            function = input("What is the function?: ")
+            method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
+            print(calculator.calculus_calculator(method, function))
+        elif user_input in ["done", "exit"]:
+            break
 
 if __name__ == "__main__":
     main()
