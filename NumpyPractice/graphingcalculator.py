@@ -76,15 +76,20 @@ class GraphingCalculator:
 
             else:
                 return print("Invalid choice for limits. Please enter 'y' or 'n'.")
-    def graphing(self, function, user_input):
-        self.range = list(user_input)
-        y_values = [eval(function) for i in self.range]
-        plt.plot(self.range, y_values)
-        plt.xlabel('x-axis')
-        plt.ylabel('y-axis')
-        plt.title('Graph of ' + function)
-        plt.show()
-    
+    def graphing(self, function, plot_range):
+            # Generate a range of values using numpy linspace
+            self.range = np.linspace(*eval(plot_range))  # Assuming plot_range is a tuple of range (start, stop, num_points)
+            
+            # Evaluate the function for each value in the range
+            y_values = [eval(function) for i in self.range]
+
+            # Plot the graph
+            plt.plot(self.range, y_values)
+            plt.xlabel('x-axis')
+            plt.ylabel('y-axis')
+            plt.title('Graph of ' + function)
+            plt.show()
+
 
             
 
