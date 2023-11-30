@@ -99,6 +99,30 @@ class GraphingCalculator:
             plt.ylabel('y-axis')
             plt.title('Graph of ' + function)
             plt.show()
+    def statistics(self, data):
+        try:
+            # Convert input data to a list of floats
+            data_list = np.array([float(x) for x in data.split()])
+            
+            data_array = np.array([float(x) for x in data.split()])
+            
+            # Calculate mean, variance, std deviation, and median using NumPy
+            mean = np.mean(data_array)
+            variance = np.var(data_array)
+            std_dev = np.std(data_array)
+            median = np.median(data_array)
+            # Create a dictionary to store the calculated statistics
+            statistics_dict = {
+                'Mean': mean,
+                'Variance': variance,
+                'Standard Deviation': std_dev,
+                'Median': median
+            }
+            
+            return statistics_dict
+            
+        except ValueError:
+            return "Invalid input. Please provide a space-separated list of numerical values."
 
             
 
@@ -118,6 +142,9 @@ def main():
             function = input("What is the function?: ")
             plot_range = input("What is the interval?: ")
             calculator.graphing(function, plot_range)
+        elif user_input == "stats":
+            data = input("Please input your data here: ")
+            calculator.statistics(data)
         elif user_input in ["done", "exit"]:
             break
 
