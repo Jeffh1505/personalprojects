@@ -84,7 +84,7 @@ class GraphingCalculator:
             expr = sym.sympify(function)
 
             # Generate a range of values using numpy linspace
-            start, stop, num_points = eval(plot_range)
+            start, stop= eval(plot_range)
             self.range = np.linspace(start, stop, 200)
 
             # Create a lambda function to evaluate the SymPy expression numerically
