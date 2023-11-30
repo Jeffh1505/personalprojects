@@ -101,8 +101,6 @@ class GraphingCalculator:
             plt.show()
     def statistics(self, data):
         try:
-            # Convert input data to a list of floats
-            data_list = np.array([float(x) for x in data.split()])
             
             data_array = np.array([float(x) for x in data.split()])
             
@@ -123,8 +121,11 @@ class GraphingCalculator:
             
         except ValueError:
             return "Invalid input. Please provide a space-separated list of numerical values."
-
-            
+    def stat_plot(self, data1, data2):
+        data1_array = np.array([float(x) for x in data1.split()])
+        data2_array = np.array([float(x) for x in data2.split()])
+        plt.scatter(data1_array, data2_array)
+        plt.show()    
 
 def main():
     calculator = GraphingCalculator()
@@ -145,6 +146,10 @@ def main():
         elif user_input == "stats":
             data = input("Please input your data here: ")
             print(calculator.statistics(data))
+        elif user_input == "stat plot":
+            data1 = input("Please input your data here: ")
+            data2 = input("Please input your data here: ")
+            calculator.stat_plot(data1, data2)
         elif user_input in ["done", "exit"]:
             break
 
