@@ -5,7 +5,7 @@ import sympy as sym
 
 class GraphingCalculator:
     def __init__(self) -> None:
-        self.range = np.empty((1,))
+        self.range = np.zeros(1)
     def basic_calculator(self, user_input):
             try:
             #Implements raising a number to a power
@@ -76,6 +76,16 @@ class GraphingCalculator:
 
             else:
                 return print("Invalid choice for limits. Please enter 'y' or 'n'.")
+    def graphing(self, function, user_input):
+        self.range = list(user_input)
+        y_values = [eval(function) for i in self.range]
+        plt.plot(self.range, y_values)
+        plt.xlabel('x-axis')
+        plt.ylabel('y-axis')
+        plt.title('Graph of ' + function)
+        plt.show()
+    
+
             
 
 def main():
@@ -90,6 +100,10 @@ def main():
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
             print(calculator.calculus_calculator(method, function))
+        elif user_input == "graphing":
+            function = input("What is the function?: ")
+            plot_range = input("What is the interval?: ")
+            calculator.graphing(function, plot_range)
         elif user_input in ["done", "exit"]:
             break
 
