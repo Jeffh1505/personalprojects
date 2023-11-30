@@ -144,7 +144,7 @@ def main():
             print(calculator.graphing(function, plot_range))
         elif user_input == "stats":
             data = input("Please input your data here: ")
-            calculator.statistics(data)
+            print(calculator.statistics(data))
         elif user_input in ["done", "exit"]:
             break
 
