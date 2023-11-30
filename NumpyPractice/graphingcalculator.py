@@ -141,7 +141,7 @@ def main():
         elif user_input == "graphing":
             function = input("What is the function?: ")
             plot_range = input("What is the interval?: ")
-            calculator.graphing(function, plot_range)
+            print(calculator.graphing(function, plot_range))
         elif user_input == "stats":
             data = input("Please input your data here: ")
             calculator.statistics(data)
