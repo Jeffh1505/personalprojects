@@ -185,7 +185,7 @@ def main():
             data2 = input("Please input your data here: ")
             calculator.stat_plot(data1, data2)
         elif user_input == "trig":
-            calculator.basic_calculator(user_input)
+            print(calculator.basic_calculator(user_input))
 
         elif user_input in ["done", "exit"]:
             break
