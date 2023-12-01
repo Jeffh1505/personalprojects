@@ -179,23 +179,35 @@ class GraphingCalculator:
             else:
                 print("Cannot perform a histogram with two datasets. Please provide only one dataset.")
     def factorial(self, n):
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return n * self.factorial(n-1)
+        try:
+            n = int(n)
+            if n == 0 or n == 1:
+                return 1
+            else:
+                return n * self.factorial(n-1)
+        except ValueError:
+            return "That is not a valid input, please input a number."
     def sum_number(self, number):
-        if number == 0:
-            return 0
-        else:
-            return number + self.sum_number(number-1)
+        try:
+            number = int(number)
+            if number == 0:
+                return 0
+            else:
+                return number + self.sum_number(number-1)
+        except ValueError:
+            return "That is not a valid input, please input a number."
     def fib(self, n):
-        if n == 0 or n == 1:
-            return 1
-        if n in self.cache:
-            return self.cache[n]
-        result =  self.fib(n-1) + self.fib(n-2)
-        self.cache[n] = result             
-        return result
+        try:
+            n = int(n)
+            if n == 0 or n == 1:
+                return 1
+            if n in self.cache:
+                return self.cache[n]
+            result =  self.fib(n-1) + self.fib(n-2)
+            self.cache[n] = result             
+            return result
+        except ValueError:
+            return "That is not a valid input, please input a number."
     
 
 
@@ -224,15 +236,29 @@ def main():
 
         elif user_input == "stat plot":
             data1 = input("Please input your data here: ")
-            data2 = input("Please input your data here: ")
-            plot = input("What type of plot would you like? (Scatter/Histogram): ")
-            calculator.stat_plot(data1, data2,plot)
+            check_for_data2 = input("Would you like to add a second data set? (y/n) ")
+            if check_for_data2 == 'y':
+                data2 = input("Please input your data here: ")
+                calculator.stat_plot(data1, data2)
+            elif check_for_data2 == 'n':
+                calculator.stat_plot(data1,'histogram')    
+
         elif user_input == "trig":
             print(calculator.basic_calculator(user_input))
-        elif user_input == "factorial":
-            number = int(input("Please input a number: "))
-            print(calculator.factorial(number))
 
+        elif user_input == "recursion":
+            number = input("Please input a number: ")
+            recursive_input = input("Which recursive function would you like? (Factorial, Sum, Fibonnaci): ")
+
+            if recursive_input == "factorial":
+                print(calculator.factorial(number))
+
+            elif recursive_input == "sum":
+                print(calculator.sum_number(number))
+
+            elif recursive_input == "fib":
+                print(calculator.fib(number))
+                
         elif user_input in ["done", "exit"]:
             break
 
