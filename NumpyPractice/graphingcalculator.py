@@ -4,7 +4,7 @@ import math
 import sympy as sym
 
 class GraphingCalculator:
-    def __init__(self) -> None:
+    def __init__(self):
         self.range = np.zeros(1)
     def basic_calculator(self, user_input):
             try:
@@ -148,20 +148,43 @@ class GraphingCalculator:
         except ValueError:
             return "Invalid input. Please provide a space-separated list of numerical values."
 
-    def stat_plot(self, data1, data2, plot):
+    def stat_plot(self, data1, data2=None, plot='scatter'):
         data1_array = np.array([float(x) for x in data1.split()])
-        data2_array = np.array([float(x) for x in data2.split()])
+        if data2:
+            data2_array = np.array([float(x) for x in data2.split()])
+        else:
+            data2_array = None
+
         if plot == "scatter":
-            plt.scatter(data1_array, data2_array)
-            plt.show()
+            if data2_array is not None:
+                if len(data1_array) == len(data2_array):
+                    plt.scatter(data1_array, data2_array)
+                    plt.xlabel('Data 1')
+                    plt.ylabel('Data 2')
+                    plt.title('Scatter Plot')
+                    plt.show()
+                else:
+                    print("Both datasets must have the same number of elements for a scatter plot.")
+            else:
+                print("Please provide two datasets for a scatter plot.")
+
         elif plot == "histogram":
-            plt.hist(data1_array, alpha=0.5, label='Data 1', color='blue')
-            plt.hist(data2_array, alpha=0.5, label='Data 2', color='orange')
-            plt.xlabel('Values')
-            plt.ylabel('Frequency')
-            plt.legend()
-            plt.title('Histogram Comparison')
-            plt.show()
+            if data2_array is None:
+                plt.hist(data1_array, bins='auto', color='blue', alpha=0.7)
+                plt.xlabel('Values')
+                plt.ylabel('Frequency')
+                plt.title('Histogram for Data 1')
+                plt.show()
+            else:
+                print("Cannot perform a histogram with two datasets. Please provide only one dataset.")
+    def factorial(self, n):
+        if n == 0 or n == 1:
+            return 1
+        else:
+            return n * self.factorial(n-1)
+    
+
+
 
 def main():
     calculator = GraphingCalculator()
@@ -192,6 +215,9 @@ def main():
             calculator.stat_plot(data1, data2,plot)
         elif user_input == "trig":
             print(calculator.basic_calculator(user_input))
+        elif user_input == "factorial":
+            number = int(input("Please input a number: "))
+            print(calculator.factorial(number))
 
         elif user_input in ["done", "exit"]:
             break
