@@ -178,7 +178,7 @@ class GraphingCalculator:
             fig, ax = plt.subplots()
 
             #add rectangle to plot
-            ax.add_patch(Rectangle((1, 1), length, width))
+            ax.add_patch(Rectangle((length, width), 2, 6))
 
             #display plot
             plt.show()
