@@ -183,7 +183,8 @@ def main():
         elif user_input == "stat plot":
             data1 = input("Please input your data here: ")
             data2 = input("Please input your data here: ")
-            calculator.stat_plot(data1, data2)
+            plot = input("What type of plot would you like? (Scatter/Histogram): ")
+            calculator.stat_plot(data1, data2,plot)
         elif user_input == "trig":
             print(calculator.basic_calculator(user_input))
 
