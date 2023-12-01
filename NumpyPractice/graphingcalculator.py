@@ -127,44 +127,36 @@ class GraphingCalculator:
             else:
                 return print("Invalid choice for limits. Please enter 'y' or 'n'.")
     def graphing(self, function1, plot_range, function2=None):
-            # Generate a range of values using numpy linspace
-            x = sym.symbols('x')
+        x = sym.symbols('x')
+        expr1 = sym.sympify(function1)
+        
+        if function2:
+            expr2 = sym.sympify(function2)
+        
+        start, stop = eval(plot_range)
+        self.range = np.linspace(start, stop, 200)
 
-        # Convert the input function string into a SymPy expression
-            expr1 = sym.sympify(function1)
-            if function2:
-                expr2 = sym.sympify(function2)
-            else:
-                expr2 = None
+        f = sym.lambdify(x, expr1, modules=["numpy"])
+        y1_values = f(self.range)
 
-            # Generate a range of values using numpy linspace
-            start, stop= eval(plot_range)
-            self.range = np.linspace(start, stop, 200)
+        plt.plot(self.range, y1_values, 'b', label=function1)
 
-            # Create a lambda function to evaluate the SymPy expression numerically
-            if expr2 is not None:
-                f = sym.lambdify(x, expr1, modules=["numpy"])
-                g = sym.lambdify(x,expr2, modules=["numpy"])
-                # Evaluate the function for each value in the range
-                y1_values = f(self.range)
-                y2_values = g(self.range)
-                # Plot the graph
-                plt.plot(self.range, y1_values, 'b')
-                plt.plot(self.range, y2_values, 'r')
-                plt.xlabel('x-axis')
-                plt.ylabel('y-axis')
-                plt.title('Graph of ' + function)
-                plt.show()
-            else:
-                f = sym.lambdify(x, expr1, modules=["numpy"])
-                # Evaluate the function for each value in the range
-                y1_values = f(self.range)
-                # Plot the graph
-                plt.plot(self.range, y1_values)
-                plt.xlabel('x-axis')
-                plt.ylabel('y-axis')
-                plt.title('Graph of ' + function)
-                plt.show()
+        if function2:
+            g = sym.lambdify(x, expr2, modules=["numpy"])
+            y2_values = g(self.range)
+            plt.plot(self.range, y2_values, 'r', label=function2)
+            plt.legend()
+
+            plt.xlabel('x-axis')
+            plt.ylabel('y-axis')
+            plt.title('Graph of ' + function1 + ' and ' + function2)
+        else:
+            plt.xlabel('x-axis')
+            plt.ylabel('y-axis')
+            plt.title('Graph of ' + function1)
+
+        plt.show()
+            
 
     def geometry_graphing(self, user_input):
         if user_input == 'circle':
