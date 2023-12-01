@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt 
 import math
 import sympy as sym
-
+from matplotlib.patches import Rectangle
 class GraphingCalculator:
     def __init__(self):
         self.range = np.zeros(1)
@@ -61,6 +61,8 @@ class GraphingCalculator:
                     
             except ValueError:
                 print("That is not a valid input")
+            except ZeroDivisionError:
+                print("Cannot divide by zero, please input a nonzero number")
             
 
         #Performs calculus operations
@@ -120,6 +122,39 @@ class GraphingCalculator:
             plt.xlabel('x-axis')
             plt.ylabel('y-axis')
             plt.title('Graph of ' + function)
+            plt.show()
+
+    def geometry_graphing(self, user_input):
+        if user_input == 'circle':
+            ax = plt.axes()
+            radius = float(int(input("What is the radius?: ")))
+            theta = np.linspace(0, 2 * np.pi, 10000)
+            x = radius * np.cos(theta)
+            y = radius * np.sin(theta)
+
+
+            plt.plot(x, y)
+
+            ax.set_title(f"$x^2 + y^2 = {radius}$")
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+
+            ax.grid()
+            ax.axhline(0, color = "black")
+            ax.axvline(0, color = "black")
+            ax.set_aspect("equal")
+
+            plt.show()
+
+        elif user_input == 'square' or user_input == 'rectangle':
+            length = int(input("what is the length?: "))
+            width = int(input("What is the width?: "))
+            fig, ax = plt.subplots()
+
+            #add rectangle to plot
+            ax.add_patch(Rectangle((0, 0), length, width))
+
+            #display plot
             plt.show()
 
     def statistics(self, data):
@@ -219,7 +254,6 @@ def main():
         if "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input or "**" in user_input or ("sqrt" or "square root") in user_input:
                 print(calculator.basic_calculator(user_input))
 
-            #Implements calculus functionality
         elif user_input == "calculus":
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
@@ -258,7 +292,9 @@ def main():
 
             elif recursive_input == "fib":
                 print(calculator.fib(number))
-                
+        elif user_input == 'geometry plot':
+            shape = input("What shape would you like?: ")
+            calculator.geometry_graphing(shape)
         elif user_input in ["done", "exit"]:
             break
 
