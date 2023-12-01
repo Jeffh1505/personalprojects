@@ -155,7 +155,12 @@ class GraphingCalculator:
             plt.scatter(data1_array, data2_array)
             plt.show()
         elif plot == "histogram":
-            plt.hist(data1_array, data2_array)
+            plt.hist(data1_array, alpha=0.5, label='Data 1', color='blue')
+            plt.hist(data2_array, alpha=0.5, label='Data 2', color='orange')
+            plt.xlabel('Values')
+            plt.ylabel('Frequency')
+            plt.legend()
+            plt.title('Histogram Comparison')
             plt.show()
 
 def main():
