@@ -6,6 +6,7 @@ import sympy as sym
 class GraphingCalculator:
     def __init__(self):
         self.range = np.zeros(1)
+        self.cache = {}
     def basic_calculator(self, user_input):
             try:
             #Implements raising a number to a power
@@ -182,6 +183,19 @@ class GraphingCalculator:
             return 1
         else:
             return n * self.factorial(n-1)
+    def sum_number(self, number):
+        if number == 0:
+            return 0
+        else:
+            return number + self.sum_number(number-1)
+    def fib(self, n):
+        if n == 0 or n == 1:
+            return 1
+        if n in self.cache:
+            return self.cache[n]
+        result =  self.fib(n-1) + self.fib(n-2)
+        self.cache[n] = result             
+        return result
     
 
 
