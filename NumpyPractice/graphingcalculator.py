@@ -3,10 +3,36 @@ from matplotlib import pyplot as plt
 import math
 import sympy as sym
 from matplotlib.patches import Rectangle
+
 class GraphingCalculator:
+    '''This is the graphing calculator class. It has the following methods:
+
+        basic_calculator(user_input)- Performs basic calculations such as addition, subtraction, multiplication, division, 
+                                      raising a number to a power, basic trigonometry 
+        
+        calculus_calculator(method, function)- Performs basic calculus operations such as derivatives, indefinite and definite integrals
+                                               and limits
+        
+        graphing(function, plot_range)- Graphs functions over a certain interval using matplotlib
+     
+        geometry_graphin(user_input)- Graphs basic shapes using matplotlib
+        
+        statistics(data)- Performs basic statistics on a user defined data set
+
+        stat_plot(data1, data2=None, plot='scatter')- Plots statistical plots, if a second data set is not input by the user,
+                                                      the default is a histogram but if two data sets are provided then a scatter plot 
+                                                      is created.
+                                                      
+        factorial(n)- computes the factorial of a number recursively
+
+        sum_number(number)- computes the sum of all the numbers that precede the number you want to compute the sum of
+        
+        fib(n)- computes the fibonnaci number of a given number recursively
+        '''
     def __init__(self):
         self.range = np.zeros(1)
         self.cache = {}
+
     def basic_calculator(self, user_input):
             try:
             #Implements raising a number to a power
@@ -152,14 +178,13 @@ class GraphingCalculator:
             fig, ax = plt.subplots()
 
             #add rectangle to plot
-            ax.add_patch(Rectangle((0, 0), length, width))
+            ax.add_patch(Rectangle((1, 1), length, width))
 
             #display plot
             plt.show()
 
     def statistics(self, data):
         try:
-            
             data_array = np.array([float(x) for x in data.split()])
             
             # Calculate mean, variance, std deviation, and median using NumPy
@@ -169,6 +194,7 @@ class GraphingCalculator:
             median = np.median(data_array)
             maximum = np.max(data_array)
             minimum = np.min(data_array)
+
             # Create a dictionary to store the calculated statistics
             statistics_dict = {
                 'Mean': mean,
@@ -246,7 +272,7 @@ class GraphingCalculator:
     
 
 
-
+#Example implementation of graphing calculator class
 def main():
     calculator = GraphingCalculator()
     while True:
@@ -271,9 +297,11 @@ def main():
         elif user_input == "stat plot":
             data1 = input("Please input your data here: ")
             check_for_data2 = input("Would you like to add a second data set? (y/n) ")
+
             if check_for_data2 == 'y':
                 data2 = input("Please input your data here: ")
                 calculator.stat_plot(data1, data2)
+
             elif check_for_data2 == 'n':
                 calculator.stat_plot(data1,'histogram')    
 
@@ -292,9 +320,11 @@ def main():
 
             elif recursive_input == "fib":
                 print(calculator.fib(number))
+
         elif user_input == 'geometry plot':
             shape = input("What shape would you like?: ")
             calculator.geometry_graphing(shape)
+
         elif user_input in ["done", "exit"]:
             break
 
