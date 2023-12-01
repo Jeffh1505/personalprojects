@@ -173,14 +173,24 @@ class GraphingCalculator:
             plt.show()
 
         elif user_input == 'square' or user_input == 'rectangle':
-            length = int(input("what is the length?: "))
-            width = int(input("What is the width?: "))
+            length = float(input("What is the length?: "))
+            width = float(input("What is the width?: "))
             fig, ax = plt.subplots()
 
-            #add rectangle to plot
-            ax.add_patch(Rectangle((length, width), 2, 6))
+            if user_input == 'square':
+                # For a square, width and length are equal
+                ax.add_patch(Rectangle((0, 0), width, width, angle=0))
+                ax.set_title(f"Square with side length = {width}")
+            else:
+                ax.add_patch(Rectangle((0, 0), length, width, angle=0))
+                ax.set_title(f"Rectangle with length = {length} and width = {width}")
 
-            #display plot
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+            ax.grid()
+            ax.axhline(0, color="black")
+            ax.axvline(0, color="black")
+            ax.set_aspect("equal")
             plt.show()
 
     def statistics(self, data):
