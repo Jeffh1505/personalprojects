@@ -23,20 +23,41 @@ class GraphingCalculator:
                         x = float(user_input.split("square root")[1])
 
                     return math.sqrt(x)
-                
+                elif "trig" in user_input:
+                    
+                    angle_value = float(input("What angle do you want to use? (in radians): "))
+                    trigonometric_function = input("What trigonometric operation would you like to perform? (sin, cos, tan): ")
+
+                    if trigonometric_function == "sin":
+                        result = sym.sin(angle_value)
+                        return result
+
+                    elif trigonometric_function == "cos":
+                        result = sym.cos(angle_value)
+                        return result
+
+                    elif trigonometric_function == "tan":
+                        result = sym.tan(angle_value)
+                        return result
+
                 #Implements all other mathematical operations
                 elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
                     x, y, z = user_input.split(" ")
                     x = float(x)
                     z = float(z)
+
                     if y == "+":
                         return x + z
+                    
                     elif y == "-":
                         return x - z
+                    
                     elif y == "*":
                         return x * z
+                    
                     elif y == "/":
                         return x / z
+                    
             except ValueError:
                 print("That is not a valid input")
             
@@ -99,6 +120,7 @@ class GraphingCalculator:
             plt.ylabel('y-axis')
             plt.title('Graph of ' + function)
             plt.show()
+
     def statistics(self, data):
         try:
             
@@ -109,23 +131,32 @@ class GraphingCalculator:
             variance = np.var(data_array)
             std_dev = np.std(data_array)
             median = np.median(data_array)
+            maximum = np.max(data_array)
+            minimum = np.min(data_array)
             # Create a dictionary to store the calculated statistics
             statistics_dict = {
                 'Mean': mean,
                 'Variance': variance,
                 'Standard Deviation': std_dev,
-                'Median': median
+                'Minimum': minimum,
+                'Median': median,
+                'Maximum': maximum
             }
             
             return statistics_dict
             
         except ValueError:
             return "Invalid input. Please provide a space-separated list of numerical values."
-    def stat_plot(self, data1, data2):
+
+    def stat_plot(self, data1, data2, plot):
         data1_array = np.array([float(x) for x in data1.split()])
         data2_array = np.array([float(x) for x in data2.split()])
-        plt.scatter(data1_array, data2_array)
-        plt.show()    
+        if plot == "scatter":
+            plt.scatter(data1_array, data2_array)
+            plt.show()
+        elif plot == "histogram":
+            plt.hist(data1_array, data2_array)
+            plt.show()
 
 def main():
     calculator = GraphingCalculator()
@@ -139,17 +170,21 @@ def main():
             function = input("What is the function?: ")
             method = input("What would you like to do to the function? (Derivative, Integration, Limit): ")
             print(calculator.calculus_calculator(method, function))
+
         elif user_input == "graphing":
             function = input("What is the function?: ")
             plot_range = input("What is the interval?: ")
             print(calculator.graphing(function, plot_range))
+
         elif user_input == "stats":
             data = input("Please input your data here: ")
             print(calculator.statistics(data))
+
         elif user_input == "stat plot":
             data1 = input("Please input your data here: ")
             data2 = input("Please input your data here: ")
             calculator.stat_plot(data1, data2)
+
         elif user_input in ["done", "exit"]:
             break
 
