@@ -2,7 +2,7 @@ import numpy
 
 
 
-arr = input()
+arr = input().split(' ')
 
 arr = numpy.array(arr)
 
