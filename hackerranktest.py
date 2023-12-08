@@ -9,4 +9,4 @@ final_tuple = tuple(tuple_for_list)
 print(final_tuple)
 print(hash(final_tuple))
 
-print(hash(1, 2))
+print(hash((1, 2)))
