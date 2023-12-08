@@ -1,9 +1,10 @@
+import re
 import numpy as np
 from matplotlib import pyplot as plt 
 import math
 import sympy as sym
 from matplotlib.patches import Rectangle
-
+from stack import Stack
 class GraphingCalculator:
     '''This is the graphing calculator class. It has the following methods:
 
@@ -32,7 +33,7 @@ class GraphingCalculator:
     def __init__(self):
         self.range = np.zeros(1)
         self.cache = {}
-
+        self.memory = Stack()
     def basic_calculator(self, user_input):
             try:
             #Implements raising a number to a power
@@ -40,7 +41,9 @@ class GraphingCalculator:
                     x, z = user_input.split("**")
                     x = float(x)
                     z = float(z)
-                    return  x ** z
+                    ans = x ** z
+                    self.memory.add(ans)
+                    return ans
                 
                 #Implements the square root of a number
                 elif "sqrt" in user_input or "square root" in user_input:
@@ -49,7 +52,9 @@ class GraphingCalculator:
                     else:
                         x = float(user_input.split("square root")[1])
 
-                    return math.sqrt(x)
+                    ans = math.sqrt(x)
+                    self.memory.add(ans)
+                    return ans
                 elif "trig" in user_input:
                     
                     angle_value = float(input("What angle do you want to use? (in radians): "))
@@ -57,14 +62,17 @@ class GraphingCalculator:
 
                     if trigonometric_function == "sin":
                         result = sym.sin(angle_value)
+                        self.memory.add(result)
                         return result
 
                     elif trigonometric_function == "cos":
                         result = sym.cos(angle_value)
+                        self.memory.add(result)
                         return result
 
                     elif trigonometric_function == "tan":
                         result = sym.tan(angle_value)
+                        self.memory.add(result)
                         return result
 
                 #Implements all other mathematical operations
