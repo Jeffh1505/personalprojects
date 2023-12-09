@@ -1,9 +1,8 @@
 def rotate_right(message, steps):
-    result = message
+    encrypted_string = message
     for i in range(steps):
-        result[0] = message[-1] 
-        result[1:] = message[0:len(message)-1]
-        message = result
-    return result
+        encrypted_string = message[-1] + message[:len(message)-1]
+        message = encrypted_string
+    return encrypted_string
 
 print(rotate_right('python', 3))
