@@ -1,13 +1,19 @@
 class Solution:
-    def isSame(self, s):
-        #if not s.isnumeric():
-            #return 0
-        
-        length = len(s) - 1 if s[-2] != '0' else len(s) - 2
-        
-        last_digit = int(s[-1])
-        return length, last_digit
-        #return 1 if length == last_digit else 0
+	def isSame(self, s):
+		s_list = s.split()
+		print(s_list)
+		numeric_indicies = []
+		for i in range(len(s_list)):
+			if s[i].isnumeric():
+				numeric_indicies.append(i)
+			else:
+				continue
+		print(numeric_indicies)
+		length_of_letters = s[:int(numeric_indicies[0])]
+		if length_of_letters == int(s[-1]):
+			return 1
+		else:
+		    return 0
     
 
 if __name__ == '__main__':
