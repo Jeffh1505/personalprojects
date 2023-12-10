@@ -1,6 +1,6 @@
 class Solution:
 	def isSame(self, s):
-		s_list = s.split()
+		s_list = s.split(s.isnumeric())
 		print(s_list)
 		numeric_indicies = []
 		for i in range(len(s_list)):
