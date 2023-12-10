@@ -1,12 +1,16 @@
-N = int(input())
-numbers_for_tuple = input().split(' ')
-tuple_for_list = []
-for i in range(N):
-    elements_of_tuple = float(numbers_for_tuple[i])
-    tuple_for_list.append(elements_of_tuple)
-    
-final_tuple = tuple(tuple_for_list)
-print(final_tuple)
-print(hash(final_tuple))
+class Solution:
+     def reverseWord(self, s: str) -> str:
+        #your code here
+        s = s.split()
+        reversed_list = reversed(s)
+        reversed_string = " ".join(reversed_list)
+        return reversed_string
+     
 
-print(hash((1, 2, 3, 4, 5)))
+class Solution:
+     def reverseWord(self, s: str) -> str:
+        #your code here
+        s = s.split()
+        reversed_list = reversed(s)
+        reversed_string = " ".join(reversed_list)
+        return reversed_string
