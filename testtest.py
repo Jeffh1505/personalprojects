@@ -11,8 +11,8 @@ def compare_diagonal_sums(square):
         length = len(square)-1
         diagonal1_sum += square[i,i]
         diagonal2_sum += square[length-i, length-i]
-        print(diagonal1_sum)
-        print(diagonal2_sum)
+        print("diagonal1:",diagonal1_sum)
+        print("diagonal2:",diagonal2_sum)
     if diagonal1_sum == diagonal2_sum:
         return True
     else:
