@@ -1,31 +1,15 @@
-class A:
-    def __init__(self, val) -> None:
-        self.val = val
-    def __str__(self) -> str:
-        return "A"
-    
-class B(A):
-    def add(self, x):
-        self.val.append(x)
-    def __str__(self) -> str:
-        v = [str(v) for v in self.val]
-        return "B({})".format(' '.join(v))
-    
-class C(B):
-    def __init__(self, val) -> None:
-        self.val = val
+import numpy as np
 
-    def __str__(self) -> str:
-        return str(self.val)
+square = np.array([[4, 3, 7], 
+                   [8, 1, 2], 
+                   [2, 0, 9]])
+
+def compare_diagonal_sums(square):
+    diagonal1_sum = square[0,0] + square[1,1] + square[2,2]
+    diagonal2_sum = square[0,2] + square[1,1] + square[2,0]
+    if diagonal1_sum == diagonal2_sum:
+        return True
+    else:
+        return False
     
-
-li = []
-a = A(li)
-b = B(li)
-c = C(li)
-
-b.add(1)
-print(li)
-print(a)
-print(b)
-print(c)
+print(compare_diagonal_sums(square))
