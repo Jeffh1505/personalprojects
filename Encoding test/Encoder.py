@@ -1,5 +1,6 @@
 import random
 import hashlib
+import secrets
 class Encoder:
     def __init__(self, string_to_encode) -> None:
         self.string_to_encode = string_to_encode
@@ -44,6 +45,7 @@ class Encoder:
             last_bit = '0'
         prefix = self.encode_binary(a//2)
         return prefix + last_bit
+    
     def binary_to_hash(self, b):
         
         list_to_hash = ""
@@ -59,6 +61,7 @@ class Encoder:
         h2.update(c2)
         c3 = h2.hexdigest()
         return c3
+    
     def encode(self):
         f = open(r"C:\Users\summe\OneDrive\Desktop\personalprojects-1\Encoding test\dictionary.txt", 'r')
         
@@ -81,7 +84,7 @@ class Encoder:
             
             random.shuffle(b_list) #This shuffles the binary encoded string 
             c = self.binary_to_hash(b_list)
-            return print(c)
+            return print(secrets.token_hex() + c, secrets.token_hex())
         else:
             return print("That is not a word.")
 
