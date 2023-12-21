@@ -45,12 +45,12 @@ class Encoder:
         return prefix + last_bit
     def encode(self):
         f = open(r"C:\Users\summe\OneDrive\Desktop\personalprojects-1\Encoding test\dictionary.txt", 'r')
-        import random 
+        
         words = []
         for line in f:
             line = line.strip().lower()
             words.append(line)
-        s = self.string_to_encode
+        s = self.string_to_encode.lower()
         
         if s in words:
             x = self.caesar_cypher(s)
@@ -71,4 +71,6 @@ class Encoder:
         else:
             return print("That is not a word.")
 
-Encoder("Hello")
+encoder = Encoder("Hello")
+print(encoder.string_to_encode)
+encoder.encode()
