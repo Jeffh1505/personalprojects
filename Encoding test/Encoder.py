@@ -84,7 +84,9 @@ class Encoder:
             
             random.shuffle(b_list) #This shuffles the binary encoded string 
             c = self.binary_to_hash(b_list)
-            return print(secrets.token_hex() + c + secrets.token_hex())
+            encrypted_list = [secrets.token_hex(), c , secrets.token_hex]
+            encryped_string = "".join(enc for enc in encrypted_list)
+            return print(encryped_string)
         else:
             return print("That is not a word.")
 
