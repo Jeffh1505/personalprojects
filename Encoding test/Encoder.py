@@ -91,6 +91,6 @@ class Encoder:
         else:
             return print("That is not a word.")
 
-encoder = Encoder("Hello")
+encoder = Encoder("floodgate")
 
 encoder.encode()
