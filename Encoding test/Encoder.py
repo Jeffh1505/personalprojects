@@ -1,4 +1,5 @@
 import random
+import hashlib
 class Encoder:
     def __init__(self, string_to_encode) -> None:
         self.string_to_encode = string_to_encode
@@ -43,6 +44,21 @@ class Encoder:
             last_bit = '0'
         prefix = self.encode_binary(a//2)
         return prefix + last_bit
+    def binary_to_hash(self, b):
+        
+        list_to_hash = ""
+        for i in b:
+            list_to_hash += i
+
+        c = list_to_hash.encode()
+        h1 = hashlib.new('sha256')
+        h1.update(c)
+        c1 = h1.hexdigest()
+        c2 = c1.encode()
+        h2 = hashlib.new('sha256')
+        h2.update(c2)
+        c3 = h2.hexdigest()
+        return c3
     def encode(self):
         f = open(r"C:\Users\summe\OneDrive\Desktop\personalprojects-1\Encoding test\dictionary.txt", 'r')
         
@@ -64,13 +80,11 @@ class Encoder:
                 b_list.append(b)
             
             random.shuffle(b_list) #This shuffles the binary encoded string 
-            encoded_word_string = ""
-            for i in range(len(b_list)):
-                encoded_word_string += b_list[i] + "_"
-            return print("Encoded word:", encoded_word_string) 
+            c = self.binary_to_hash(b_list)
+            return print(c)
         else:
             return print("That is not a word.")
 
 encoder = Encoder("Hello")
-print(encoder.string_to_encode)
+
 encoder.encode()
