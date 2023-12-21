@@ -44,13 +44,13 @@ class Encoder:
         prefix = self.encode_binary(a//2)
         return prefix + last_bit
     def encode(self):
-        f = open(r"C:\Users\summe\OneDrive\Desktop\E1006\dictionary.txt", 'r')
+        f = open(r"C:\Users\summe\OneDrive\Desktop\personalprojects-1\Encoding test\dictionary.txt", 'r')
         import random 
         words = []
         for line in f:
             line = line.strip().lower()
             words.append(line)
-        s = input("Please input a word: ").lower()
+        s = self.string_to_encode
         
         if s in words:
             x = self.caesar_cypher(s)
@@ -70,3 +70,5 @@ class Encoder:
             return print("Encoded word:", encoded_word_string) 
         else:
             return print("That is not a word.")
+
+Encoder("Hello")
