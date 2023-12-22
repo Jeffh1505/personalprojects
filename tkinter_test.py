@@ -1,8 +1,19 @@
-from tkinter import *
-from tkinter import ttk
-root = Tk()
-frm = ttk.Frame(root, padding=10)
-frm.grid()
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-root.mainloop()
+import tkinter as tk
+
+window = tk.Tk()
+window.title("My Window")
+window.geometry("300x300")
+
+label = tk.Label(window, text="Hello, world!")
+label.pack()
+
+entry = tk.Entry(window)
+entry.pack()
+
+def on_click():
+    print(entry.get())
+
+button = tk.Button(window, text="Click me!", command=on_click)
+button.pack()
+
+window.mainloop()
