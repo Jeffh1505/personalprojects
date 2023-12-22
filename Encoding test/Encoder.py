@@ -4,7 +4,7 @@ import secrets
 class Encoder:
     def __init__(self, string_to_encode) -> None:
         self.string_to_encode = string_to_encode
-        self.encoded_string = ""
+        
 
     def caesar_cypher(self, word):
         letter_to_number = {'a': "f", "b": "g", 'c':"h", 'd':"i", 'e': "j",'f':"k",'g':"l",
@@ -91,6 +91,11 @@ class Encoder:
         else:
             return print("That is not a word.")
 
-encoder = Encoder("floodgate")
+def main():
+    user_input = input("Input a word to encrypt: ")
+    encoder = Encoder(user_input)
 
-encoder.encode()
+    encoder.encode()
+
+if __name__ == "__main__":
+    main()
