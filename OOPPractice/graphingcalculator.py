@@ -39,8 +39,15 @@ class GraphingCalculator:
             #Implements raising a number to a power
                 if "**" in user_input:
                     x, z = user_input.split("**")
-                    x = float(x)
-                    z = float(z)
+                    if x == 'ans':
+                        x = self.memory.get_last()
+                        z = float(z)
+                    elif z == 'ans':
+                        x = float(x)
+                        z = self.memory.get_last()
+                    else:
+                        x = float(x)
+                        z = float(z)
                     ans = x ** z
                     self.memory.add(ans)
                     return ans
@@ -48,9 +55,17 @@ class GraphingCalculator:
                 #Implements the square root of a number
                 elif "sqrt" in user_input or "square root" in user_input:
                     if "sqrt" in user_input:
-                        x = float(user_input.split("sqrt")[1])
+                        x = user_input.split("sqrt")[1]
+                        if x == 'ans':
+                            x = self.memory.get_last()
+                        else:
+                            x = float(x)
                     else:
-                        x = float(user_input.split("square root")[1])
+                        x = user_input.split("square root")[1]
+                        if x == 'ans':
+                            x = self.memory.get_last()
+                        else:
+                            x = float(x)
 
                     ans = math.sqrt(x)
                     self.memory.add(ans)
