@@ -20,4 +20,5 @@ class PhysicsCalculator(GraphingCalculator):
             self.memory.add(delta_x)
             return delta_x
         
-print(PhysicsCalculator.kinematics(t1=None, t2=None, x1=3, x2=7, a=5, V_0=0, V = None))
+PC = PhysicsCalculator()
+print(PC.kinematics(t1=None, t2=None, x1=0, x2=8, a=7, V_0=0, V = None))
