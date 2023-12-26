@@ -80,8 +80,10 @@ class GraphingCalculator:
                     x, y, z = user_input.split(" ")
                     if x == 'ans':
                         x = self.memory.get_last()
+                        z = float(z)
                     elif z == 'ans':
                         z = self.memory.get_last()
+                        x = float(x)
                     else:
                         x = float(x)
                         z = float(z)
