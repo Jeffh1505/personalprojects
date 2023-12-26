@@ -78,14 +78,23 @@ class GraphingCalculator:
                 #Implements all other mathematical operations
                 elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
                     x, y, z = user_input.split(" ")
-                    x = float(x)
-                    z = float(z)
+                    if x == 'ans':
+                        x = self.memory[-1]
+                    elif z == 'ans':
+                        z = self.memory[-1]
+                    else:
+                        x = float(x)
+                        z = float(z)
 
                     if y == "+":
-                        return x + z
+                        ans = x + z
+                        self.memory.add(ans)
+                        return ans
                     
                     elif y == "-":
-                        return x - z
+                        ans = x - z
+                        self.memory.add(ans)
+                        return ans
                     
                     elif y == "*":
                         return x * z
