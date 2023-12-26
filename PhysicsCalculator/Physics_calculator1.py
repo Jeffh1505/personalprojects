@@ -3,10 +3,12 @@ from graphingcalculatorfunctionality import GraphingCalculator
 
 class PhysicsCalculator(GraphingCalculator):
     def kinematics(self, t1=None, t2=None, x1=None, x2=None, a=None, V_0=None, V = None):
-        if t2 < t1:
-            raise ValueError("You can't have a negative time.")
-        if V_0 > (3*(10**8)) or V > (3*(10**8)):
-            raise ValueError("You can't have a speed faster than the speed of light.")
+        if t1!= None and t2 != None:
+            if t2 < t1:
+                raise ValueError("You can't have a negative time.")
+        if V != None and V_0 != None:
+            if V_0 > (3*(10**8)) or V > (3*(10**8)):
+                raise ValueError("You can't have a speed faster than the speed of light.")
         if t1 == None and t2 == None and V == None:
             V = math.sqrt((V_0 ** 2) + (2 * a * (x2 - x1)))
             self.memory.add(V)
