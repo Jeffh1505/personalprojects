@@ -51,25 +51,24 @@ class GraphingCalculator:
                     ans = x ** z
                     self.memory.add(ans)
                     return ans
-                
-                #Implements the square root of a number
+
+        # Implements the square root of a number
                 elif "sqrt" in user_input or "square root" in user_input:
+                    x = None
                     if "sqrt" in user_input:
-                        x = user_input.split("sqrt")[1]
-                        if x == 'ans':
-                            x = self.memory.get_last()
-                        else:
-                            x = float(x)
-                    else:
-                        x = user_input.split("square root")[1]
+                        x = user_input.split("sqrt")[-1].strip()
+                    elif "square root" in user_input:
+                        x = user_input.split("square root")[-1].strip()
+
+                    if x:
                         if x == 'ans':
                             x = self.memory.get_last()
                         else:
                             x = float(x)
 
-                    ans = math.sqrt(x)
-                    self.memory.add(ans)
-                    return ans
+                        ans = math.sqrt(x)
+                        self.memory.add(ans)
+                        return ans
                 elif "trig" in user_input:
                     
                     angle_value = float(input("What angle do you want to use? (in radians): "))
