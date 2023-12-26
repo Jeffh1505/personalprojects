@@ -7,6 +7,13 @@ class Stack:
 
     def remove(self):
         self.stack.pop()
+
+    def get_last(self):
+        if not self.is_empty():
+            return self.items[-1]  # Accessing the last element in the stack
+        else:
+            return None
+        
     def __repr__(self) -> str:
         if len(self.stack) == 0:
             return "The stack is empty"
@@ -43,5 +50,5 @@ def main():
     queue.remove()
     queue.remove()
     print(queue)
-
-main()
+if __name__ == "__main__":
+    main()
