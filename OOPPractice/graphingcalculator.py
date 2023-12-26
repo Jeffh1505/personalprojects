@@ -79,9 +79,9 @@ class GraphingCalculator:
                 elif "+" in user_input or "-" in user_input or "*" in user_input or "/" in user_input:
                     x, y, z = user_input.split(" ")
                     if x == 'ans':
-                        x = self.memory[-1]
+                        x = self.memory.get_last()
                     elif z == 'ans':
-                        z = self.memory[-1]
+                        z = self.memory.get_last()
                     else:
                         x = float(x)
                         z = float(z)
@@ -97,10 +97,14 @@ class GraphingCalculator:
                         return ans
                     
                     elif y == "*":
-                        return x * z
+                        ans = x * z
+                        self.memory.add(ans)
+                        return ans
                     
                     elif y == "/":
-                        return x / z
+                        ans = x / z
+                        self.memory.add(ans)
+                        return ans
                     
             except ValueError:
                 print("That is not a valid input")

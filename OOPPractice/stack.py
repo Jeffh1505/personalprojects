@@ -9,10 +9,10 @@ class Stack:
         self.stack.pop()
 
     def get_last(self):
-        if not self.stack.is_empty():
-            return self.stack[-1]  # Accessing the last element in the stack
+        if not self.stack:
+            raise IndexError("Stack is empty")  # Accessing the last element in the stack
         else:
-            raise IndexError("Stack is empty")
+            return self.stack[-1]
         
     def __repr__(self) -> str:
         if len(self.stack) == 0:
