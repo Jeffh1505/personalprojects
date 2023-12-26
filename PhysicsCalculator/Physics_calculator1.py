@@ -59,4 +59,4 @@ class PhysicsCalculator(GraphingCalculator):
 
         
 PC = PhysicsCalculator()
-print(PC.kinematics(t1=None, t2=None, x1=0, x2=8, a=7, V_0=0, V = None))
+print(PC.kinematics(t1=0, t2=5, x1=None, x2=None, a=7, V_0=0, V = None))
