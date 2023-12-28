@@ -1,7 +1,7 @@
 from pyfirmata2 import Arduino
 import time
 
-PORT = Arduino.AUTODETECT
+#PORT = Arduino.AUTODETECT
 # PORT = '/dev/ttyACM0'
 
 # prints data on the screen at the sampling rate of 50Hz
@@ -19,7 +19,7 @@ class AnalogPrinter:
         # sampling rate: 10Hz
         self.samplingRate = 10
         self.timestamp = 0
-        self.board = Arduino(PORT)
+        self.board = Arduino('COM3')
 
     def start(self):
         self.board.analog[0].register_callback(self.myPrintCallback)
