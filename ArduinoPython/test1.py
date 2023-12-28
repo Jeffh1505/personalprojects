@@ -2,7 +2,7 @@ from pyfirmata import Arduino, util
 import time
 
 # Establish a serial connection to the Arduino Uno
-board = Arduino('/dev/ttyUSB0')  # Change '/dev/ttyUSB0' to the port your Arduino is connected to
+board = Arduino('USB\VID_2341&PID_0043\2423030363735120B2A1')  # Change '/dev/ttyUSB0' to the port your Arduino is connected to
 
 # Define the pin mode as OUTPUT
 board.digital[13].mode = pyfirmata.OUTPUT
