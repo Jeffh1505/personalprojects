@@ -36,8 +36,8 @@ class PhysicsCalculator(GraphingCalculator):
         elif t1 == None and  t2 == None:
             delta_t = (V - V_0) / a
         elif t1 == None and  t2 == None and V == None:
-            delta_t1 = ((-1* V_0) + math.sqrt(V_0**2 - 4 * 0.5 * a * (x2-x1))) / 2(0.5 * a)
-            delta_t2 = ((-1* V_0) - math.sqrt(V_0**2 - 4 * 0.5 * a * (x2-x1))) / 2(0.5 * a)
+            delta_t1 = ((-1* V_0) + math.sqrt(V_0**2 - 4 * 0.5 * a * (x2-x1))) / 2*(0.5 * a)
+            delta_t2 = ((-1* V_0) - math.sqrt(V_0**2 - 4 * 0.5 * a * (x2-x1))) / 2*(0.5 * a)
             if delta_t1 > 0:
                 self.memory.add(delta_t1)
                 return delta_t1
@@ -45,8 +45,8 @@ class PhysicsCalculator(GraphingCalculator):
                 self.memory.add(delta_t2)
                 return delta_t2
         elif t1 == None and  t2 == None and V_0 == None:
-            delta_t1 = ((-1* V) + math.sqrt(V**2 - 4 * 0.5 * a * (x2-x1))) / 2(0.5 * a)
-            delta_t2 = ((-1* V) - math.sqrt(V**2 - 4 * 0.5 * a * (x2-x1))) / 2(0.5 * a)
+            delta_t1 = ((-1* V) + math.sqrt(V**2 - 4 * 0.5 * a * (x2-x1))) / 2*(0.5 * a)
+            delta_t2 = ((-1* V) - math.sqrt(V**2 - 4 * 0.5 * a * (x2-x1))) / 2*(0.5 * a)
             if delta_t1 > 0:
                 self.memory.add(delta_t1)
                 return delta_t1
