@@ -43,7 +43,7 @@ analogPrinter = AnalogPrinter()
 analogPrinter.start()
 
 # let's acquire data for 10secs. We could do something else but we just sleep!
-time.sleep(10)
+time.sleep(60)
 
 # let's stop it
 analogPrinter.stop()
