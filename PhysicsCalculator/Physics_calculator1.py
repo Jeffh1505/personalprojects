@@ -183,9 +183,9 @@ class PhysicsCalculator(GraphingCalculator):
         else:
             # Solve for unknown mass given acceleration
             if total_mass_left == 0:
-                unknown_mass = (net_force_left + total_mass_right * g * (1 - acceleration / g)) / acceleration
+                unknown_mass = (net_force_left + total_mass_right * self.g * (1 - acceleration / self.g)) / acceleration
             else:
-                unknown_mass = (net_force_right + total_mass_left * g * (1 + acceleration / g)) / acceleration
+                unknown_mass = (net_force_right + total_mass_left * self.g * (1 + acceleration / self.g)) / acceleration
             self.memory.add([acceleration, unknown_mass])
             return f"Acceleration = {acceleration} m/s^2, Unknown mass = {unknown_mass} kg"
         
@@ -196,16 +196,16 @@ class PhysicsCalculator(GraphingCalculator):
             if acceleration is None and mu is None and tension is None:
                 a = x_component / mass
                 self.memory.add(a)
-                return f"Acceleration = {a}"
+                return f"Acceleration = {a} m/s^2"
             elif acceleration is None and mu is not None and tension is None:
                 friction = y_component * mu 
                 a = x_component - friction / mass
                 self.memory.add(a)
-                return f"Acceleration = {a}"
+                return f"Acceleration = {a} m/s^2"
             elif acceleration is None and mu is None and tension is not None:
                 a = x_component - tension / mass
                 self.memory.add(a)
-                return f"Acceleration = {a}"
+                return f"Acceleration = {a} m/s^2"
 
         
 PC = PhysicsCalculator()
