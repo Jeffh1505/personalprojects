@@ -42,6 +42,7 @@ def main():
     print(stack)
     stack.remove()
     stack.remove()
+    stack.add([1,2,3,4])
     print(stack)
     queue = Queue()
     queue.add('Hello')
