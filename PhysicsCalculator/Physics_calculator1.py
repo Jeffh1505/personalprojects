@@ -145,7 +145,7 @@ class PhysicsCalculator(GraphingCalculator):
                     except ValueError:
                         print("Please input a numerical value.")
                 
-                self.massless_pulley(masses_left, masses_right, a)
+                return self.massless_pulley(masses_left, masses_right, a)
 
             elif user_input == 'inclinded plane':
 
