@@ -147,26 +147,25 @@ class PhysicsCalculator(GraphingCalculator):
                         print("Please input a numerical value.")
                 
                 return self.massless_pulley(masses_left, masses_right, a)
-
-            elif user_input == 'inclinded plane':
-
+            
+            elif user_input == 'inclined plane':
                 try:
                     mass = input("Please give the mass of the object or 'none': ")
                     m = float(mass) if mass.lower() != 'none' else None
                 except ValueError:
                     return "Please input a numerical value for the mass."
-                
+
                 try:
                     acceleration = input("Please input a value for acceleration or 'none': ")
                     a = float(acceleration) if acceleration.lower() != 'none' else None
                 except ValueError:
-                    print("Please input a numerical value or 'none'.")
-                
+                    return "Please input a numerical value or 'none'."
+
                 try:
                     angle = input("Please input a value for the angle: ")
-                    theta = math.radians(float(angle)) 
+                    theta = math.radians(float(angle))
                 except ValueError:
-                    print("Please input a numerical value for the angle.")
+                    return "Please input a numerical value for the angle."
 
                 friction = input("Is there friction? (y/n): ")
                 if friction == 'y':
@@ -174,7 +173,7 @@ class PhysicsCalculator(GraphingCalculator):
                         Mu = float(input("Please give the coefficient of friction of the object and the plane: "))
                     except ValueError:
                         return "Please input a value less than 1 but greater than 0 for the coefficient of friction."
-                elif friction == 'n':
+                else:
                     Mu = None
 
                 tension = input("Is there tension? (y/n): ")
@@ -183,9 +182,9 @@ class PhysicsCalculator(GraphingCalculator):
                         Tension = float(input("Please give the tension of the rope: "))
                     except ValueError:
                         return "Please input a value less than 1 but greater than 0 for the coefficient of friction."
-                elif tension == 'n':
+                else:
                     Tension = None
-                
+
                 return self.inclinded_plane(theta, m, acceleration, Mu, Tension)
 
 
