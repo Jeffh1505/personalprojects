@@ -217,14 +217,13 @@ class PhysicsCalculator(GraphingCalculator):
         if mass is not None:
             y_component = mass * self.g * math.cos(theta)
             x_component = mass * self.g * math.sin(theta)
-            if acceleration is None and mu is None and tension is None:
+            if acceleration == None and mu == None and tension == None:
                 a = x_component / mass
                 self.memory.add(a)
                 return f"Acceleration = {a} m/s^2"
             elif acceleration is None and mu is not None and tension is None:
                 friction = y_component * mu 
                 a = x_component - friction / mass
-                print(a)
                 self.memory.add(a)
                 return f"Acceleration = {a} m/s^2"
             elif acceleration is None and mu is None and tension is not None:
