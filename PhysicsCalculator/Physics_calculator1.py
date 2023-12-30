@@ -233,4 +233,22 @@ class PhysicsCalculator(GraphingCalculator):
 
         
 PC = PhysicsCalculator()
-print(PC.kinematics(t1=0, t2=5, x1=None, x2=None, a=7, V_0=0, V = None))
+
+# Test kinematics calculations
+print(PC.kinematics(t1=0, t2=5, x1=None, x2=None, a=7, V_0=0, V=None))
+# Provide specific values for x1 and x2 to trigger a calculation
+print(PC.kinematics(t1=0, t2=5, x1=0, x2=100, a=None, V_0=0, V=None))
+# Test a case where insufficient parameters are provided
+print(PC.kinematics(t1=None, t2=None, x1=None, x2=None, a=None, V_0=None, V=None))
+# Test the speed of light check
+print(PC.kinematics(t1=None, t2=None, x1=0, x2=100, a=9.81, V_0=0, V=3.5e8))
+
+# Test calculus kinematics
+# Example usage (assuming a function and its representation are defined)
+# print(PC.calculus_kinematics(function=some_function, quantity='velocity', function_rep='position'))
+
+# Test forces calculations
+# Test the pulley method
+PC.forces('pulley')
+# Test the inclined plane method
+# PC.forces('inclinded plane')
