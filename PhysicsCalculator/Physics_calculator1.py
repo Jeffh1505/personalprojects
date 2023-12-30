@@ -152,7 +152,7 @@ class PhysicsCalculator(GraphingCalculator):
 
                 try:
                     mass = input("Please give the mass of the object or 'none': ")
-                    m = float(mass) if mass.lower != 'none' else None
+                    m = float(mass) if mass.lower() != 'none' else None
                 except ValueError:
                     return "Please input a numerical value for the mass."
                 
