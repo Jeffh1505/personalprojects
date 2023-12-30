@@ -249,6 +249,6 @@ print(PC.kinematics(t1=None, t2=None, x1=0, x2=100, a=9.81, V_0=0, V=3.5e8))
 
 # Test forces calculations
 # Test the pulley method
-PC.forces('pulley')
+print(PC.forces('pulley'))
 # Test the inclined plane method
 # PC.forces('inclinded plane')
