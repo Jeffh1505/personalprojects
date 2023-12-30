@@ -245,7 +245,8 @@ print(PC.kinematics(t1=None, t2=None, x1=0, x2=100, a=9.81, V_0=0, V=3.5e8))
 
 # Test calculus kinematics
 # Example usage (assuming a function and its representation are defined)
-# print(PC.calculus_kinematics(function=some_function, quantity='velocity', function_rep='position'))
+some_function = "x**3 + 2*x**2 + 5*x + 3"
+print(PC.calculus_kinematics(function=some_function, quantity='velocity', function_rep='position'))
 
 # Test forces calculations
 # Test the pulley method
