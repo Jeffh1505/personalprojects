@@ -180,13 +180,13 @@ class PhysicsCalculator(GraphingCalculator):
                 tension = input("Is there tension? (y/n): ")
                 if tension == 'y':
                     try:
-                        T = float(input("Please give the tension of the rope: "))
+                        Tension = float(input("Please give the tension of the rope: "))
                     except ValueError:
                         return "Please input a value less than 1 but greater than 0 for the coefficient of friction."
                 elif tension == 'n':
-                    T = None
+                    Tension = None
                 
-                return self.inclinded_plane(m,theta, acceleration, mu, T)
+                return self.inclinded_plane(m,theta, acceleration, mu, Tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
