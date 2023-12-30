@@ -163,7 +163,7 @@ class PhysicsCalculator(GraphingCalculator):
                 
                 try:
                     angle = input("Please input a value for the angle: ")
-                    theta = math.radians(float(acceleration)) 
+                    theta = math.radians(float(angle)) 
                 except ValueError:
                     print("Please input a numerical value for the angle.")
 
@@ -185,7 +185,7 @@ class PhysicsCalculator(GraphingCalculator):
                 elif tension == 'n':
                     T = None
                 
-            self.inclinded_plane(m,theta, acceleration, mu, tension)
+                self.inclinded_plane(m,theta, acceleration, mu, tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
