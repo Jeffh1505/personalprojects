@@ -251,6 +251,6 @@ print(PC.calculus_kinematics(function=some_function, quantity='velocity', functi
 
 # Test forces calculations
 # Test the pulley method
-print(PC.forces('pulley'))
+#print(PC.forces('pulley'))
 # Test the inclined plane method
-# PC.forces('inclinded plane')
+print(PC.forces('inclinded plane'))
