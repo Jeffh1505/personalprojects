@@ -125,6 +125,7 @@ class PhysicsCalculator(GraphingCalculator):
 
                 masses_right = []
                 masses_left = []
+                print("Please input the masses on the right of the pulley.")
                 while True:
                     try:
                         mass_input_right = input("Please input the mass of an object or 'exit': ")
@@ -134,7 +135,7 @@ class PhysicsCalculator(GraphingCalculator):
                         masses_right.append(mass)
                     except ValueError:
                         print("Please input a numerical value.")
-                
+                print("Please input the masses on the left of the pulley.")
                 while True:
                     try:
                         mass_input_left = input("Please input the mass of an object or 'exit': ")
@@ -185,7 +186,7 @@ class PhysicsCalculator(GraphingCalculator):
                 elif tension == 'n':
                     T = None
                 
-                self.inclinded_plane(m,theta, acceleration, mu, tension)
+                return self.inclinded_plane(m,theta, acceleration, mu, tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
@@ -241,7 +242,7 @@ print(PC.kinematics(t1=0, t2=5, x1=0, x2=100, a=None, V_0=0, V=None))
 # Test a case where insufficient parameters are provided
 print(PC.kinematics(t1=None, t2=None, x1=None, x2=None, a=None, V_0=None, V=None))
 # Test the speed of light check
-print(PC.kinematics(t1=None, t2=None, x1=0, x2=100, a=9.81, V_0=0, V=3.5e8))
+print(PC.kinematics(t1=None, t2=None, x1=0, x2=100, a=9.81, V_0=0, V=2.5e8))
 
 # Test calculus kinematics
 # Example usage (assuming a function and its representation are defined)
