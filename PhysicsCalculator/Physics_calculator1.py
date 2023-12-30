@@ -232,6 +232,8 @@ class PhysicsCalculator(GraphingCalculator):
                 self.memory.add(a)
                 return f"Acceleration = {a} m/s^2"
 
+        return "Insufficient parameters for calculation."
+
         
 PC = PhysicsCalculator()
 
