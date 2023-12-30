@@ -81,13 +81,38 @@ class PhysicsCalculator(GraphingCalculator):
                 elif delta_t2 > 0:
                     self.memory.add(delta_t2)
                     return f"Δt = {delta_t2} s"
-        elif a is 0 and V_0 is None and V is None:
+        elif a == 0 and V_0 is None and V is None:
             if None in (x1, x2, t2, t1):
                 return "Insufficient parameters for calculation."
             V = (x2 - x1) / (t2 - t1)
             self.memory.add(V)
             return f"V = {V} m/s"
         
+    def calculus_kinematics(self, function, quantity, function_rep):
+        if quantity == 'velocity':
+            if function_rep == 'position':
+                velocity = self.calculus_calculator("derivative", function)
+                return velocity
+            elif function_rep == 'acceleration':
+                velocity = self.calculus_calculator("integration", function)
+                return velocity
+            
+        elif quantity == 'acceleration':
+            if function_rep == 'velocity':
+                acceleration = self.calculus_calculator("derivative", function)
+                return acceleration
+            elif function_rep == 'displacement':
+                velocity = self.calculus_calculator("derivative", function)
+                acceleration = self.calculus_calculator("derivative", velocity)
+
+        elif quantity == 'displacement':
+            if function_rep == 'velocity':
+                displacement = self.calculus_calculator("integration", function)
+                return displacement
+            elif function_rep == 'acceleration':
+                velocity = self.calculus_calculator("integration", function)
+                displacement = self.calculus_calculator("integration", velocity)
+
     def forces(self, user_input):
             #This implements the computation of an unknown mass or acceleration of the system of blocks 
             #(depending on the input parameters) through the pulley method
@@ -160,8 +185,7 @@ class PhysicsCalculator(GraphingCalculator):
                 elif tension == 'n':
                     T = None
                 
-            self.inclinded_plane(m,theta, acceleration, friction, tension)
-
+            self.inclinded_plane(m,theta, acceleration, mu, tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
