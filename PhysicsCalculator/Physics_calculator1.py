@@ -171,11 +171,11 @@ class PhysicsCalculator(GraphingCalculator):
                 friction = input("Is there friction? (y/n): ")
                 if friction == 'y':
                     try:
-                        mu = float(input("Please give the coefficient of friction of the object and the plane: "))
+                        Mu = float(input("Please give the coefficient of friction of the object and the plane: "))
                     except ValueError:
                         return "Please input a value less than 1 but greater than 0 for the coefficient of friction."
                 elif friction == 'n':
-                    mu = None
+                    Mu = None
 
                 tension = input("Is there tension? (y/n): ")
                 if tension == 'y':
@@ -186,7 +186,7 @@ class PhysicsCalculator(GraphingCalculator):
                 elif tension == 'n':
                     Tension = None
                 
-                return self.inclinded_plane(theta, m, acceleration, mu, Tension)
+                return self.inclinded_plane(theta, m, acceleration, Mu, Tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
