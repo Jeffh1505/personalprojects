@@ -7,13 +7,13 @@ from sklearn.metrics import accuracy_score, classification_report
 np.random.seed(42)
 
 # Creating student names
-students = [f"Student_{i}" for i in range(1, 101)]
+students = [f"Student_{i}" for i in range(1, 1001)]
 
 # Generating random grades for each student in different subjects
 grades_data = {
-    'Math': np.random.randint(60, 100, size=len(students)),
-    'Science': np.random.randint(60, 100, size=len(students)),
-    'English': np.random.randint(60, 100, size=len(students))
+    'Math': np.random.randint(50, 100, size=len(students)),
+    'Science': np.random.randint(50, 100, size=len(students)),
+    'English': np.random.randint(50, 100, size=len(students))
 }
 
 # Creating a DataFrame
