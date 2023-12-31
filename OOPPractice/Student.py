@@ -33,4 +33,4 @@ class Classroom:
         return f"Students: {self.students} \nNumber of students: {Classroom.amount_of_students(self)} \nClass Average: {Classroom.class_average(self)}"
 
 df = read_csv(r"C:\Users\summe\OneDrive\Desktop\personalprojects-1\OOPPractice\students.csv")
-print(df)
+print(df.describe())
