@@ -185,7 +185,7 @@ class PhysicsCalculator(GraphingCalculator):
                 else:
                     Tension = None
 
-                return self.inclinded_plane(theta, m, acceleration, Mu, Tension)
+                return self.inclinded_plane(theta, m, a, Mu, Tension)
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
