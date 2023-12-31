@@ -214,6 +214,11 @@ class PhysicsCalculator(GraphingCalculator):
             return f"Acceleration = {acceleration} m/s^2, Unknown mass = {unknown_mass} kg"
         
     def inclinded_plane(self, theta, mass=None, acceleration=None, mu=None, tension=None):
+        print(mass)
+        print(theta)
+        print(acceleration)
+        print(mu)
+        print(tension)
         if mass is not None:
             y_component = mass * self.g * math.cos(theta)
             x_component = mass * self.g * math.sin(theta)
