@@ -1,13 +1,10 @@
 import csv
+from dataclasses import dataclass
 
-
+@dataclass
 class Student:
-    def __init__(self, name, grade):
-        self.name = name
-        self.grade = grade
-
-    def __repr__(self):
-        return f"Name: {self.name} \nGrade: {self.grade}"
+    Name: str
+    Grade: str
     
 class Classroom:
     def __init__(self):
@@ -25,7 +22,7 @@ class Classroom:
     def class_average(self):
         Sum_of_grades = 0
         for student in self.students:
-            Sum_of_grades += int(student.grade)
+            Sum_of_grades += int(student.Grade)
 
         return Sum_of_grades / Classroom.amount_of_students(self)
 
