@@ -17,3 +17,8 @@ def to_markdown(text):
 GOOGLE_API_KEY=os.getenv('googleapi')
 
 genai.configure(api_key=GOOGLE_API_KEY)
+
+model = genai.GenerativeModel('gemini-pro')
+response = model.generate_content("What is the meaning of life?")
+
+print(to_markdown(response.text))
