@@ -228,7 +228,7 @@ class PhysicsCalculator(GraphingCalculator):
                 self.memory.add(a)
                 return f"Acceleration = {a} m/s^2"
             elif acceleration is None and mu is None and tension is not None:
-                a = x_component - tension / mass
+                a = (x_component - tension) / mass
                 self.memory.add(a)
                 return f"Acceleration = {a} m/s^2"
 
