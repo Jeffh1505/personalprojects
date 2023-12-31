@@ -19,3 +19,4 @@ grades_df = pd.DataFrame(grades_data, index=students)
 
 # Displaying the first few rows of the dataset
 print(grades_df)
+print(grades_df.describe())
