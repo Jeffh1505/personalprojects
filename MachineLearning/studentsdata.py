@@ -20,7 +20,7 @@ grades_data = {
 grades_df = pd.DataFrame(grades_data, index=students)
 
 # Displaying the first few rows of the dataset
-#print(grades_df)
+print(grades_df)
 #print(grades_df.describe())
 
 
@@ -42,6 +42,7 @@ model.fit(X_train, y_train)
 
 # Predictions
 y_pred = model.predict(X_test)
+print(y_pred)
 
 # Evaluation
 print(classification_report(y_test, y_pred))
