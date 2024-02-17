@@ -1,6 +1,6 @@
 Price = 3.00
 N = 4
-TaxRate = 0.06875
+TaxRate = 0.08875
 
 Subtotal = N * Price
 
