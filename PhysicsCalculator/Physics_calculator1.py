@@ -186,6 +186,29 @@ class PhysicsCalculator(GraphingCalculator):
                     Tension = None
 
                 return self.inclinded_plane(theta, m, a, Mu, Tension)
+            
+    
+    def energy(self, h=None, v=None, Mu=None, k=None, x=None, m=None):
+        if v is not None:
+            if v > 3e8:
+                return "Speed cannot exceed the speed of light."
+        if h is not None and m is not None:
+            peg = m * self.g * h
+            if v is None and k is None and x is None and Mu is None:
+                v = math.sqrt((2 * peg)/ m)
+                return v
+            elif v is None and k is not None and x is None and Mu is None:
+                v = math.sqrt((2 * peg)/ m)
+                Ke = (1/2) * m * v**2
+                x = math.sqrt((2* Ke) / k)
+                return x
+            elif v is None and k is None and x is not None and Mu is None:
+                v = math.sqrt((2 * peg)/ m)
+                Ke = (1/2) * m * v**2
+                k = (2* Ke) / x**2
+                return k 
+
+
 
 
     def massless_pulley(self, masses_left, masses_right, acceleration=None):
