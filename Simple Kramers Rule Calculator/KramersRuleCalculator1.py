@@ -41,9 +41,9 @@ def three_by_three(x1:float,x2:float,x3:float,y1:float,y2:float,y3:float,z1:floa
     return f"x = {x}\n y = {y} \n z = {z}"
 
 def main():
-    try:
-        user_input = input("Would you like to solve a two by two (2) or three by three (3) system of equations?: ")
     
+    user_input = input("Would you like to solve a two by two (2) or three by three (3) system of equations?: ")
+    try:
         if user_input == "2" or "two" or "two by two":
             x1 = float(input("What is the first x coefficient?: "))
             x2 = float(input("What is the second x coefficient?: "))
