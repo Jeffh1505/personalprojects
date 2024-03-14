@@ -41,35 +41,37 @@ def three_by_three(x1:float,x2:float,x3:float,y1:float,y2:float,y3:float,z1:floa
     return f"x = {x}\n y = {y} \n z = {z}"
 
 def main():
-    
-    user_input = input("Would you like to solve a two by two (2) or three by three (3) system of equations?: ")
-    try:
-        if user_input == "2" or "two" or "two by two":
-            x1 = float(input("What is the first x coefficient?: "))
-            x2 = float(input("What is the second x coefficient?: "))
-            y1 = float(input("What is the first y coefficient?: "))
-            y2 = float(input("What is the second y coefficient?: "))
-            c1 = float(input("What is the first constant?: "))
-            c2 = float(input("What is the second constant?: "))
-            print(two_by_two(x1,x2,y1,y2,c1,c2))
-        elif user_input == "3" or "three" or "three by three":
-            x1 = float(input("What is the first x coefficient?: "))
-            x2 = float(input("What is the second x coefficient?: "))
-            x3 = float(input("What is the third x coefficient?: "))
-            y1 = float(input("What is the first y coefficient?: "))
-            y2 = float(input("What is the second y coefficient?: "))
-            y3 = float(input("What is the third y coefficient?: "))
-            z1 = float(input("What is the first z coefficient?: "))
-            z2 = float(input("What is the second z coefficient?: "))
-            z3 = float(input("What is the third z coefficient?: "))
-            c1 = float(input("What is the first constant?: "))
-            c2 = float(input("What is the second constant?: "))
-            c3 = float(input("What is the third constant?: "))
-            print(three_by_three(x1,x2,x3,y1,y2,y3,z1,z2,z3,c1,c2,c3))
-        else:
-            raise ValueError
-    except ValueError:
-        print("That is not a valid input, please input a valid system of equations.")    
+    while True:
+        try:
+            user_input = input("Would you like to solve a two by two (2) or three by three (3) system of equations?: ")
+            if user_input in ["2", "two", "two by two"]:
+                x1 = float(input("What is the first x coefficient?: "))
+                x2 = float(input("What is the second x coefficient?: "))
+                y1 = float(input("What is the first y coefficient?: "))
+                y2 = float(input("What is the second y coefficient?: "))
+                c1 = float(input("What is the first constant?: "))
+                c2 = float(input("What is the second constant?: "))
+                print(two_by_two(x1, x2, y1, y2, c1, c2))
+                break
+            elif user_input in ["3", "three", "three by three"]:
+                x1 = float(input("What is the first x coefficient?: "))
+                x2 = float(input("What is the second x coefficient?: "))
+                x3 = float(input("What is the third x coefficient?: "))
+                y1 = float(input("What is the first y coefficient?: "))
+                y2 = float(input("What is the second y coefficient?: "))
+                y3 = float(input("What is the third y coefficient?: "))
+                z1 = float(input("What is the first z coefficient?: "))
+                z2 = float(input("What is the second z coefficient?: "))
+                z3 = float(input("What is the third z coefficient?: "))
+                c1 = float(input("What is the first constant?: "))
+                c2 = float(input("What is the second constant?: "))
+                c3 = float(input("What is the third constant?: "))
+                print(three_by_three(x1, x2, x3, y1, y2, y3, z1, z2, z3, c1, c2, c3))
+                break
+            else:
+                raise ValueError
+        except ValueError:
+            print("That is not a valid input, please input a valid system of equations.") 
 
 if __name__ == "__main__":
     main()
