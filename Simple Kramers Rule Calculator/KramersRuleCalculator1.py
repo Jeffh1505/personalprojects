@@ -1,5 +1,6 @@
 #This is a simple Kramer's rule Calculator. It can do 2 by 2 and 3 by 3 Linear Systems of equations
 import numpy as np
+import fractions as Fraction
 def two_by_two(x1:float,x2:float,y1:float,y2:float,c1:float,c2:float) -> str:
     #This function calculates a two by two linear system of equations, x1 and x2 are the coefficients on the x variable, 
     #y1 and y2 are the coefficients of the y variable and c1 and c2 are the constants
@@ -45,33 +46,35 @@ def main():
         try:
             user_input = input("Would you like to solve a two by two (2) or three by three (3) system of equations?: ")
             if user_input in ["2", "two", "two by two"]:
-                x1 = float(input("What is the first x coefficient?: "))
-                x2 = float(input("What is the second x coefficient?: "))
-                y1 = float(input("What is the first y coefficient?: "))
-                y2 = float(input("What is the second y coefficient?: "))
-                c1 = float(input("What is the first constant?: "))
-                c2 = float(input("What is the second constant?: "))
+                x1 = Fraction(input("What is the first x coefficient (numerator/denominator)?: "))
+                x2 = Fraction(input("What is the second x coefficient (numerator/denominator)?: "))
+                y1 = Fraction(input("What is the first y coefficient (numerator/denominator)?: "))
+                y2 = Fraction(input("What is the second y coefficient (numerator/denominator)?: "))
+                c1 = Fraction(input("What is the first constant (numerator/denominator)?: "))
+                c2 = Fraction(input("What is the second constant (numerator/denominator)?: "))
+                x1, x2, y1, y2, c1, c2 = float(x1), float(x2), float(y1), float(y2), float(c1), float(c2)
                 print(two_by_two(x1, x2, y1, y2, c1, c2))
                 break
             elif user_input in ["3", "three", "three by three"]:
-                x1 = float(input("What is the first x coefficient?: "))
-                x2 = float(input("What is the second x coefficient?: "))
-                x3 = float(input("What is the third x coefficient?: "))
-                y1 = float(input("What is the first y coefficient?: "))
-                y2 = float(input("What is the second y coefficient?: "))
-                y3 = float(input("What is the third y coefficient?: "))
-                z1 = float(input("What is the first z coefficient?: "))
-                z2 = float(input("What is the second z coefficient?: "))
-                z3 = float(input("What is the third z coefficient?: "))
-                c1 = float(input("What is the first constant?: "))
-                c2 = float(input("What is the second constant?: "))
-                c3 = float(input("What is the third constant?: "))
+                x1 = Fraction(input("What is the first x coefficient (numerator/denominator)?: "))
+                x2 = Fraction(input("What is the second x coefficient (numerator/denominator)?: "))
+                x3 = Fraction(input("What is the third x coefficient (numerator/denominator)?: "))
+                y1 = Fraction(input("What is the first y coefficient (numerator/denominator)?: "))
+                y2 = Fraction(input("What is the second y coefficient (numerator/denominator)?: "))
+                y3 = Fraction(input("What is the third y coefficient (numerator/denominator)?: "))
+                z1 = Fraction(input("What is the first z coefficient (numerator/denominator)?: "))
+                z2 = Fraction(input("What is the second z coefficient (numerator/denominator)?: "))
+                z3 = Fraction(input("What is the third z coefficient (numerator/denominator)?: "))
+                c1 = Fraction(input("What is the first constant (numerator/denominator)?: "))
+                c2 = Fraction(input("What is the second constant (numerator/denominator)?: "))
+                c3 = Fraction(input("What is the third constant (numerator/denominator)?: "))
+                x1, x2, x3, y1, y2, y3, z1, z2, z3, c1, c2, c3 = float(x1), float(x2), float(x3), float(y1), float(y2), float(y3), float(z1), float(z2), float(z3), float(c1), float(c2), float(c3)
                 print(three_by_three(x1, x2, x3, y1, y2, y3, z1, z2, z3, c1, c2, c3))
                 break
             else:
                 raise ValueError
         except ValueError:
-            print("That is not a valid input, please input a valid system of equations.") 
+            print("That is not a valid input, please input a valid system of equations.")
 
 if __name__ == "__main__":
     main()
