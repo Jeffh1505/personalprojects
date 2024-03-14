@@ -1,4 +1,3 @@
-from fractions import Fraction
 import re
 import numpy as np
 
@@ -8,7 +7,7 @@ def parse_input(input_str):
     if fraction_match:
         numerator = int(fraction_match.group(1))
         denominator = int(fraction_match.group(2))
-        return Fraction(numerator, denominator)
+        return float(numerator/ denominator)
     # If not a fraction, assume regular number
     return float(input_str)
 
