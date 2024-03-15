@@ -106,12 +106,12 @@ def CramerGUI():
     c2_entry = tk.Entry(window)
     c2_entry.pack()
 
-    x3_label = tk.Label(window, text="Enter x1:")
+    x3_label = tk.Label(window, text="Enter x3:")
     x3_label.pack()
     x3_entry = tk.Entry(window)
     x3_entry.pack()
 
-    y3_label = tk.Label(window, text="Enter y1:")
+    y3_label = tk.Label(window, text="Enter y3:")
     y3_label.pack()
     y3_entry = tk.Entry(window)
     y3_entry.pack()
@@ -131,4 +131,11 @@ def CramerGUI():
     c3_entry = tk.Entry(window)
     c3_entry.pack()
 
+    result_label = tk.Label(window, text="Result:")
+    result_label.pack()
+
     result_text = tk.StringVar()
+    result_display = tk.Label(window, textvariable=result_text)
+    result_display.pack()
+
+    calculate_button = tk.Button(window, text="Calculate", command=calculate_result)
