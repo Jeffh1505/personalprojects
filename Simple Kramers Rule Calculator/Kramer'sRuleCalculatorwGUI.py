@@ -136,14 +136,14 @@ def CramerGUI():
             c3 = fraction_parse_input(c3_entry.get())
             result_text.set(three_by_three(x1, x2, x3, y1, y2, y3, z1, z2, z3, c1, c2, c3))
     result_label = tk.Label(window, text="Result:")
-    result_label.pack()
+    result_label.grid(row=8, column=0, columnspan=4)
 
     result_text = tk.StringVar()
     result_display = tk.Label(window, textvariable=result_text)
-    result_display.pack()
+    result_display.grid(row=9, column=0, columnspan=4)
 
     calculate_button = tk.Button(window, text="Calculate", command=calculate_result)
-    calculate_button.pack()
+    calculate_button.grid(row=10, column=0, columnspan=4)
 
     window.mainloop()
 
