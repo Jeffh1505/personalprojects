@@ -101,6 +101,11 @@ def CramerGUI():
     z2_entry = tk.Entry(window)
     z2_entry.pack()
 
+    z3_label = tk.Label(window, text="Enter z3:")
+    z3_label.pack()
+    z3_entry = tk.Entry(window)
+    z3_entry.pack()
+
     c3_label = tk.Label(window, text="Enter c3:")
     c3_label.pack()
     c3_entry = tk.Entry(window)
