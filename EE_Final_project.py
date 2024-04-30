@@ -1,6 +1,7 @@
 def find_highest_voltages(filename):
     voltages = {}
     with open(filename, 'r') as file:
+        file.readline()  # Skip the first line
         for line in file:
             frequency, voltage = map(float, line.split())
             voltages[voltage] = frequency
