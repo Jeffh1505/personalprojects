@@ -2,7 +2,6 @@ import re
 
 # Specify the path to your text file
 file_path = "C:\Users\summe\OneDrive\Documents\LTspice\Draft9.txt"
-
 # Read data from the text file
 try:
     with open(file_path, "r") as file:
