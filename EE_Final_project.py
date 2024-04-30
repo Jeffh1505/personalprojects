@@ -3,7 +3,7 @@ import re
 
 def find_highest_voltages(filename):
     # Read the data into a DataFrame
-    df = pd.read_csv(filename, delimiter='\t', skiprows=1, header=None, names=['Frequency', 'Voltage'])
+    df = pd.read_csv(filename, delimiter='\t', skiprows=1, header=None, names=['Frequency', 'Voltage'], encoding='utf-8')
     
     # Extract numerical voltage values using regular expressions
     voltage_pattern = r'\((-?\d+\.\d+)'
