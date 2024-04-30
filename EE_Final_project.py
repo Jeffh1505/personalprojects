@@ -1,20 +1,18 @@
+import pandas as pd
+import re
+
 def find_highest_voltages(filename):
-    voltages = {}
-    with open(filename, 'r') as file:
-        next(file)  # Skip the first line
-        for line in file:
-            parts = line.split()
-            frequency = float(parts[0])
-            # Extracting voltage from the second part of the line
-            voltage_str = parts[1]
-            # Extracting the numerical part of the voltage string and converting to float
-            voltage = float(voltage_str.split('dB')[0])
-            voltages[voltage] = frequency
+    # Read the data into a DataFrame
+    df = pd.read_csv(filename, delimiter='\t', skiprows=1, header=None, names=['Frequency', 'Voltage'])
     
-    highest_voltages = sorted(voltages.keys(), reverse=True)[:2]
-    highest_frequencies = [voltages[voltage] for voltage in highest_voltages]
+    # Extract numerical voltage values using regular expressions
+    voltage_pattern = r'\((-?\d+\.\d+)'
+    df['Voltage'] = df['Voltage'].str.extract(voltage_pattern).astype(float)
     
-    return highest_voltages, highest_frequencies
+    # Find the highest two voltages and their corresponding frequencies
+    highest_voltages = df.nlargest(2, 'Voltage')
+    
+    return highest_voltages['Voltage'].values, highest_voltages['Frequency'].values
 
 if __name__ == "__main__":
     filename = input("Enter the filename: ")
