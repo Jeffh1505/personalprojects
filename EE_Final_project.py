@@ -21,4 +21,4 @@ if __name__ == "__main__":
     highest_voltages, highest_frequencies = find_highest_voltages(filename)
     print("Highest Output Voltages and Corresponding Frequencies:")
     for voltage, frequency in zip(highest_voltages, highest_frequencies):
-        print("Voltage:", voltage, "Frequency:", frequency)
+        print("Frequency:", voltage, "Voltage:", frequency)
