@@ -1,10 +1,15 @@
+import re
+
 def find_highest_voltages(filename):
     voltages = {}
     with open(filename, 'r') as file:
         file.readline()  # Skip the first line
         for line in file:
-            frequency, voltage = map(float, line.split())
-            voltages[voltage] = frequency
+            match = re.match(r'^\s*(-?\d+\.\d+e[+-]\d+)\s+\((-?\d+\.\d+e[+-]\d+).*\)$', line)
+            if match:
+                voltage = float(match.group(1))
+                frequency = float(match.group(2))
+                voltages[voltage] = frequency
     
     highest_voltages = sorted(voltages.keys(), reverse=True)[:2]
     highest_frequencies = [voltages[voltage] for voltage in highest_voltages]
