@@ -6,8 +6,9 @@ def find_highest_voltages(filename):
             parts = line.split()
             frequency = float(parts[0])
             # Extracting voltage from the second part of the line
-            voltage_str = parts[1].split(',')[0]  # Extracting only the voltage part
-            voltage = float(voltage_str[1:])  # Removing the '(' and converting to float
+            voltage_str = parts[1]
+            # Extracting the numerical part of the voltage string and converting to float
+            voltage = float(voltage_str.split('dB')[0])
             voltages[voltage] = frequency
     
     highest_voltages = sorted(voltages.keys(), reverse=True)[:2]
