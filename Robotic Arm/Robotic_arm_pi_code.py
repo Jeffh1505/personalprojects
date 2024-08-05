@@ -17,11 +17,16 @@ joystick_x = ADC(Pin(26))  # Analog pin for X-axis
 joystick_y = ADC(Pin(27))  # Analog pin for Y-axis
 button = Pin(15, Pin.IN, Pin.PULL_UP)  # Button pin
 
+# Define the potentiometer pin
+potentiometer = ADC(Pin(28))  # Analog pin for potentiometer
+
 # Servo positions
 SERVO_1_UP = 90
 SERVO_1_DOWN = 0
 SERVO_2_UP = 90
 SERVO_2_DOWN = 0
+SERVO_3_MIN = 0    # Minimum position for the third servo
+SERVO_3_MAX = 180  # Maximum position for the third servo
 CLAW_OPEN = 0
 CLAW_CLOSED = 90
 
@@ -35,11 +40,19 @@ def read_joystick():
     y_value = joystick_y.read_u16()  # Read Y-axis value (0 to 65535)
     return x_value, y_value
 
+# Function to read potentiometer value
+def read_potentiometer():
+    pot_value = potentiometer.read_u16()  # Read potentiometer value (0 to 65535)
+    # Map potentiometer value to servo position
+    mapped_position = int((pot_value / 65535) * (SERVO_3_MAX - SERVO_3_MIN) + SERVO_3_MIN)
+    return mapped_position
+
 # Main control loop
 while True:
     try:
         x_value, y_value = read_joystick()
-        
+        pot_position = read_potentiometer()
+
         # Map joystick values to servo positions
         if y_value < 32768:  # Joystick moved up
             set_servo_position(0, SERVO_1_UP)  # Move link 1 up
@@ -51,10 +64,14 @@ while True:
         else:
             set_servo_position(1, SERVO_2_DOWN)  # Move link 2 down
 
+        # Control the third servo with the potentiometer
+        set_servo_position(2, pot_position)
+
+        # Control the claw mechanism
         if not button.value():  # Button pressed
-            set_servo_position(2, CLAW_CLOSED)  # Close claw
+            set_servo_position(3, CLAW_CLOSED)  # Close claw
         else:
-            set_servo_position(2, CLAW_OPEN)  # Open claw
+            set_servo_position(3, CLAW_OPEN)  # Open claw
 
         time.sleep(0.1)  # Small delay to avoid overwhelming the system
 
