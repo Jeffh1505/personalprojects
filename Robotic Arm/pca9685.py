@@ -1,18 +1,10 @@
-# pca9685.py
-# Kevin McAleer
-# March 2021
-'''
-Author: Kevin McAleer
-'''
-
 import ustruct
 import time
-
 
 class PCA9685:
     """
     This class models the PCA9685 board, used to control up to 16
-    servos, using just 2 wires for control over the I2C interface.
+    servos using just 2 wires for control over the I2C interface.
     """
     def __init__(self, i2c, address=0x40):
         """
@@ -27,17 +19,45 @@ class PCA9685:
         self.reset()
 
     def _write(self, address, value):
+        """
+        Write a value to a specific memory address.
+        
+        Args:
+            address (int): Memory address.
+            value (int): Value to write.
+        """
         self.i2c.writeto_mem(self.address, address, bytearray([value]))
 
     def _read(self, address):
+        """
+        Read a value from a specific memory address.
+        
+        Args:
+            address (int): Memory address.
+        
+        Returns:
+            int: Value read from memory.
+        """
         return self.i2c.readfrom_mem(self.address, address, 1)[0]
 
     def reset(self):
+        """
+        Reset PCA9685 to default state.
+        """
         self._write(0x00, 0x00)  # Mode1
 
     def freq(self, freq=None):
+        """
+        Set or get the frequency of the PCA9685.
+        
+        Args:
+            freq (float, optional): Frequency to set. If None, returns current frequency.
+        
+        Returns:
+            int: Current frequency if freq is None.
+        """
         if freq is None:
-            return int(25000000.0 / 4096 / (self._read(0xfe) - 0.5))
+            return int(25000000.0 / 4096 / (self._read(0xfe) + 0.5))  # Adjusted calculation
         prescale = int(25000000.0 / 4096.0 / freq + 0.5)
         old_mode = self._read(0x00)  # Mode 1
         self._write(0x00, (old_mode & 0x7F) | 0x10)  # Mode 1, sleep
@@ -47,6 +67,17 @@ class PCA9685:
         self._write(0x00, old_mode | 0xa1)  # Mode 1, autoincrement on
 
     def pwm(self, index, on=None, off=None):
+        """
+        Set or get PWM values for a specific servo.
+        
+        Args:
+            index (int): Servo index.
+            on (int, optional): On time. If None, get the current PWM values.
+            off (int, optional): Off time. If None, get the current PWM values.
+        
+        Returns:
+            tuple: PWM values (on, off) if on and off are None.
+        """
         if on is None or off is None:
             data = self.i2c.readfrom_mem(self.address, 0x06 + 4 * index, 4)
             return ustruct.unpack('<HH', data)
@@ -54,16 +85,29 @@ class PCA9685:
         self.i2c.writeto_mem(self.address, 0x06 + 4 * index, data)
 
     def duty(self, index, value=None, invert=False):
+        """ Set or get the duty cycle for a specific servo.
+        Args:
+            index (int): Servo index.
+            value (int, optional): Duty cycle value to set. If None, get the current duty cycle.
+            invert (bool, optional): Invert the duty cycle.
+        
+        Returns:
+            int: Duty cycle value if value is None.
+        """
         if value is None:
             pwm = self.pwm(index)
+            if len(pwm) != 2:
+                raise ValueError(f"Unexpected PWM data format: {pwm}")
             if pwm == (0, 4096):
                 value = 0
             elif pwm == (4096, 0):
                 value = 4095
-            value = pwm[1]
+            else:
+                value = pwm[1]
             if invert:
                 value = 4095 - value
             return value
+
         if not 0 <= value <= 4095:
             raise ValueError("Out of range")
         if invert:
