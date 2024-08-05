@@ -1,12 +1,19 @@
 import tkinter as tk
+from tkinter import messagebox
 import serial
+import serial.tools.list_ports
 
 class ServoControlApp:
     def __init__(self, master, serial_port):
         self.master = master
         self.master.title("Servo Control")
 
-        self.serial_port = serial.Serial(serial_port, 115200, timeout=1)
+        try:
+            self.serial_port = serial.Serial(serial_port, 115200, timeout=1)
+        except serial.SerialException as e:
+            messagebox.showerror("Error", f"Could not open serial port {serial_port}: {e}")
+            self.master.destroy()
+            return
 
         self.create_slider("Claw Servo", 0)
         self.create_slider("Hand Servo", 1)
@@ -28,7 +35,15 @@ class ServoControlApp:
         self.serial_port.write(command.encode())
 
 if __name__ == "__main__":
-    serial_port = "COM3"  # Update this to the correct port for your setup
+    # List available COM ports
+    ports = list(serial.tools.list_ports.comports())
+    print("Available COM ports:")
+    for p in ports:
+        print(p.device)
+
+    # Update this to the correct port for your setup
+    serial_port = "COM3"
+
     root = tk.Tk()
     app = ServoControlApp(master=root, serial_port=serial_port)
     root.mainloop()
