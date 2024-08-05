@@ -28,7 +28,7 @@ class ServoControlApp:
         self.serial_port.write(command.encode())
 
 if __name__ == "__main__":
-    serial_port = "/dev/ttyUSB0"  # Update this to the correct port for your setup
+    serial_port = "COM3"  # Update this to the correct port for your setup
     root = tk.Tk()
     app = ServoControlApp(master=root, serial_port=serial_port)
     root.mainloop()
