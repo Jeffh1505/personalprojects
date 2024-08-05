@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 import serial
 import serial.tools.list_ports
 
@@ -35,14 +35,24 @@ class ServoControlApp:
         self.serial_port.write(command.encode())
 
 if __name__ == "__main__":
-    # List available COM ports
+    # List available COM ports and ask user to select one
     ports = list(serial.tools.list_ports.comports())
-    print("Available COM ports:")
-    for p in ports:
-        print(p.device)
+    if not ports:
+        print("No COM ports found")
+        sys.exit()
 
-    # Update this to the correct port for your setup
-    serial_port = "COM3"
+    port_list = [p.device for p in ports]
+    print("Available COM ports:")
+    for i, port in enumerate(port_list):
+        print(f"{i}: {port}")
+
+    # Ask the user to select a COM port
+    selected_port_index = simpledialog.askinteger("Select COM port", "Enter the index of the COM port:", minvalue=0, maxvalue=len(port_list) - 1)
+    if selected_port_index is None:
+        print("No COM port selected")
+        sys.exit()
+
+    serial_port = port_list[selected_port_index]
 
     root = tk.Tk()
     app = ServoControlApp(master=root, serial_port=serial_port)
