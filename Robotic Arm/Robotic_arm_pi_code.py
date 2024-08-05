@@ -55,23 +55,23 @@ while True:
 
         # Map joystick values to servo positions
         if y_value < 32768:  # Joystick moved up
-            set_servo_position(0, SERVO_1_UP)  # Move link 1 up
+            set_servo_position(3, SERVO_1_UP)  # Move link 1 up
         else:
-            set_servo_position(0, SERVO_1_DOWN)  # Move link 1 down
+            set_servo_position(3, SERVO_1_DOWN)  # Move link 1 down
 
         if x_value < 32768:  # Joystick moved left
-            set_servo_position(1, SERVO_2_UP)  # Move link 2 up
+            set_servo_position(2, SERVO_2_UP)  # Move link 2 up
         else:
-            set_servo_position(1, SERVO_2_DOWN)  # Move link 2 down
+            set_servo_position(2, SERVO_2_DOWN)  # Move link 2 down
 
         # Control the third servo with the potentiometer
-        set_servo_position(2, pot_position)
+        set_servo_position(1, pot_position)
 
         # Control the claw mechanism
         if not button.value():  # Button pressed
-            set_servo_position(3, CLAW_CLOSED)  # Close claw
+            set_servo_position(0, CLAW_CLOSED)  # Close claw
         else:
-            set_servo_position(3, CLAW_OPEN)  # Open claw
+            set_servo_position(0, CLAW_OPEN)  # Open claw
 
         time.sleep(0.1)  # Small delay to avoid overwhelming the system
 
