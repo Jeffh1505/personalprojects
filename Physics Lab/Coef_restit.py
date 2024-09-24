@@ -42,3 +42,14 @@ print(sigma)
 
 sigma_average = sigma / math.sqrt(len(coeff_restitution_raw))
 print(sigma_average)
+
+coeff_sum_for_weighted_average = 0
+error_sum_for_weighted_average = 0
+
+for i in range(len(coeff_restitution_raw)):
+    coeff_sum_for_weighted_average += coeff_restitution_raw[i] / (coeff_restitution_error[i]**2)
+    error_sum_for_weighted_average += 1 / (coeff_restitution_error[i]**2)
+
+weighted_average = coeff_sum_for_weighted_average / error_sum_for_weighted_average
+
+print(weighted_average)
