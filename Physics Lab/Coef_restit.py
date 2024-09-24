@@ -20,5 +20,7 @@ for i in range(len(v_f_raw)):
         coeff_restitution_error.append(float("inf"))
 
 
-print(coeff_restitution_raw)
-print(coeff_restitution_error)
+print(f"Coefficient of restitutions: {coeff_restitution_raw}")
+print(f"Coefficient of restitutions errors: {coeff_restitution_error}")
+
+
