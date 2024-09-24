@@ -1,6 +1,9 @@
 #This code was developed for the first part of lab 1 for PHYS 1494.
 #It calculates the coefficient of restitution and error for the coefficient of each trial, the unweighted average and the weighted average.
 #Author: Jeffrey Hernandez
+
+import math
+
 #V_i values
 v_i_raw = [0.499, 0.711, 0.74, 0.608, 0.833, 0.713, 0.563, 0.731, 0.6, 0.612]
 v_i_error = [5.7, 9.3, 4.8, 5.6, 8.1, 5.8, 6.1, 7.7, 5.1, 3.3]
@@ -28,3 +31,11 @@ print(f"Coefficient of restitutions errors: {coeff_restitution_error}")
 
 unweighted_average = sum(coeff_restitution_raw) / len(coeff_restitution_raw)
 print(f"Unweighted Average = {unweighted_average}")
+
+sum_for_sigma = 0
+
+for i in range(len(coeff_restitution_raw)):
+    sum_for_sigma += (coeff_restitution_raw[i] - unweighted_average)**2
+
+sigma = math.sqrt(sum_for_sigma / (len(coeff_restitution_raw)-1))
+print(sigma)
