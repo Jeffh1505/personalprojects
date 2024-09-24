@@ -39,3 +39,6 @@ for i in range(len(coeff_restitution_raw)):
 
 sigma = math.sqrt(sum_for_sigma / (len(coeff_restitution_raw)-1))
 print(sigma)
+
+sigma_average = sigma / math.sqrt(len(coeff_restitution_raw))
+print(sigma_average)
