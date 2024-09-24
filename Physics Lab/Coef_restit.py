@@ -54,6 +54,6 @@ weighted_average = coeff_sum_for_weighted_average / error_sum_for_weighted_avera
 
 print(weighted_average)
 
-weighted_average_error = math.sqrt(error_sum_for_weighted_average)
+weighted_average_error = 1 / math.sqrt(error_sum_for_weighted_average)
 
 print(weighted_average_error)
