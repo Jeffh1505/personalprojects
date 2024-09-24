@@ -23,4 +23,5 @@ for i in range(len(v_f_raw)):
 print(f"Coefficient of restitutions: {coeff_restitution_raw}")
 print(f"Coefficient of restitutions errors: {coeff_restitution_error}")
 
-
+unweighted_average = sum(coeff_restitution_raw) / len(coeff_restitution_raw)
+print(unweighted_average)
