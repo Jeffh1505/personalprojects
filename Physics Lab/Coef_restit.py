@@ -53,3 +53,7 @@ for i in range(len(coeff_restitution_raw)):
 weighted_average = coeff_sum_for_weighted_average / error_sum_for_weighted_average
 
 print(weighted_average)
+
+weighted_average_error = math.sqrt(error_sum_for_weighted_average)
+
+print(weighted_average_error)
