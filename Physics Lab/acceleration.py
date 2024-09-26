@@ -61,3 +61,5 @@ plt.xlabel('h (m)')
 plt.ylabel('a (m$s^{-2}$)')
 
 plt.title('h vs a')
+
+plt.show()
