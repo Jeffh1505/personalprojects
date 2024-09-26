@@ -65,15 +65,17 @@ def funclin(x, a, b):
 pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, average_error_list, absolute_sigma=True)
 err = np.sqrt(np.diag(w))
 
-#Assuming L = 1m
-
 
 print("Estimated parameters", pars)
 print("Error calc", err)
 print(type(pars))
 fit = funclin(np.array(h_list), *pars)
 
-print(type(fit))
+g = pars[1] * 1
+sigma_g = err[1] *1
+
+print(f"g = {g} m/s^2")
+print(f"Sigma_g = {sigma_g} m/s^2")
 
 plt.figure(figsize=(10,6))
 
