@@ -50,6 +50,8 @@ for i in range(len(data_list)):
     average_a_list.append(a_avg)
     average_error_list.append(sigma_avg)
 
+print(average_a_list)
+print(average_error_list)
 
 plt.figure(figsize=(10,6))
 
