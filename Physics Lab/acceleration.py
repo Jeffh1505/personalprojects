@@ -55,21 +55,6 @@ for i in range(len(data_list)):
 print(average_a_list)
 print(average_error_list)
 
-plt.figure(figsize=(10,6))
-
-# Using different function, and defining marker and error bar colors, size etc..
-plt.errorbar(h_list, average_a_list, average_error_list, marker='x', ecolor='black',mec='red', linestyle='None',ms=4, mew=4) 
-
-# Labels axis
-plt.xlabel('h (m)')
-plt.ylabel('a (m$s^{-2}$)')
-
-plt.title('h vs a')
-
-plt.show()
-
-
-
 # Initial Guess 
 x0 = np.array([0.0, 0.0])
 
@@ -82,3 +67,18 @@ err = np.sqrt(np.diag(w))
 
 print("Estimated parameters", pars)
 print("Error calc", err)
+
+fit = funclin(h_list, *pars)
+
+plt.figure(figsize=(10,6))
+
+# Using different function, and defining marker and error bar colors, size etc..
+plt.errorbar(h_list, average_a_list, average_error_list, marker='x', ecolor='black',mec='red', linestyle='None',ms=4, mew=4, label="Data") 
+plt.plot(h_list, fit, label="Linear fit")
+# Labels axis
+plt.xlabel('h (m)')
+plt.ylabel('a (m$s^{-2}$)')
+plt.legend(loc='best')
+plt.title('h vs a')
+
+plt.show()
