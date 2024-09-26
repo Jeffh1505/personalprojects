@@ -68,7 +68,7 @@ err = np.sqrt(np.diag(w))
 print("Estimated parameters", pars)
 print("Error calc", err)
 print(type(pars))
-fit = funclin(h_list, *pars)
+fit = funclin(np.array(h_list), *pars)
 
 plt.figure(figsize=(10,6))
 
