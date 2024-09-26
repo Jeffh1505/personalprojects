@@ -4,6 +4,8 @@
 
 import math
 import matplotlib.pyplot as plt 
+import numpy as np
+import scipy.optimize as opt
 
 experiement_1_data = [0.0154, 0.0156, 0.0171, 0.0157, 0.0154, 0.0166, 0.0155, 0.0161, 0.0153, 0.0161]
 experiement_1_error = [1.3, 11.0, 1.5, 12.0, 10.0, 13.0, 10.0, 4.4, 12.0, 1.1]
@@ -65,3 +67,18 @@ plt.ylabel('a (m$s^{-2}$)')
 plt.title('h vs a')
 
 plt.show()
+
+
+
+# Initial Guess 
+x0 = np.array([0.0, 0.0])
+
+# Define linear function for fitting,
+def funclin(x, a, b):
+    return a + b*x
+
+pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, absolute_sigma=True)
+err = np.sqrt(np.diag(w))
+
+print("Estimated parameters", pars)
+print("Error calc", err)
