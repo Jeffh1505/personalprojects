@@ -77,7 +77,7 @@ x0 = np.array([0.0, 0.0])
 def funclin(x, a, b):
     return a + b*x
 
-pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, absolute_sigma=True)
+pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, average_error_list, absolute_sigma=True)
 err = np.sqrt(np.diag(w))
 
 print("Estimated parameters", pars)
