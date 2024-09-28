@@ -36,6 +36,12 @@ def unweighted_stats(a1:list) -> tuple:
     sigma_average = sigma / math.sqrt(len(a1))
     return unweighted_average, sigma_average
 
+# Rounds a number to 2 significant figures
+def round_to_sigfigs(x, sigfigs=2):
+    if x == 0:
+        return 0
+    return round(x, sigfigs - int(math.floor(math.log10(abs(x)))) - 1)
+
 # Data list
 data_list = [experiement_1_data, experiement_2_data, experiement_3_data, experiement_4_data, experiement_5_data]
 h_list = [h_1, h_2, h_3, h_4, h_5]
@@ -46,15 +52,16 @@ average_error_list = []
 # Calculating averages and errors
 for i in range(len(data_list)):
     a_avg, sigma_avg = unweighted_stats(data_list[i])
-    average_a_list.append(a_avg)  # Keep the original precision here
+    average_a_list.append(a_avg)
     average_error_list.append(sigma_avg)
 
-# Print rounded values for display
-rounded_avg_a_list = [round(a, 2) for a in average_a_list]
-rounded_avg_error_list_scaled = [round(sigma * 1e4, 2) for sigma in average_error_list]  # Multiply errors by 10^-4 for display
+# Rounding the average accelerations and errors to 2 significant figures
+rounded_avg_a_list = [round_to_sigfigs(a, 2) for a in average_a_list]
+rounded_avg_error_list = [round_to_sigfigs(sigma, 2) for sigma in average_error_list]
+rounded_avg_error_list_scaled = [round_to_sigfigs(sigma * 1e4, 2) for sigma in average_error_list]  # Scaled errors
 
-print("Average acceleration values (rounded):", rounded_avg_a_list)
-print("Average error values (rounded, as multiples of 10⁻⁴):", rounded_avg_error_list_scaled)
+print("Average acceleration values (2 significant figures):", rounded_avg_a_list)
+print("Average error values (2 significant figures, as multiples of 10⁻⁴):", rounded_avg_error_list_scaled)
 
 # Initial guess for curve fitting
 x0 = np.array([0.0, 0.0])
@@ -67,9 +74,9 @@ def funclin(x, a, b):
 pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, average_error_list, absolute_sigma=True)
 err = np.sqrt(np.diag(w))
 
-# Calculating g and its error
-g = round(pars[1], 2)
-sigma_g_scaled = round(err[1] * 1e4, 2)  # Multiply by 10^4 and round to 2 significant figures
+# Calculating g and its error, rounding to 2 significant figures
+g = round_to_sigfigs(pars[1], 2)
+sigma_g_scaled = round_to_sigfigs(err[1] * 1e4, 2)  # Multiply by 10^4 and round to 2 significant figures
 
 print(f"g = {g} m/s^2")
 print(f"Sigma_g = {sigma_g_scaled} × 10⁻⁴ m/s²")
