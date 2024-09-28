@@ -77,6 +77,8 @@ sigma_g = err[1] *1
 print(f"g = {g} m/s^2")
 print(f"Sigma_g = {sigma_g} m/s^2")
 
+
+
 plt.figure(figsize=(10,6))
 
 # Using different function, and defining marker and error bar colors, size etc..
