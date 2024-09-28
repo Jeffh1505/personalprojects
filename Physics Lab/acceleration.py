@@ -67,12 +67,12 @@ def funclin(x, a, b):
 pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, average_error_list, absolute_sigma=True)
 err = np.sqrt(np.diag(w))
 
-# Calculating g and its error with 2 significant figures
+# Calculating g and its error
 g = round(pars[1], 2)
-sigma_g = round(err[1], 2)
+sigma_g = round(err[1] * 1e4, 2)  # Multiply by 10^4 and round to 2 significant figures
 
 print(f"g = {g} m/s^2")
-print(f"Sigma_g = {sigma_g} m/s^2")
+print(f"Sigma_g = {sigma_g} × 10⁻⁴ m/s²")
 
 # Plotting the data and fit
 fit = funclin(np.array(h_list), *pars)
