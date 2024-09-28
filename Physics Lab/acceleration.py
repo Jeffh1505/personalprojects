@@ -46,11 +46,15 @@ average_error_list = []
 # Calculating averages and errors
 for i in range(len(data_list)):
     a_avg, sigma_avg = unweighted_stats(data_list[i])
-    average_a_list.append(round(a_avg, 2))
-    average_error_list.append(round(sigma_avg, 2))
+    average_a_list.append(a_avg)  # Keep the original precision here
+    average_error_list.append(sigma_avg)
 
-print("Average acceleration values:", average_a_list)
-print("Average error values:", average_error_list)
+# Print rounded values for display
+rounded_avg_a_list = [round(a, 2) for a in average_a_list]
+rounded_avg_error_list = [round(sigma, 2) for sigma in average_error_list]
+
+print("Average acceleration values (rounded):", rounded_avg_a_list)
+print("Average error values (rounded):", rounded_avg_error_list)
 
 # Initial guess for curve fitting
 x0 = np.array([0.0, 0.0])
@@ -59,6 +63,7 @@ x0 = np.array([0.0, 0.0])
 def funclin(x, a, b):
     return a + b*x
 
+# Perform curve fitting using the original (non-rounded) data
 pars, w = opt.curve_fit(funclin, h_list, average_a_list, x0, average_error_list, absolute_sigma=True)
 err = np.sqrt(np.diag(w))
 
@@ -73,7 +78,7 @@ print(f"Sigma_g = {sigma_g} m/s^2")
 fit = funclin(np.array(h_list), *pars)
 
 plt.figure(figsize=(10,6))
-plt.errorbar(h_list, average_a_list, average_error_list, marker='x', ecolor='black', mec='red', linestyle='None', ms=4, mew=4, label="Data") 
+plt.errorbar(h_list, rounded_avg_a_list, rounded_avg_error_list, marker='x', ecolor='black', mec='red', linestyle='None', ms=4, mew=4, label="Data") 
 plt.plot(h_list, fit, label="Linear fit")
 plt.xlabel('h (m)')
 plt.ylabel('a (m$s^{-2}$)')
