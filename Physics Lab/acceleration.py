@@ -51,10 +51,10 @@ for i in range(len(data_list)):
 
 # Print rounded values for display
 rounded_avg_a_list = [round(a, 2) for a in average_a_list]
-rounded_avg_error_list = [round(sigma, 2) for sigma in average_error_list]
+rounded_avg_error_list = [round(sigma * 1e4, 2) for sigma in average_error_list]  # Multiply errors by 10^-4
 
 print("Average acceleration values (rounded):", rounded_avg_a_list)
-print("Average error values (rounded):", rounded_avg_error_list)
+print("Average error values (rounded, as multiples of 10⁻⁴):", rounded_avg_error_list)
 
 # Initial guess for curve fitting
 x0 = np.array([0.0, 0.0])
