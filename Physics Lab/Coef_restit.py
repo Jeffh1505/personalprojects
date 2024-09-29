@@ -19,7 +19,7 @@ for i in range(len(v_f_raw)):
     if v_i_raw[i] != 0 and v_i_error!= 0:
         coeff_restitution = abs(v_f_raw[i]/v_i_raw[i])
         coeff_restitution_raw.append(float(f"{coeff_restitution:.2g}"))
-        coeff_restitution_uncertantiy = math.sqrt((v_i_error[i] / v_f_raw[i])**2 + ((v_i_error[i] *v_f_error[i])/v_f_raw[i])**2)
+        coeff_restitution_uncertantiy = math.sqrt((v_i_error[i] / v_f_raw[i])**2 + ((v_i_error[i] *v_f_error[i])/v_f_raw[i]**2)**2)
         coeff_restitution_error. append(float(f"{coeff_restitution_uncertantiy:.2g}"))
     else:
         coeff_restitution_raw.append(float('inf'))
