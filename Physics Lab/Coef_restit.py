@@ -3,6 +3,7 @@
 #Author: Jeffrey Hernandez
 
 import math
+import matplotlib.pyplot as plt
 
 # V_i values (initial velocities)
 v_i_raw = [0.499, 0.711, 0.74, 0.608, 0.833, 0.713, 0.563, 0.731, 0.6, 0.612]
@@ -63,3 +64,16 @@ print(f"Weighted Average = {weighted_average}")
 # Weighted average error
 weighted_average_error = 1 / math.sqrt(error_sum_for_weighted_average)
 print(f"Weighted Average Error = {weighted_average_error}")
+
+# Visualization
+trial_numbers = list(range(1, len(coeff_restitution_raw) + 1))
+
+plt.errorbar(trial_numbers, coeff_restitution_raw, yerr=coeff_restitution_error, fmt='o', ecolor='r', capsize=5, label='Coefficient of Restitution')
+plt.axhline(y=unweighted_average, color='g', linestyle='--', label=f'Unweighted Avg = {unweighted_average:.2f}')
+plt.axhline(y=weighted_average, color='b', linestyle='-', label=f'Weighted Avg = {weighted_average:.2f}')
+plt.xlabel('Trial Number')
+plt.ylabel('Coefficient of Restitution')
+plt.title('Coefficient of Restitution per Trial with Error Bars')
+plt.legend()
+plt.grid(True)
+plt.show()
