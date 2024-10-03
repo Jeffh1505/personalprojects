@@ -84,11 +84,28 @@ print(f"Sigma_g = {sigma_g_scaled} × 10⁻⁴ m/s²")
 # Plotting the data and fit using the original (unscaled) errors for the plot
 fit = funclin(np.array(h_list), *pars)
 
+# Plotting the data and fit using the original (unscaled) errors for the plot
+fit = funclin(np.array(h_list), *pars)
+
 plt.figure(figsize=(10,6))
-plt.errorbar(h_list, average_a_list, average_error_list, marker='x', ecolor='black', mec='red', linestyle='None', ms=4, mew=4, label="Data") 
-plt.plot(h_list, fit, label="Linear fit")
-plt.xlabel('h (m)')
-plt.ylabel('a (m$s^{-2}$)')
-plt.legend(loc='best')
-plt.title('h vs a')
+plt.errorbar(h_list, average_a_list, average_error_list, 
+             marker='o', color='blue', ecolor='black', 
+             mec='red', linestyle='None', ms=8, mew=2, label="Data")
+
+plt.plot(h_list, fit, color='green', linestyle='-', linewidth=2, label="Linear fit")
+
+# Adding labels, grid, and title
+plt.xlabel('Height (h) in meters', fontsize=14)
+plt.ylabel('Acceleration (a) in $m/s^2$', fontsize=14)
+plt.title('Relationship between Height and Acceleration', fontsize=16)
+plt.legend(loc='best', fontsize=12)
+plt.grid(True, which='both', linestyle='--', linewidth=0.7)
+plt.minorticks_on()
+
+# Enhancing tick size
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+
+plt.tight_layout()
 plt.show()
+
