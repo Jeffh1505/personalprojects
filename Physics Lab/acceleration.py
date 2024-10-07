@@ -81,8 +81,7 @@ sigma_g_scaled = round_to_sigfigs(err[1] * 1e4, 2)  # Multiply by 10^4 and round
 print(f"g = {g} m/s^2")
 print(f"Sigma_g = {sigma_g_scaled} × 10⁻⁴ m/s²")
 
-# Plotting the data and fit using the original (unscaled) errors for the plot
-fit = funclin(np.array(h_list), *pars)
+
 
 # Plotting the data and fit using the original (unscaled) errors for the plot
 fit = funclin(np.array(h_list), *pars)
@@ -98,6 +97,13 @@ plt.plot(h_list, fit, color='green', linestyle='-', linewidth=2, label="Linear f
 plt.xlabel('Height (h) in meters', fontsize=14)
 plt.ylabel('Acceleration (a) in $m/s^2$', fontsize=14)
 plt.title('Relationship between Height and Acceleration', fontsize=16)
+
+# Display slope (g) and intercept on the graph
+slope_text = f"Slope (g) = {g} m/s²"
+intercept_text = f"Intercept = {round_to_sigfigs(pars[0], 2)} m/s²"
+plt.text(0.002, min(average_a_list) + 0.001, slope_text, fontsize=12, color='green')
+plt.text(0.002, min(average_a_list) + 0.002, intercept_text, fontsize=12, color='green')
+
 plt.legend(loc='best', fontsize=12)
 plt.grid(True, which='both', linestyle='--', linewidth=0.7)
 plt.minorticks_on()
@@ -108,4 +114,3 @@ plt.yticks(fontsize=12)
 
 plt.tight_layout()
 plt.show()
-
