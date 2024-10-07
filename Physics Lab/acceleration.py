@@ -56,9 +56,9 @@ for i in range(len(data_list)):
     average_error_list.append(sigma_avg)
 
 # Rounding the average accelerations and errors to 2 significant figures
-rounded_avg_a_list = [round_to_sigfigs(a, 2) for a in average_a_list]
-rounded_avg_error_list = [round_to_sigfigs(sigma, 2) for sigma in average_error_list]
-rounded_avg_error_list_scaled = [round_to_sigfigs(sigma * 1e4, 2) for sigma in average_error_list]  # Scaled errors
+rounded_avg_a_list = [round_to_sigfigs(a, 3) for a in average_a_list]
+rounded_avg_error_list = [round_to_sigfigs(sigma, 3) for sigma in average_error_list]
+rounded_avg_error_list_scaled = [round_to_sigfigs(sigma * 1e4, 3) for sigma in average_error_list]  # Scaled errors
 
 print("Average acceleration values (2 significant figures):", rounded_avg_a_list)
 print("Average error values (2 significant figures, as multiples of 10⁻⁴):", rounded_avg_error_list_scaled)
