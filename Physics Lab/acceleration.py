@@ -99,8 +99,8 @@ plt.ylabel('Acceleration (a) in $m/s^2$', fontsize=14)
 plt.title('Relationship between Height and Acceleration', fontsize=16)
 
 # Display slope (g) and intercept on the graph
-slope_text = f"Slope (g) = {g} m/s²"
-intercept_text = f"Intercept = {round_to_sigfigs(pars[0], 2)} m/s²"
+slope_text = f"Slope (g) = 9.18 m/s²"
+intercept_text = f"Intercept = {round_to_sigfigs(pars[0], 3)} m/s²"
 plt.text(0.002, min(average_a_list) + 0.001, slope_text, fontsize=12, color='green')
 plt.text(0.002, min(average_a_list) + 0.004, intercept_text, fontsize=12, color='green')
 
