@@ -102,7 +102,7 @@ plt.title('Relationship between Height and Acceleration', fontsize=16)
 slope_text = f"Slope (g) = {g} m/s²"
 intercept_text = f"Intercept = {round_to_sigfigs(pars[0], 2)} m/s²"
 plt.text(0.002, min(average_a_list) + 0.001, slope_text, fontsize=12, color='green')
-plt.text(0.002, min(average_a_list) + 0.002, intercept_text, fontsize=12, color='green')
+plt.text(0.002, min(average_a_list) + 0.004, intercept_text, fontsize=12, color='green')
 
 plt.legend(loc='best', fontsize=12)
 plt.grid(True, which='both', linestyle='--', linewidth=0.7)
