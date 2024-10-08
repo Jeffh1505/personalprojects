@@ -28,4 +28,4 @@ def unweighted_stats(a1:list) -> tuple:
 
 x_average, x_std = unweighted_stats(x_distance_a)
 
-print(f"Motion along x-axis: {x_average} cm +- {x_std}")
+print(f"Motion along x-axis: {x_average:.3f} cm +- {x_std:.3f}")
