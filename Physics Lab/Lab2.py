@@ -28,4 +28,7 @@ def unweighted_stats(a1:list) -> tuple:
 
 x_average, x_std = unweighted_stats(x_distance_a)
 
+z_average,z_std = unweighted_stats(z_distance_a)
 print(f"Motion along x-axis: {x_average:.3f} cm +- {x_std:.3f}")
+
+print(f"Motion along z-axis: {z_average:.3f} cm +- {z_std:.3f}")
