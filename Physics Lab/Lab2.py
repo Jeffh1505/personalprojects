@@ -32,3 +32,23 @@ z_average,z_std = unweighted_stats(z_distance_a)
 print(f"Motion along x-axis: {x_average:.3f} cm +- {x_std:.3f}")
 
 print(f"Motion along z-axis: {z_average:.3f} cm +- {z_std:.3f}")
+
+plt.figure(figsize=(12, 6))
+
+# Histogram for x-distance data
+plt.subplot(1, 2, 1)
+plt.hist(x_distance_a, bins=10, color='blue', edgecolor='black')
+plt.title("Histogram of x-distance measurements")
+plt.xlabel("Distance (cm)")
+plt.ylabel("Frequency")
+
+# Histogram for z-distance data
+plt.subplot(1, 2, 2)
+plt.hist(z_distance_a, bins=10, color='green', edgecolor='black')
+plt.title("Histogram of z-distance measurements")
+plt.xlabel("Distance (cm)")
+plt.ylabel("Frequency")
+
+# Show the plots
+plt.tight_layout()
+plt.show()
