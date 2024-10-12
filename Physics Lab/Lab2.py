@@ -57,10 +57,17 @@ z_deviation_a = [-0.5, -0.3, -0.2, 0.1, 0, 0.2, 0.1, -0.6, 0.2, 1.3, -0.5, -0.8,
 # Analyze the sample data
 analyze_motion_data(x_distance_a, x_deviation_a, z_deviation_a)
 
-# If you have another dataset, just call the function with the new data
-# Example:
-x_distance_b = [70.1, 70.2, 70.3, 69.9, 69.8, 69.7]  # Replace with your data
-x_deviation_b = [4.5, 4.6, 4.7, 5, 4.8, 5.1]        # Replace with your data
-z_deviation_b = [0, -0.1, 0.2, 0.1, -0.2, 0.3]      # Replace with your data
+# New dataset for analysis (b dataset)
+x_distance_b = [72.2, 72.6, 72.7, 73, 73.3, 73.5, 74, 74.3, 75.6, 73.8, 73.9, 74.5, 75, 75, 
+                75, 75.2, 75.1, 75.6, 75.5, 75.6, 75.9, 76.3, 76.4, 76.5, 76.5, 76.7, 76.6, 
+                76.8, 76.8, 76.9, 76.9, 77.4, 77.3]
+x_deviation_b = [-2.3, 3.8, 1.2, 1.4, -0.6, 1.8, 1.9, 1.9, 0.4, -0.2, -1.2, -1.9, 1.7, 0.8, 
+                 0.3, 0.6, 0.1, 1.6, 0.2, -0.4, 0.6, 0.8, -0.6, 0.4, 0.3, 0.5, -0.4, 1.3, 
+                 -0.5, 0, -0.5, 0.6, -0.6]
+z_deviation_b = [14.7, 14.3, 14.2, 13.9, 13.6, 13.4, 12.9, 12.6, 11.3, 13.1, 13, 12.4, 11.9, 
+                 11.9, 11.9, 11.7, 11.8, 11.3, 11.4, 11.3, 11, 10.6, 10.5, 10.4, 10.4, 10.2, 
+                 10.3, 10.1, 10.1, 10, 10, 9.5, 9.6]
 
-analyze_motion_data(x_distance_b, x_deviation_b, z_deviation_b, x_expected=70.5, z_expected=0)
+# Analyze the new data
+analyze_motion_data(x_distance_b, x_deviation_b, z_deviation_b, x_expected=75, z_expected=12)
+
