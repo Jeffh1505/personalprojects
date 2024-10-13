@@ -38,11 +38,19 @@ def stats_to_latex_table(stats: dict, caption: str, label: str) -> str:
     return table_str
 
 # Function to save histograms
-def save_histogram(data, title, xlabel, filename, bins=10, color='blue'):
-    plt.hist(data, bins=bins, color=color, edgecolor='black')
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel("Frequency")
+def save_histogram(data, title, xlabel, filename, bins=20, color='blue'):
+    plt.figure(figsize=(10, 6))  # Set figure size
+    plt.hist(data, bins=bins, color=color, alpha=0.7, edgecolor='black', linewidth=1.2)
+    
+    plt.title(title, fontsize=16, fontweight='bold')
+    plt.xlabel(xlabel, fontsize=14)
+    plt.ylabel("Frequency", fontsize=14)
+    plt.grid(axis='y', alpha=0.75)  # Add grid lines for better readability
+    
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    
+    plt.tight_layout()  # Adjust layout
     plt.savefig(filename)
     plt.clf()  # Clear the figure for the next plot
 
@@ -93,14 +101,11 @@ stats_b = {
 latex_stats_a = stats_to_latex_table(stats_a, "Unweighted Statistics for Dataset A", "tab:stats_a")
 latex_stats_b = stats_to_latex_table(stats_b, "Unweighted Statistics for Dataset B", "tab:stats_b")
 
-# Save histograms for dataset A using x_distance
-save_histogram(x_distance_a, "Histogram of x-distance (Dataset 1)", "x-distance (cm)", "histogram_x_1.png")
-save_histogram(z_deviation_a, "Histogram of z-deviation (Dataset 1)", "z-deviation (cm)", "histogram_z_1.png", color='green')
-
-# Save histograms for dataset B using x_distance
-save_histogram(x_distance_b, "Histogram of x-distance (Dataset 2)", "x-distance (cm)", "histogram_x_2.png")
-save_histogram(z_deviation_b, "Histogram of z-deviation (Dataset 2)", "z-deviation (cm)", "histogram_z_2.png", color='green')
-
+# Save histograms for both datasets
+save_histogram(x_distance_a, "Histogram of x-distance Measurements (Dataset 1)", "x-distance (cm)", "histogram_x_1.png", bins=15, color='blue')
+save_histogram(x_distance_b, "Histogram of x-distance Measurements (Dataset 2)", "x-distance (cm)", "histogram_x_2.png", bins=15, color='orange')
+save_histogram(z_deviation_a, "Histogram of z-distance Measurements (Dataset 1)", "x-distance (cm)", "histogram_z_1.png", bins=15, color='blue')
+save_histogram(z_deviation_b, "Histogram of z-distance Measurements (Dataset 2)", "x-distance (cm)", "histogram_z_2.png", bins=15, color='orange')
 # Output the LaTeX tables
 print("LaTeX Table for Dataset A:")
 print(latex_table_a)
