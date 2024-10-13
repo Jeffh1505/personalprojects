@@ -85,13 +85,13 @@ latex_table_b = to_latex_table(data_b, columns, "Raw Data for Dataset B", "tab:d
 x_pos_avg_a, x_pos_std_err_a = unweighted_stats(x_distance_a)
 x_avg_a, x_std_err_a = unweighted_stats(x_deviation_a)
 z_avg_a, z_std_err_a = unweighted_stats(z_deviation_a)
-print(f"x = {x_pos_avg_a} ± {x_pos_std_err_a} cm")
-print(f"z = {z_avg_a} ± {z_std_err_a} cm")
+print(f"x = {x_pos_avg_a :.3f} ± {x_pos_std_err_a :.3f} cm")
+print(f"z = {z_avg_a :.3f} ± {z_std_err_a :.3f} cm")
 x_pos_avg_b, x_pos_std_err_b = unweighted_stats(x_distance_b)
 x_avg_b, x_std_err_b = unweighted_stats(x_deviation_b)
 z_avg_b, z_std_err_b = unweighted_stats(z_deviation_b)
-print(f"x = {x_pos_avg_b} ± {x_pos_std_err_b} cm")
-print(f"z = {z_avg_b} ± {z_std_err_b} cm")
+print(f"x = {x_pos_avg_b :.3f} ± {x_pos_std_err_b :.3f} cm")
+print(f"z = {z_avg_b :.3f} ± {z_std_err_b :.3f} cm")
 # Prepare LaTeX tables for unweighted stats
 stats_a = {
     'x-axis': (x_avg_a, x_std_err_a),
