@@ -93,13 +93,13 @@ stats_b = {
 latex_stats_a = stats_to_latex_table(stats_a, "Unweighted Statistics for Dataset A", "tab:stats_a")
 latex_stats_b = stats_to_latex_table(stats_b, "Unweighted Statistics for Dataset B", "tab:stats_b")
 
-# Save histograms for dataset A
-save_histogram(x_deviation_a, "Histogram of x-deviation (Experiment 1)", "x-deviation (cm)", "histogram_x_1.png")
-save_histogram(z_deviation_a, "Histogram of z-deviation (Experiment 1)", "z-deviation (cm)", "histogram_z_1.png", color='green')
+# Save histograms for dataset A using x_distance
+save_histogram(x_distance_a, "Histogram of x-distance (Dataset 1)", "x-distance (cm)", "histogram_x_1.png")
+save_histogram(z_deviation_a, "Histogram of z-deviation (Dataset 1)", "z-deviation (cm)", "histogram_z_1.png", color='green')
 
-# Save histograms for dataset B
-save_histogram(x_deviation_b, "Histogram of x-deviation (Experiment 2)", "x-deviation (cm)", "histogram_x_2.png")
-save_histogram(z_deviation_b, "Histogram of z-deviation (Experiment 2)", "z-deviation (cm)", "histogram_z_2.png", color='green')
+# Save histograms for dataset B using x_distance
+save_histogram(x_distance_b, "Histogram of x-distance (Dataset 2)", "x-distance (cm)", "histogram_x_2.png")
+save_histogram(z_deviation_b, "Histogram of z-deviation (Dataset 2)", "z-deviation (cm)", "histogram_z_2.png", color='green')
 
 # Output the LaTeX tables
 print("LaTeX Table for Dataset A:")
