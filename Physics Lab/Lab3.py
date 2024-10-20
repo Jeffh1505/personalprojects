@@ -20,6 +20,11 @@ def funclin(x, a, b):
     return a + b*x
 
 
+# Limit data to first 10 points
+ten_microfarad_charging = ten_microfarad_charging[:10]
+twenty_microfarad_charging = twenty_microfarad_charging[:10]
+thirty_microfarad_charging = thirty_microfarad_charging[:10]
+
 # Linearize the charging data
 charging = [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]
 linearized_charging = [linearize(charging_list) for charging_list in charging]
