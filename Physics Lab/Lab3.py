@@ -21,6 +21,19 @@ def funclin(x, a, b):
     """Linear function for fitting"""
     return a + b * x
 
+def to_latex_table(data: list, columns: list, caption: str, label: str) -> str:
+    table_str = "\\begin{table}[ht]\n\\centering\n\\begin{tabular}{|" + "c|" * len(columns) + "}\n\\hline\n"
+    table_str += " & ".join(columns) + " \\\\ \\hline\n"
+        
+    for row in zip(*data):
+        table_str += " & ".join(f"{item:.2f}" if isinstance(item, (float, int)) else item for item in row) + " \\\\ \\hline\n"
+        
+    table_str += "\\end{tabular}\n"
+    table_str += f"\\caption{{{caption}}}\n"
+    table_str += f"\\label{{{label}}}\n"
+    table_str += "\\end{table}\n"
+    return table_str
+
 # Limit data to first 10 points
 ten_microfarad_charging = ten_microfarad_charging[:10]
 twenty_microfarad_charging = twenty_microfarad_charging[:10]
@@ -38,24 +51,14 @@ linearized_charging = [linearize(charging_list) for charging_list in charging]
 linearized_discharging = [linearize(discharging_list) for discharging_list in discharging]
 
 # Time in seconds (first 10 points)
-time_ten = np.arange(10)  # assuming 1 second intervals
-time_twenty = np.arange(10)
-time_thirty = np.arange(10)
-
-# Store time lists for each data set
-time_data = [time_ten, time_twenty, time_thirty]
+time_data = [np.arange(10)] * 3  # Assuming 1 second intervals for each dataset
 
 # Error is 10% of the data values
-error_ten_charging = np.array(ten_microfarad_charging) * 0.10
-error_twenty_charging = np.array(twenty_microfarad_charging) * 0.10
-error_thirty_charging = np.array(thirty_microfarad_charging) * 0.10
-
-error_ten_discharging = np.array(ten_microfarad_discharging) * 0.10
-error_twenty_discharging = np.array(twenty_microfarad_discharging) * 0.10
-error_thirty_discharging = np.array(thirty_microfarad_discharging) * 0.10
+error_charging = [np.array(data) * 0.10 for data in charging]
+error_discharging = [np.array(data) * 0.10 for data in discharging]
 
 # Plot and fit each dataset on separate graphs for charging
-for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, [error_ten_charging, error_twenty_charging, error_thirty_charging])):
+for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, error_charging)):
     # Perform the curve fitting
     params, _ = opt.curve_fit(funclin, time, data)
 
@@ -65,8 +68,8 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, [err
     # Create a new figure for each dataset
     plt.figure()
 
-    # Plot the linearized data with error bars (10% error)
-    plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
+    # Plot the linearized data with error bars
+    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
     plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF', color='red')
@@ -80,12 +83,16 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, [err
     slope_text = f"Slope (1/RC) = {params[1]:.2f}"
     plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
     
-
     # Show the plot
     plt.show()
 
+    # Prepare data for LaTeX table
+    columns = ["Time (s)", f"Current {(i+1)*10}µF (µA)"]
+    latex_table = to_latex_table([time, data], columns, caption=f"Current Reading for Charging {(i+1)*10}µF", label=f"Charging_{(i+1)*10}")
+    print(latex_table)
+
 # Plot and fit each dataset on separate graphs for discharging
-for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, [error_ten_discharging, error_twenty_discharging, error_thirty_discharging])):
+for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, error_discharging)):
     # Perform the curve fitting
     params, _ = opt.curve_fit(funclin, time, data)
 
@@ -95,8 +102,8 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, [
     # Create a new figure for each dataset
     plt.figure()
 
-    # Plot the linearized data with error bars (10% error)
-    plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
+    # Plot the linearized data with error bars
+    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
     plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF', color='red')
@@ -106,9 +113,14 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, [
     plt.xlabel('Time (seconds)')
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
+    plt.grid(True)
     slope_text = f"Slope (1/RC) = {params[1]:.2f}"
     plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
-    plt.grid(True)
-
+    
     # Show the plot
     plt.show()
+
+    # Prepare data for LaTeX table
+    columns = ["Time (s)", f"Current {(i+1)*10}µF (µA)"]
+    latex_table = to_latex_table([time, data], columns, caption=f"Current Reading for Discharging {(i+1)*10}µF", label=f"Discharging_{(i+1)*10}")
+    print(latex_table)
