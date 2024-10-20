@@ -24,10 +24,10 @@ def funclin(x, a, b):
 charging = [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]
 linearized_charging = [linearize(charging_list) for charging_list in charging]
 
-# Prepare time data (assuming equal time intervals)
-time_ten = np.arange(len(ten_microfarad_charging))
-time_twenty = np.arange(len(twenty_microfarad_charging))
-time_thirty = np.arange(len(thirty_microfarad_charging))
+# Time in seconds (first 10 points)
+time_ten = np.arange(10)  # assuming 1 second intervals
+time_twenty = np.arange(10)
+time_thirty = np.arange(10)
 
 # Store time lists for each data set
 time_data = [time_ten, time_twenty, time_thirty]
@@ -58,7 +58,7 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, erro
 
     # Customize the plot
     plt.title(f'Linearized Charging Data with Best Fit (Data Set {i+1})')
-    plt.xlabel('Time (arbitrary units)')
+    plt.xlabel('Time (seconds)')
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
     plt.grid(True)
