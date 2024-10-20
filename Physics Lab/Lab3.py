@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import scipy.optimize as opt
 
 # Charging data for capacitors (in microamps)
-ten_microfarad_charging = [15, 10, 8, 6, 5, 4.5, 4, 3, 2, 2, 2, 1.5, 1.25, 1, 1, 1, 1, 1, 0.8, 0.5, 0.5, 0.4, 0.4, 0.3, 0.25, 0.20, 0.15, 0.1, 0.05, 0.05, 0.01, 0.01, 0.01, 0.01, 0.01]
-twenty_microfarad_charging = [14, 10.25, 9.85, 9, 8, 7, 6, 5.75, 5.25, 5, 4.75, 4, 3.95, 3.25, 3.05, 3, 2.85, 2.75, 2.25, 2, 1.95, 1.85, 1.75, 1.65, 1.5, 1.45, 1.25, 1.05, 1.01, 1.0, 1.0, 1.0, 1, 1, 0.85, 0.85, 0.8, 0.8, 0.75, 0.75, 0.65, 0.6, 0.5, 0.5, 0.5, 0.5, 0.25]
-thirty_microfarad_charging = [15, 10, 9.5, 9.0, 8.75, 8.25, 7.75, 7.25, 7, 6.75, 6, 5.75, 5.5, 5.1, 5, 4.75, 4.5, 4.05, 4, 3.85, 3.5, 3.25, 3, 3, 2.95, 2.85, 2.65, 2.5, 2.45, 2.25, 2.1, 2.05, 2, 1.95, 1.85, 1.75, 1.65, 1.5, 1.45, 1.35, 1.25, 1.15, 1.1, 1.05, 1.01, 1, 1, 1, 1, 1, 1, 1, 1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.1]
+ten_microfarad_charging = [15, 10, 8, 6, 5, 4.5, 4, 3, 2, 2]
+twenty_microfarad_charging = [14, 10.25, 9.85, 9, 8, 7, 6, 5.75, 5.25, 5]
+thirty_microfarad_charging = [15, 10, 9.5, 9.0, 8.75, 8.25, 7.75, 7.25, 7, 6.75]
 
 # Discharging data for capacitors (in microamps)
-ten_microfarad_discharging = [13.75, 8, 6.25, 5.5, 3, 2.75, 2, 1.75, 1.25, 1, 0.95, 0.9, 0.85, 0.75, 0.5, 0.45, 0.35, 0.25, 0.2, 0.1]
+ten_microfarad_discharging = [13.75, 8, 6.25, 5.5, 3, 2.75, 2, 1.75, 1.25, 1]
 twenty_microfarad_discharging = [9, 8, 7, 5, 4.95, 4, 3.75, 3.25, 3, 2.75]
 thirty_microfarad_discharging = [10, 9.25, 7.95, 6.85, 6.5, 6, 5.25, 5, 4.75, 4.1]
 
@@ -26,7 +26,7 @@ def to_latex_table(data: list, columns: list, caption: str, label: str) -> str:
     table_str += " & ".join(columns) + " \\\\ \\hline\n"
         
     for row in zip(*data):
-        table_str += " & ".join(f"{item:.2f}" if isinstance(item, (float, int)) else item for item in row) + " \\\\ \\hline\n"
+        table_str += " & ".join(f"{float(item):.2f}" if isinstance(item, (float, np.float64, np.int64)) else str(item) for item in row) + " \\\\ \\hline\n"
         
     table_str += "\\end{tabular}\n"
     table_str += f"\\caption{{{caption}}}\n"
@@ -43,11 +43,12 @@ ten_microfarad_discharging = ten_microfarad_discharging[:10]
 twenty_microfarad_discharging = twenty_microfarad_discharging[:10]
 thirty_microfarad_discharging = thirty_microfarad_discharging[:10]
 
-# Linearize the charging and discharging data
+# Linearize the charging data
 charging = [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]
-discharging = [ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging]
-
 linearized_charging = [linearize(charging_list) for charging_list in charging]
+
+# Linearize the discharging data
+discharging = [ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging]
 linearized_discharging = [linearize(discharging_list) for discharging_list in discharging]
 
 # Time in seconds (first 10 points)
@@ -57,11 +58,40 @@ time_data = [np.arange(10)] * 3  # Assuming 1 second intervals for each dataset
 error_charging = [np.array(data) * 0.10 for data in charging]
 error_discharging = [np.array(data) * 0.10 for data in discharging]
 
-# Plot and fit each dataset on separate graphs for charging
-for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, error_charging)):
-    # Perform the curve fitting
-    params, _ = opt.curve_fit(funclin, time, data)
+# Constants
+R_load = 510e3  # Load resistance in ohms (510 kΩ)
+tolerance = 0.10  # ±10% tolerance
 
+# Capacitances in farads
+capacitances = [10e-6, 20e-6, 30e-6]  # 10µF, 20µF, 30µF
+
+# Store total resistances and internal resistances for charging
+total_resistances_charging = []
+internal_resistances_charging = []
+
+# Plot and fit each dataset on separate graphs for charging and calculate internal resistance
+for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, error_charging)):
+    # Perform the curve fitting and get parameters
+    params, cov = opt.curve_fit(funclin, time, data, sigma=error, absolute_sigma=True)
+    slope = params[1]  # Slope (1/RC)
+
+    # Calculate total resistance (R_total) using slope and capacitance
+    C = capacitances[i]
+    R_total = -1 / (slope * C)  # R_total = -1/(slope * C)
+
+    # Include tolerance when calculating internal resistance
+    R_total_tolerance = R_total * (1 + tolerance)  # Max total resistance with tolerance
+    R_internal = R_total_tolerance - R_load  # R_internal = R_total - R_load
+
+    total_resistances_charging.append(R_total)
+    internal_resistances_charging.append(R_internal)
+
+    # Print results for each capacitance
+    print(f"For {C * 1e6}µF (Charging):")
+    print(f"  Slope (1/RC) = {slope:.5f}")
+    print(f"  Total Resistance (R_total) = {R_total / 1e3:.2f} kΩ")
+    print(f"  Internal Resistance (R_internal) = {R_internal / 1e3:.2f} kΩ")
+    
     # Generate best fit line
     fit_line = funclin(time, *params)
     
@@ -69,10 +99,10 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, erro
     plt.figure()
 
     # Plot the linearized data with error bars
-    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
+    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Charging)', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
-    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF', color='red')
+    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF (Charging)', color='red')
 
     # Customize the plot
     plt.title(f'Linearized Charging Data with Best Fit {(i+1)*10}µF')
@@ -86,15 +116,52 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, erro
     # Show the plot
     plt.show()
 
-    # Prepare data for LaTeX table
-    columns = ["Time (s)", f"Current {(i+1)*10}µF (µA)"]
-    latex_table = to_latex_table([time, data], columns, caption=f"Current Reading for Charging {(i+1)*10}µF", label=f"Charging_{(i+1)*10}")
-    print(latex_table)
+# Prepare data for LaTeX table (Capacitance, Total Resistance, Internal Resistance for Charging)
+cap_values = [f"{C * 1e6} µF" for C in capacitances]
+total_resistances_charging_kohms = [R_total / 1e3 for R_total in total_resistances_charging]
+internal_resistances_charging_kohms = [R_internal / 1e3 for R_internal in internal_resistances_charging]
 
-# Plot and fit each dataset on separate graphs for discharging
+# Calculate mean and standard error of the total resistances and internal resistances for Charging
+mean_total_R_charging = np.mean(total_resistances_charging_kohms)
+mean_internal_R_charging = np.mean(internal_resistances_charging_kohms)
+standard_error_total_R_charging = np.std(total_resistances_charging_kohms) / np.sqrt(len(total_resistances_charging_kohms))
+standard_error_internal_R_charging = np.std(internal_resistances_charging_kohms) / np.sqrt(len(internal_resistances_charging_kohms))
+
+# Append the mean and standard error to the data for Charging
+cap_values.append("Mean")
+cap_values.append("Standard Error")
+total_resistances_charging_kohms.append(mean_total_R_charging)
+total_resistances_charging_kohms.append(standard_error_total_R_charging)
+internal_resistances_charging_kohms.append(mean_internal_R_charging)
+internal_resistances_charging_kohms.append(standard_error_internal_R_charging)
+
+# LaTeX table columns and data for Charging
+columns = ["Capacitance", "Total Resistance (kΩ)", "Internal Resistance (kΩ)"]
+latex_table_charging = to_latex_table(
+    [cap_values, total_resistances_charging_kohms, internal_resistances_charging_kohms],
+    columns, caption="Calculated Resistances for Each Capacitance (Charging)", label="resistance_table_charging"
+)
+print(latex_table_charging)
+
+# Store total resistances for discharging
+total_resistances_discharging = []
+
+# Plot and fit each dataset on separate graphs for discharging and calculate total resistance
 for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, error_discharging)):
-    # Perform the curve fitting
-    params, _ = opt.curve_fit(funclin, time, data)
+    # Perform the curve fitting and get parameters
+    params, cov = opt.curve_fit(funclin, time, data, sigma=error, absolute_sigma=True)
+    slope = params[1]  # Slope (1/RC)
+
+    # Calculate total resistance (R_total) using slope and capacitance
+    C = capacitances[i]
+    R_total = -1 / (slope * C)  # R_total = -1/(slope * C)
+
+    total_resistances_discharging.append(R_total)
+
+    # Print results for each capacitance
+    print(f"For {C * 1e6}µF (Discharging):")
+    print(f"  Slope (1/RC) = {slope:.5f}")
+    print(f"  Total Resistance (R_total) = {R_total / 1e3:.2f} kΩ")
 
     # Generate best fit line
     fit_line = funclin(time, *params)
@@ -103,10 +170,10 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, e
     plt.figure()
 
     # Plot the linearized data with error bars
-    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
+    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Discharging)', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
-    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF', color='red')
+    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF (Discharging)', color='red')
 
     # Customize the plot
     plt.title(f'Linearized Discharging Data with Best Fit {(i+1)*10}µF')
@@ -120,7 +187,21 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, e
     # Show the plot
     plt.show()
 
-    # Prepare data for LaTeX table
-    columns = ["Time (s)", f"Current {(i+1)*10}µF (µA)"]
-    latex_table = to_latex_table([time, data], columns, caption=f"Current Reading for Discharging {(i+1)*10}µF", label=f"Discharging_{(i+1)*10}")
-    print(latex_table)
+# Prepare data for LaTeX table (Capacitance, Total Resistance for Discharging)
+total_resistances_discharging_kohms = [R_total / 1e3 for R_total in total_resistances_discharging]
+
+# Calculate mean and standard error of the total resistances for Discharging
+mean_total_R_discharging = np.mean(total_resistances_discharging_kohms)
+standard_error_total_R_discharging = np.std(total_resistances_discharging_kohms) / np.sqrt(len(total_resistances_discharging_kohms))
+
+# Append the mean and standard error to the data for Discharging
+total_resistances_discharging_kohms.append(mean_total_R_discharging)
+total_resistances_discharging_kohms.append(standard_error_total_R_discharging)
+
+# LaTeX table columns and data for Discharging
+columns_discharging = ["Capacitance", "Total Resistance (kΩ)"]
+latex_table_discharging = to_latex_table(
+    [cap_values, total_resistances_discharging_kohms],
+    columns_discharging, caption="Calculated Resistances for Each Capacitance (Discharging)", label="resistance_table_discharging"
+)
+print(latex_table_discharging)
