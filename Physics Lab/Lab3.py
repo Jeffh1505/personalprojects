@@ -69,10 +69,10 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, [err
     plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'Charging Data Set {i+1}', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
-    plt.plot(time, fit_line, label=f'Best Fit {i+1}', color='red')
+    plt.plot(time, fit_line, label=f'Best Fit {i*10}µF', color='red')
 
     # Customize the plot
-    plt.title(f'Linearized Charging Data with Best Fit (Charging Set {i+1})')
+    plt.title(f'Linearized Charging Data with Best Fit ({i*10})µF')
     plt.xlabel('Time (seconds)')
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
@@ -93,13 +93,13 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, [
     plt.figure()
 
     # Plot the linearized data with error bars (10% error)
-    plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'Discharging Data Set {i+1}', capsize=3, elinewidth=1, markeredgewidth=1)
+    plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'Discharging Data Set {i*10}µF', capsize=3, elinewidth=1, markeredgewidth=1)
 
     # Plot the best fit line
     plt.plot(time, fit_line, label=f'Best Fit {i+1}', color='red')
 
     # Customize the plot
-    plt.title(f'Linearized Discharging Data with Best Fit (Discharging Set {i+1})')
+    plt.title(f'Linearized Discharging Data with Best Fit (Discharging Set {i*10}µF)')
     plt.xlabel('Time (seconds)')
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
