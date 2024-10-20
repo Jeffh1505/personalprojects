@@ -32,24 +32,36 @@ time_thirty = np.arange(len(thirty_microfarad_charging))
 # Store time lists for each data set
 time_data = [time_ten, time_twenty, time_thirty]
 
-# Plot and fit the linearized data
-for i, (time, data) in enumerate(zip(time_data, linearized_charging)):
+# Error is 10% of the data values
+error_ten = np.array(ten_microfarad_charging) * 0.10
+error_twenty = np.array(twenty_microfarad_charging) * 0.10
+error_thirty = np.array(thirty_microfarad_charging) * 0.10
+
+errors = [error_ten, error_twenty, error_thirty]
+
+# Plot and fit each dataset on separate graphs
+for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, errors)):
     # Perform the curve fitting
     params, _ = opt.curve_fit(funclin, time, data)
-
-    # Plot the linearized data
-    plt.scatter(time, data, label=f'Data Set {i+1}')
 
     # Generate best fit line
     fit_line = funclin(time, *params)
     
-    # Plot the best fit line
-    plt.plot(time, fit_line, label=f'Best Fit {i+1}')
+    # Create a new figure for each dataset
+    plt.figure()
 
-# Customize the plot
-plt.title('Linearized Charging Data with Best Fit')
-plt.xlabel('Time (Seconds)')
-plt.ylabel('ln(I(t))')
-plt.legend()
-plt.grid(True)
-plt.show()
+    # Plot the linearized data with error bars (10% error)
+    plt.errorbar(time, data, yerr=error * 0.10, fmt='o', label=f'Data Set {i+1}', capsize=3, elinewidth=1, markeredgewidth=1)
+
+    # Plot the best fit line
+    plt.plot(time, fit_line, label=f'Best Fit {i+1}', color='red')
+
+    # Customize the plot
+    plt.title(f'Linearized Charging Data with Best Fit (Data Set {i+1})')
+    plt.xlabel('Time (arbitrary units)')
+    plt.ylabel('ln(Current) (µA)')
+    plt.legend()
+    plt.grid(True)
+
+    # Show the plot
+    plt.show()
