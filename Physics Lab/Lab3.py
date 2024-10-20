@@ -77,7 +77,7 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, [err
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
     plt.grid(True)
-    slope_text = f"Slope (1/RC) = {params[1]}"
+    slope_text = f"Slope (1/RC) = {params[1]:.2f}"
     plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
     
 
@@ -106,7 +106,7 @@ for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, [
     plt.xlabel('Time (seconds)')
     plt.ylabel('ln(Current) (µA)')
     plt.legend()
-    slope_text = f"Slope (1/RC) = {params[1]}"
+    slope_text = f"Slope (1/RC) = {params[1]:.2f}"
     plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
     plt.grid(True)
 
