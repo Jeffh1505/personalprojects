@@ -30,8 +30,9 @@ time_data = np.arange(10)
 error_charging = [np.array(data) * 0.10 for data in [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]]
 error_discharging = [np.array(data) * 0.10 for data in [ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging]]
 
-# Capacitances in farads
-capacitances = [10e-6, 20e-6, 30e-6]  # 10µF, 20µF, 30µF
+# Time constants and errors storage
+time_constants_charging = []
+time_constants_discharging = []
 
 # Plot for charging data
 plt.figure(figsize=(8, 6))
@@ -40,6 +41,17 @@ for i, (charging_data, error, color) in enumerate(zip([ten_microfarad_charging, 
     linearized_charging = linearize(charging_data)
     params, cov = opt.curve_fit(funclin, time_data, linearized_charging, sigma=error, absolute_sigma=True)
     fit_line = funclin(time_data, *params)
+    
+    # Extract slope and intercept
+    slope = params[1]
+    slope_error = np.sqrt(cov[1, 1])
+    
+    # Compute time constant and its error
+    tau = -1 / slope
+    tau_error = slope_error / slope**2
+    
+    # Store the time constant and error
+    time_constants_charging.append((tau, tau_error))
     
     # Plot the linearized data with error bars and best fit line
     plt.errorbar(time_data, linearized_charging, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Charging)', color=color, capsize=3)
@@ -61,6 +73,17 @@ for i, (discharging_data, error, color) in enumerate(zip([ten_microfarad_dischar
     params, cov = opt.curve_fit(funclin, time_data, linearized_discharging, sigma=error, absolute_sigma=True)
     fit_line = funclin(time_data, *params)
     
+    # Extract slope and intercept
+    slope = params[1]
+    slope_error = np.sqrt(cov[1, 1])
+    
+    # Compute time constant and its error
+    tau = -1 / slope
+    tau_error = slope_error / slope**2
+    
+    # Store the time constant and error
+    time_constants_discharging.append((tau, tau_error))
+    
     # Plot the linearized data with error bars and best fit line
     plt.errorbar(time_data, linearized_discharging, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Discharging)', color=color, capsize=3)
     plt.plot(time_data, fit_line, label=f'Best Fit {(i+1)*10}µF', color=color, linestyle='--')
@@ -72,3 +95,12 @@ plt.ylabel('ln(Current) (µA)')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+# Report time constants with errors
+print("Charging Time Constants (µF):")
+for i, (tau, tau_error) in enumerate(time_constants_charging):
+    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau:.4f} s, Error: ±{tau_error:.4f} s")
+
+print("\nDischarging Time Constants (µF):")
+for i, (tau, tau_error) in enumerate(time_constants_discharging):
+    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau:.4f} s, Error: ±{tau_error:.4f} s")
