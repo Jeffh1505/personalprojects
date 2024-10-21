@@ -12,93 +12,63 @@ ten_microfarad_discharging = [13.75, 8, 6.25, 5.5, 3, 2.75, 2, 1.75, 1.25, 1]
 twenty_microfarad_discharging = [9, 8, 7, 5, 4.95, 4, 3.75, 3.25, 3, 2.75]
 thirty_microfarad_discharging = [10, 9.25, 7.95, 6.85, 6.5, 6, 5.25, 5, 4.75, 4.1]
 
-# Functions to linearize and fit
+# Function for linearizing data
 def linearize(L: list):
-    """Linearize the data by applying natural log"""
     return np.log(np.array(L))
 
+# Linear function for fitting
 def funclin(x, a, b):
-    """Linear function for fitting"""
     return a + b * x
 
-# Limit data to first 10 points
-ten_microfarad_charging = ten_microfarad_charging[:10]
-twenty_microfarad_charging = twenty_microfarad_charging[:10]
-thirty_microfarad_charging = thirty_microfarad_charging[:10]
-
-ten_microfarad_discharging = ten_microfarad_discharging[:10]
-twenty_microfarad_discharging = twenty_microfarad_discharging[:10]
-thirty_microfarad_discharging = thirty_microfarad_discharging[:10]
-
-# Linearize the charging data
-charging = [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]
-linearized_charging = [linearize(charging_list) for charging_list in charging]
-
-# Linearize the discharging data
-discharging = [ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging]
-linearized_discharging = [linearize(discharging_list) for discharging_list in discharging]
+# Colors for distinct capacitances
+colors = ['blue', 'green', 'orange']
 
 # Time in seconds (first 10 points)
-time_data = [np.arange(10)] * 3  # Assuming 1 second intervals for each dataset
+time_data = np.arange(10)
 
-# Error is 5% of the data values (reduced from 10% to make the bars smaller)
-error_charging = [np.array(data) * 0.05 for data in charging]
-error_discharging = [np.array(data) * 0.05 for data in discharging]
+# Error is 10% of the data values
+error_charging = [np.array(data) * 0.10 for data in [ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging]]
+error_discharging = [np.array(data) * 0.10 for data in [ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging]]
 
-# Constants
-R_load = 510e3  # Load resistance in ohms (510 kΩ)
-tolerance = 0.10  # ±10% tolerance
+# Capacitances in farads
 capacitances = [10e-6, 20e-6, 30e-6]  # 10µF, 20µF, 30µF
 
-# Plot and fit each dataset with distinct colors
-colors = ['red', 'blue', 'green']  # Use different colors for each plot
+# Plot for charging data
+plt.figure(figsize=(8, 6))
 
-# Charging
-for i, (time, data, error) in enumerate(zip(time_data, linearized_charging, error_charging)):
-    # Perform the curve fitting and get parameters
-    params, cov = opt.curve_fit(funclin, time, data, sigma=error, absolute_sigma=True)
+for i, (charging_data, error, color) in enumerate(zip([ten_microfarad_charging, twenty_microfarad_charging, thirty_microfarad_charging], error_charging, colors)):
+    linearized_charging = linearize(charging_data)
+    params, cov = opt.curve_fit(funclin, time_data, linearized_charging, sigma=error, absolute_sigma=True)
+    fit_line = funclin(time_data, *params)
     
-    # Generate best fit line
-    fit_line = funclin(time, *params)
+    # Plot the linearized data with error bars and best fit line
+    plt.errorbar(time_data, linearized_charging, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Charging)', color=color, capsize=3)
+    plt.plot(time_data, fit_line, label=f'Best Fit {(i+1)*10}µF', color=color, linestyle='--')
 
-    # Plot the linearized data with error bars and a distinct color for the best fit line
-    plt.figure()
-    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Charging)', capsize=3, elinewidth=1, markeredgewidth=1)
-    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF (Charging)', color=colors[i])
+# Customize the charging plot
+plt.title('Linearized Charging Data with Best Fit Lines')
+plt.xlabel('Time (seconds)')
+plt.ylabel('ln(Current) (µA)')
+plt.legend()
+plt.grid(True)
+plt.show()
 
-    # Customize the plot
-    plt.title(f'Linearized Charging Data with Best Fit {(i+1)*10}µF')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('ln(Current) (µA)')
-    plt.legend()
-    plt.grid(True)
-    slope_text = f"Slope (1/RC) = {params[1]:.2f}"
-    plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
+# Plot for discharging data
+plt.figure(figsize=(8, 6))
 
-    # Show the plot
-    plt.show()
-
-# Discharging
-for i, (time, data, error) in enumerate(zip(time_data, linearized_discharging, error_discharging)):
-    # Perform the curve fitting and get parameters
-    params, cov = opt.curve_fit(funclin, time, data, sigma=error, absolute_sigma=True)
+for i, (discharging_data, error, color) in enumerate(zip([ten_microfarad_discharging, twenty_microfarad_discharging, thirty_microfarad_discharging], error_discharging, colors)):
+    linearized_discharging = linearize(discharging_data)
+    params, cov = opt.curve_fit(funclin, time_data, linearized_discharging, sigma=error, absolute_sigma=True)
+    fit_line = funclin(time_data, *params)
     
-    # Generate best fit line
-    fit_line = funclin(time, *params)
+    # Plot the linearized data with error bars and best fit line
+    plt.errorbar(time_data, linearized_discharging, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Discharging)', color=color, capsize=3)
+    plt.plot(time_data, fit_line, label=f'Best Fit {(i+1)*10}µF', color=color, linestyle='--')
 
-    # Plot the linearized data with error bars and a distinct color for the best fit line
-    plt.figure()
-    plt.errorbar(time, data, yerr=error, fmt='o', label=f'{(i+1)*10}µF (Discharging)', capsize=3, elinewidth=1, markeredgewidth=1)
-    plt.plot(time, fit_line, label=f'Best Fit {(i+1)*10}µF (Discharging)', color=colors[i])
-
-    # Customize the plot
-    plt.title(f'Linearized Discharging Data with Best Fit {(i+1)*10}µF')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('ln(Current) (µA)')
-    plt.legend()
-    plt.grid(True)
-    slope_text = f"Slope (1/RC) = {params[1]:.2f}"
-    plt.text(0.002, min(data) + 0.001, slope_text, fontsize=12, color='green')
-
-    # Show the plot
-    plt.show()
+# Customize the discharging plot
+plt.title('Linearized Discharging Data with Best Fit Lines')
+plt.xlabel('Time (seconds)')
+plt.ylabel('ln(Current) (µA)')
+plt.legend()
+plt.grid(True)
+plt.show()
