@@ -96,11 +96,30 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-# Report time constants with errors
+# Function to round values to two significant figures
+def round_to_sigfigs(value, sigfigs):
+    return float(f"{value:.{sigfigs}g}")
+
+# Function to match decimal places of the time constant to the error
+def match_decimal_places(tau, tau_error):
+    # Round the error to two significant figures
+    tau_error_rounded = round_to_sigfigs(tau_error, 2)
+    
+    # Find the number of decimal places in the rounded error
+    decimal_places = abs(int(np.floor(np.log10(tau_error_rounded)))) + 1 if tau_error_rounded < 1 else 0
+    
+    # Round the time constant to the same number of decimal places
+    tau_rounded = round(tau, decimal_places)
+    
+    return tau_rounded, tau_error_rounded
+
+# Report time constants with errors (matched decimal points)
 print("Charging Time Constants (µF):")
 for i, (tau, tau_error) in enumerate(time_constants_charging):
-    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau:.4f} s, Error: ±{tau_error:.4f} s")
+    tau_rounded, tau_error_rounded = match_decimal_places(tau, tau_error)
+    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau_rounded} s, Error: ±{tau_error_rounded} s")
 
 print("\nDischarging Time Constants (µF):")
 for i, (tau, tau_error) in enumerate(time_constants_discharging):
-    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau:.4f} s, Error: ±{tau_error:.4f} s")
+    tau_rounded, tau_error_rounded = match_decimal_places(tau, tau_error)
+    print(f"Capacitance: {(i+1)*10}µF, Time Constant: {tau_rounded} s, Error: ±{tau_error_rounded} s")
