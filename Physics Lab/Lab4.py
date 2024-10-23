@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 
-# Data (no changes to the input data)
+# Data remains unchanged
 one_point_two_k_voltage = [3.6, 8.4, 11.4, 13.8, 15.4, 15.8, 16.4, 16.4, 16.6, 16.6, 16.2, 16.2, 16, 15.8, 15.2, 12, 7.28, 4, 2.72, 2.16]
 one_point_two_k_frequency = [40.2, 103.5, 160.3, 219, 286, 337.4, 401.9, 463.1, 526.3, 579, 642.6, 704.7, 766.8, 822.3, 1172.3, 2080.7, 4970.2, 10020, 15620, 20700]
 
@@ -28,12 +28,9 @@ def interpolate_data(frequency, voltage, num_points=1000):
     return frequency_interp, voltage_interp
 
 # Convert frequency to angular frequency (ω = 2πf)
-def angular_frequency(frequency):
-    return 2 * np.pi * np.array(frequency)
-
-# Convert frequency to kHz
-def frequency_to_khz(frequency):
-    return np.array(frequency) / 1000
+def angular_frequency_khz(frequency):
+    angular_freq = 2 * np.pi * np.array(frequency)
+    return angular_freq / 1000  # Convert to kHz (kilo radians per second)
 
 # Find resonant frequency (where voltage is max) and FWHH
 def find_resonance_and_fwhh(frequency, voltage):
@@ -71,29 +68,30 @@ def plot_data(frequency_khz, voltage, label, marker):
 # Plotting
 plt.figure(figsize=(10, 6))
 
-# Frequencies in kHz for plotting
-one_point_two_k_khz = frequency_to_khz(one_point_two_k_frequency)
-three_point_three_k_khz = frequency_to_khz(three_point_three_k_frequency)
-four_point_five_k_khz = frequency_to_khz(four_point_five_k_frequency)
+# Angular frequencies in kHz for plotting
+one_point_two_k_angular_khz = angular_frequency_khz(one_point_two_k_frequency)
+three_point_three_k_angular_khz = angular_frequency_khz(three_point_three_k_frequency)
+four_point_five_k_angular_khz = angular_frequency_khz(four_point_five_k_frequency)
 
 # Plot for 1.2 kΩ
-plot_data(one_point_two_k_khz, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
+plot_data(one_point_two_k_angular_khz, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
 
 # Plot for 3.3 kΩ
-plot_data(three_point_three_k_khz, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
+plot_data(three_point_three_k_angular_khz, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
 
 # Plot for 4.5 kΩ
-plot_data(four_point_five_k_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
+plot_data(four_point_five_k_angular_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
 
 # Labels and title
-plt.xlabel('Frequency (kHz)')
+plt.xlabel('Angular Frequency (kHz)')
 plt.ylabel('Normalized Voltage')
-plt.title('Normalized Voltage vs Frequency (kHz)')
+plt.title('Normalized Voltage vs Angular Frequency (kHz)')
 plt.legend()
 plt.grid(True)
 
 # Show the plot
 plt.show()
+
 
 # Calculate the expected resonant frequency
 L = 150e-3  # 150 mH
