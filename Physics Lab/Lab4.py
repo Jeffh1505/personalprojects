@@ -31,6 +31,10 @@ def interpolate_data(frequency, voltage, num_points=1000):
 def angular_frequency(frequency):
     return 2 * np.pi * np.array(frequency)
 
+# Convert frequency to kHz
+def frequency_to_khz(frequency):
+    return np.array(frequency) / 1000
+
 # Find resonant frequency (where voltage is max) and FWHH
 def find_resonance_and_fwhh(frequency, voltage):
     frequency_interp, voltage_interp = interpolate_data(frequency, voltage)
@@ -61,57 +65,66 @@ three_point_three_k_resonance = find_resonance_and_fwhh(three_point_three_k_freq
 four_point_five_k_resonance = find_resonance_and_fwhh(four_point_five_k_frequency, four_point_five_k_voltage_normalized)
 
 # Plotting function
-def plot_data(angular_freq, voltage, label, marker):
-    plt.plot(angular_freq, voltage, label=label, marker=marker)
+def plot_data(frequency_khz, voltage, label, marker):
+    plt.plot(frequency_khz, voltage, label=label, marker=marker)
 
 # Plotting
 plt.figure(figsize=(10, 6))
 
-# Angular frequencies for plotting
-one_point_two_k_omega = angular_frequency(one_point_two_k_frequency)
-three_point_three_k_omega = angular_frequency(three_point_three_k_frequency)
-four_point_five_k_omega = angular_frequency(four_point_five_k_frequency)
+# Frequencies in kHz for plotting
+one_point_two_k_khz = frequency_to_khz(one_point_two_k_frequency)
+three_point_three_k_khz = frequency_to_khz(three_point_three_k_frequency)
+four_point_five_k_khz = frequency_to_khz(four_point_five_k_frequency)
 
 # Plot for 1.2 kΩ
-plot_data(one_point_two_k_omega, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
+plot_data(one_point_two_k_khz, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
 
 # Plot for 3.3 kΩ
-plot_data(three_point_three_k_omega, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
+plot_data(three_point_three_k_khz, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
 
 # Plot for 4.5 kΩ
-plot_data(four_point_five_k_omega, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
+plot_data(four_point_five_k_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
 
 # Labels and title
-plt.xlabel('Angular Frequency (rad/s)')
+plt.xlabel('Frequency (kHz)')
 plt.ylabel('Normalized Voltage')
-plt.title('Normalized Voltage vs Angular Frequency')
+plt.title('Normalized Voltage vs Frequency (kHz)')
 plt.legend()
 plt.grid(True)
 
 # Show the plot
 plt.show()
 
+# Calculate the expected resonant frequency
+L = 150e-3  # 150 mH
+C = 0.5e-6  # 0.5 µF
+f_expected = 1 / (2 * np.pi * np.sqrt(L * C))
+
 # Display results
 datasets = ['1.2 kΩ', '3.3 kΩ', '4.5 kΩ']
 results = [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance]
 
+print(f"Expected Resonant Frequency: {f_expected:.2f} Hz\n")
 print("Dataset | Resonant Frequency (Hz) ± Uncertainty | FWHH (Hz) ± Uncertainty")
 for i, result in enumerate(results):
     print(f"{datasets[i]} | {result[0]:.2f} ± {result[1]:.2f} | {result[2]:.2f} ± {result[3]:.2f}")
 
 # LaTeX Table Output
-def generate_latex_table():
-    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequencies and FWHH with Uncertainties}\n\\begin{tabular}{|c|c|c|}\n\\hline\n"
-    latex_table += "Dataset & Resonant Frequency (Hz) & FWHH (Hz) \\\\ \\hline\n"
+def generate_latex_table(expected_freq):
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequencies, FWHH, and Expected Resonant Frequency with Uncertainties}\n\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
+    latex_table += "Dataset & Resonant Frequency (Hz) & FWHH (Hz) & Expected Resonant Frequency (Hz) \\\\ \\hline\n"
     
     for i, result in enumerate(results):
-        latex_table += f"{datasets[i]} & {result[0]:.2f} ± {result[1]:.2f} & {result[2]:.2f} ± {result[3]:.2f} \\\\ \\hline\n"
+        latex_table += f"{datasets[i]} & {result[0]:.2f} ± {result[1]:.2f} & {result[2]:.2f} ± {result[3]:.2f} & {expected_freq:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
-    
+    latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
 
-# Output the LaTeX table
-latex_table = generate_latex_table()
-print("\nLaTeX Table:")
-print(latex_table)
+# Generate the LaTeX table
+latex_table_output = generate_latex_table(f_expected)
+print("\nLaTeX Table:\n")
+print(latex_table_output)
+
+    
+   
