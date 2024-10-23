@@ -23,21 +23,53 @@ four_point_five_k_voltage_normalized = normalize_voltage(four_point_five_k_volta
 def angular_frequency(frequency):
     return 2 * np.pi * np.array(frequency)
 
-one_point_two_k_omega = angular_frequency(one_point_two_k_frequency)
-three_point_three_k_omega = angular_frequency(three_point_three_k_frequency)
-four_point_five_k_omega = angular_frequency(four_point_five_k_frequency)
+# Find resonant frequency (where voltage is max) and FWHH
+def find_resonance_and_fwhh(frequency, voltage):
+    max_voltage = max(voltage)
+    half_max_voltage = max_voltage / 2
+    
+    # Resonant frequency is where the voltage is maximum
+    resonant_index = np.argmax(voltage)
+    resonant_frequency = frequency[resonant_index]
+    
+    # FWHH: find where voltage crosses half max
+    above_half_max = np.where(voltage >= half_max_voltage)[0]
+    lower_bound = frequency[above_half_max[0]]
+    upper_bound = frequency[above_half_max[-1]]
+    fwhh = upper_bound - lower_bound
+    
+    # Estimate uncertainty based on step size
+    freq_step_size = np.mean(np.diff(frequency))
+    uncertainty_resonant_freq = freq_step_size / 2
+    uncertainty_fwhh = freq_step_size
+    
+    return resonant_frequency, uncertainty_resonant_freq, fwhh, uncertainty_fwhh
+
+# Calculate for each dataset
+one_point_two_k_resonance = find_resonance_and_fwhh(one_point_two_k_frequency, one_point_two_k_voltage_normalized)
+three_point_three_k_resonance = find_resonance_and_fwhh(three_point_three_k_frequency, three_point_three_k_voltage_normalized)
+four_point_five_k_resonance = find_resonance_and_fwhh(four_point_five_k_frequency, four_point_five_k_voltage_normalized)
+
+# Plotting function
+def plot_data(angular_freq, voltage, label, marker):
+    plt.plot(angular_freq, voltage, label=label, marker=marker)
 
 # Plotting
 plt.figure(figsize=(10, 6))
 
+# Angular frequencies for plotting
+one_point_two_k_omega = angular_frequency(one_point_two_k_frequency)
+three_point_three_k_omega = angular_frequency(three_point_three_k_frequency)
+four_point_five_k_omega = angular_frequency(four_point_five_k_frequency)
+
 # Plot for 1.2 kΩ
-plt.plot(one_point_two_k_omega, one_point_two_k_voltage_normalized, label='1.2 kΩ', marker='o')
+plot_data(one_point_two_k_omega, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
 
 # Plot for 3.3 kΩ
-plt.plot(three_point_three_k_omega, three_point_three_k_voltage_normalized, label='3.3 kΩ', marker='s')
+plot_data(three_point_three_k_omega, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
 
 # Plot for 4.5 kΩ
-plt.plot(four_point_five_k_omega, four_point_five_k_voltage_normalized, label='4.5 kΩ', marker='^')
+plot_data(four_point_five_k_omega, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
 
 # Labels and title
 plt.xlabel('Angular Frequency (rad/s)')
@@ -48,3 +80,28 @@ plt.grid(True)
 
 # Show the plot
 plt.show()
+
+# Display results
+datasets = ['1.2 kΩ', '3.3 kΩ', '4.5 kΩ']
+results = [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance]
+
+print("Dataset | Resonant Frequency (Hz) ± Uncertainty | FWHH (Hz) ± Uncertainty")
+for i, result in enumerate(results):
+    print(f"{datasets[i]} | {result[0]:.2f} ± {result[1]:.2f} | {result[2]:.2f} ± {result[3]:.2f}")
+
+# LaTeX Table Output
+def generate_latex_table():
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequencies and FWHH with Uncertainties}\n\\begin{tabular}{|c|c|c|}\n\\hline\n"
+    latex_table += "Dataset & Resonant Frequency (Hz) & FWHH (Hz) \\\\ \\hline\n"
+    
+    for i, result in enumerate(results):
+        latex_table += f"{datasets[i]} & {result[0]:.2f} ± {result[1]:.2f} & {result[2]:.2f} ± {result[3]:.2f} \\\\ \\hline\n"
+    
+    latex_table += "\\end{tabular}\n\\end{table}"
+    
+    return latex_table
+
+# Output the LaTeX table
+latex_table = generate_latex_table()
+print("\nLaTeX Table:")
+print(latex_table)
