@@ -79,47 +79,44 @@ def generate_latex_table_with_angular_freq(resonance_results, angular_freq_resul
     for i, (resonance, angular_freq) in enumerate(zip(resonance_results, angular_freq_results)):
         resonant_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh = resonance
         expected_freq_khz = expected_frequency[i]  # Expected frequency in kHz
-        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {angular_freq:.2f} ± {uncertainty_resonant_freq * 2 * np.pi / 1000:.2f} & {fwhh:.2f} ± {uncertainty_fwhh * 2 * np.pi / 1000:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
+        
+        # Correctly extract the single angular frequency value for resonant frequency
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {angular_freq[resonant_freq]:.2f} ± {uncertainty_resonant_freq * 2 * np.pi / 1000:.2f} & {fwhh:.2f} ± {uncertainty_fwhh * 2 * np.pi / 1000:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
 
-# Expected resonant frequency in kHz
-expected_freq_khz = [581.40 / 1000, 581.40 / 1000, 581.40 / 1000]  # Expected frequency converted to kHz
+# Expected resonant frequencies based on LC circuit theory
+inductor_value = 150e-3  # 150 mH
+capacitor_value = 0.5e-6  # 0.5 μF
+expected_frequencies = [
+    1 / (2 * np.pi * np.sqrt(inductor_value * capacitor_value)),  # for 1.2 kΩ
+    1 / (2 * np.pi * np.sqrt(inductor_value * capacitor_value)),  # for 3.3 kΩ
+    1 / (2 * np.pi * np.sqrt(inductor_value * capacitor_value)),  # for 4.5 kΩ
+]
+
+# Convert expected frequencies to kHz
+expected_frequencies_khz = np.array(expected_frequencies) / 1000  # Convert to kHz
+
+# Gather results for LaTeX table generation
+resonance_results = [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance]
+angular_freq_results = [angular_freq_one_point_two_k, angular_freq_three_point_three_k, angular_freq_four_point_five_k]
 
 # Generate the LaTeX table
-latex_table_output = generate_latex_table_with_angular_freq(
-    [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance],
-    [angular_freq_one_point_two_k, angular_freq_three_point_three_k, angular_freq_four_point_five_k],
-    expected_freq_khz
-)
+latex_table_output = generate_latex_table_with_angular_freq(resonance_results, angular_freq_results, expected_frequencies_khz)
 
-# Output the LaTeX table
-print("\nLaTeX Table:\n")
+# Print LaTeX table output
 print(latex_table_output)
 
-# Plotting function
-def plot_data(frequency_khz, voltage, label, marker):
-    plt.plot(frequency_khz, voltage, label=label, marker=marker)
-
-# Plotting
+# Plotting the data
 plt.figure(figsize=(10, 6))
+freqs = [one_point_two_k_frequency, three_point_three_k_frequency, four_point_five_k_frequency]
+norm_voltages = [one_point_two_k_voltage_normalized, three_point_three_k_voltage_normalized, four_point_five_k_voltage_normalized]
 
-# Angular frequencies in kHz for plotting
-one_point_two_k_angular_khz = angular_frequency_khz(one_point_two_k_frequency)
-three_point_three_k_angular_khz = angular_frequency_khz(three_point_three_k_frequency)
-four_point_five_k_angular_khz = angular_frequency_khz(four_point_five_k_frequency)
+for i in range(3):
+    freq_interp, volt_interp = interpolate_data(freqs[i], norm_voltages[i])
+    plt.plot(freq_interp / 1000, volt_interp, label=f'{["1.2 kΩ", "3.3 kΩ", "4.5 kΩ"][i]}', marker='o')  # Divide frequency by 1000 for kHz
 
-# Plot for 1.2 kΩ
-plot_data(one_point_two_k_angular_khz, one_point_two_k_voltage_normalized, '1.2 kΩ', 'o')
-
-# Plot for 3.3 kΩ
-plot_data(three_point_three_k_angular_khz, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
-
-# Plot for 4.5 kΩ
-plot_data(four_point_five_k_angular_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', 'd')
-
-# Adding labels and legend
 plt.title('Voltage vs. Frequency for Different Resistances')
 plt.xlabel('Frequency (kHz)')
 plt.ylabel('Normalized Voltage')
