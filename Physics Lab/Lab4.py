@@ -27,7 +27,7 @@ def interpolate_data(frequency, voltage, num_points=1000):
     voltage_interp = f_interp(frequency_interp)
     return frequency_interp, voltage_interp
 
-# Convert frequency to angular frequency (ω = 2πf)
+# Convert frequency to angular frequency (ω = 2πf) in kHz
 def angular_frequency_khz(frequency):
     angular_freq = 2 * np.pi * np.array(frequency)
     return angular_freq / 1000  # Convert to kHz (kilo radians per second)
@@ -61,6 +61,43 @@ one_point_two_k_resonance = find_resonance_and_fwhh(one_point_two_k_frequency, o
 three_point_three_k_resonance = find_resonance_and_fwhh(three_point_three_k_frequency, three_point_three_k_voltage_normalized)
 four_point_five_k_resonance = find_resonance_and_fwhh(four_point_five_k_frequency, four_point_five_k_voltage_normalized)
 
+# Calculate angular frequencies for LaTeX table
+def calculate_angular_frequencies(frequencies):
+    return angular_frequency_khz(frequencies)
+
+# Calculate angular frequencies for each data set
+angular_freq_one_point_two_k = calculate_angular_frequencies(one_point_two_k_frequency)
+angular_freq_three_point_three_k = calculate_angular_frequencies(three_point_three_k_frequency)
+angular_freq_four_point_five_k = calculate_angular_frequencies(four_point_five_k_frequency)
+
+# Generate the LaTeX table with angular frequencies in kHz
+def generate_latex_table_with_angular_freq(resonance_results, angular_freq_results, expected_frequency):
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequencies, FWHH, and Expected Resonant Frequency with Uncertainties}\n"
+    latex_table += "\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
+    latex_table += "Dataset & Resonant Frequency (kHz) & FWHH (kHz) & Expected Resonant Frequency (kHz) \\\\ \\hline\n"
+    
+    for i, (resonance, angular_freq) in enumerate(zip(resonance_results, angular_freq_results)):
+        resonant_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh = resonance
+        expected_freq_khz = expected_frequency[i]  # Expected frequency in kHz
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {angular_freq:.2f} ± {uncertainty_resonant_freq * 2 * np.pi / 1000:.2f} & {fwhh:.2f} ± {uncertainty_fwhh * 2 * np.pi / 1000:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
+    
+    latex_table += "\\end{tabular}\n\\end{table}"
+    return latex_table
+
+# Expected resonant frequency in kHz
+expected_freq_khz = [581.40 / 1000, 581.40 / 1000, 581.40 / 1000]  # Expected frequency converted to kHz
+
+# Generate the LaTeX table
+latex_table_output = generate_latex_table_with_angular_freq(
+    [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance],
+    [angular_freq_one_point_two_k, angular_freq_three_point_three_k, angular_freq_four_point_five_k],
+    expected_freq_khz
+)
+
+# Output the LaTeX table
+print("\nLaTeX Table:\n")
+print(latex_table_output)
+
 # Plotting function
 def plot_data(frequency_khz, voltage, label, marker):
     plt.plot(frequency_khz, voltage, label=label, marker=marker)
@@ -80,49 +117,16 @@ plot_data(one_point_two_k_angular_khz, one_point_two_k_voltage_normalized, '1.2 
 plot_data(three_point_three_k_angular_khz, three_point_three_k_voltage_normalized, '3.3 kΩ', 's')
 
 # Plot for 4.5 kΩ
-plot_data(four_point_five_k_angular_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', '^')
+plot_data(four_point_five_k_angular_khz, four_point_five_k_voltage_normalized, '4.5 kΩ', 'd')
 
-# Labels and title
-plt.xlabel('Angular Frequency (kHz)')
+# Adding labels and legend
+plt.title('Voltage vs. Frequency for Different Resistances')
+plt.xlabel('Frequency (kHz)')
 plt.ylabel('Normalized Voltage')
-plt.title('Normalized Voltage vs Angular Frequency (kHz)')
 plt.legend()
-plt.grid(True)
+plt.grid()
+plt.tight_layout()
 
-# Show the plot
+# Save the plot
+plt.savefig('voltage_vs_frequency.png')
 plt.show()
-
-
-# Calculate the expected resonant frequency
-L = 150e-3  # 150 mH
-C = 0.5e-6  # 0.5 µF
-f_expected = 1 / (2 * np.pi * np.sqrt(L * C))
-
-# Display results
-datasets = ['1.2 kΩ', '3.3 kΩ', '4.5 kΩ']
-results = [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance]
-
-print(f"Expected Resonant Frequency: {f_expected:.2f} Hz\n")
-print("Dataset | Resonant Frequency (Hz) ± Uncertainty | FWHH (Hz) ± Uncertainty")
-for i, result in enumerate(results):
-    print(f"{datasets[i]} | {result[0]:.2f} ± {result[1]:.2f} | {result[2]:.2f} ± {result[3]:.2f}")
-
-# LaTeX Table Output
-def generate_latex_table(expected_freq):
-    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequencies, FWHH, and Expected Resonant Frequency with Uncertainties}\n\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
-    latex_table += "Dataset & Resonant Frequency (Hz) & FWHH (Hz) & Expected Resonant Frequency (Hz) \\\\ \\hline\n"
-    
-    for i, result in enumerate(results):
-        latex_table += f"{datasets[i]} & {result[0]:.2f} ± {result[1]:.2f} & {result[2]:.2f} ± {result[3]:.2f} & {expected_freq:.2f} \\\\ \\hline\n"
-    
-    latex_table += "\\end{tabular}\n\\end{table}"
-    latex_table += "\\end{tabular}\n\\end{table}"
-    return latex_table
-
-# Generate the LaTeX table
-latex_table_output = generate_latex_table(f_expected)
-print("\nLaTeX Table:\n")
-print(latex_table_output)
-
-    
-   
