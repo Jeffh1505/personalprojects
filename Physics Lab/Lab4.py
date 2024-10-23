@@ -80,8 +80,11 @@ def generate_latex_table_with_angular_freq(resonance_results, angular_freq_resul
         resonant_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh = resonance
         expected_freq_khz = expected_frequency[i]  # Expected frequency in kHz
         
-        # Correctly extract the single angular frequency value for resonant frequency
-        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {angular_freq[resonant_freq]:.2f} ± {uncertainty_resonant_freq * 2 * np.pi / 1000:.2f} & {fwhh:.2f} ± {uncertainty_fwhh * 2 * np.pi / 1000:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
+        # Find the index of the closest angular frequency
+        closest_index = (np.abs(angular_freq - resonant_freq)).argmin()
+        angular_freq_value = angular_freq[closest_index]
+        
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {angular_freq_value:.2f} ± {uncertainty_resonant_freq * 2 * np.pi / 1000:.2f} & {fwhh:.2f} ± {uncertainty_fwhh * 2 * np.pi / 1000:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
