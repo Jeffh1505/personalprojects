@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
-# Data
+# Data (no changes to the input data)
 one_point_two_k_voltage = [3.6, 8.4, 11.4, 13.8, 15.4, 15.8, 16.4, 16.4, 16.6, 16.6, 16.2, 16.2, 16, 15.8, 15.2, 12, 7.28, 4, 2.72, 2.16]
 one_point_two_k_frequency = [40.2, 103.5, 160.3, 219, 286, 337.4, 401.9, 463.1, 526.3, 579, 642.6, 704.7, 766.8, 822.3, 1172.3, 2080.7, 4970.2, 10020, 15620, 20700]
 
@@ -19,27 +20,36 @@ one_point_two_k_voltage_normalized = normalize_voltage(one_point_two_k_voltage)
 three_point_three_k_voltage_normalized = normalize_voltage(three_point_three_k_voltage)
 four_point_five_k_voltage_normalized = normalize_voltage(four_point_five_k_voltage)
 
+# Interpolation function for smoother frequency and voltage data
+def interpolate_data(frequency, voltage, num_points=1000):
+    f_interp = interp1d(frequency, voltage, kind='cubic')
+    frequency_interp = np.linspace(min(frequency), max(frequency), num_points)
+    voltage_interp = f_interp(frequency_interp)
+    return frequency_interp, voltage_interp
+
 # Convert frequency to angular frequency (ω = 2πf)
 def angular_frequency(frequency):
     return 2 * np.pi * np.array(frequency)
 
 # Find resonant frequency (where voltage is max) and FWHH
 def find_resonance_and_fwhh(frequency, voltage):
-    max_voltage = max(voltage)
+    frequency_interp, voltage_interp = interpolate_data(frequency, voltage)
+    
+    max_voltage = max(voltage_interp)
     half_max_voltage = max_voltage / 2
     
     # Resonant frequency is where the voltage is maximum
-    resonant_index = np.argmax(voltage)
-    resonant_frequency = frequency[resonant_index]
+    resonant_index = np.argmax(voltage_interp)
+    resonant_frequency = frequency_interp[resonant_index]
     
     # FWHH: find where voltage crosses half max
-    above_half_max = np.where(voltage >= half_max_voltage)[0]
-    lower_bound = frequency[above_half_max[0]]
-    upper_bound = frequency[above_half_max[-1]]
+    above_half_max = np.where(voltage_interp >= half_max_voltage)[0]
+    lower_bound = frequency_interp[above_half_max[0]]
+    upper_bound = frequency_interp[above_half_max[-1]]
     fwhh = upper_bound - lower_bound
     
-    # Estimate uncertainty based on step size
-    freq_step_size = np.mean(np.diff(frequency))
+    # Estimate uncertainty based on step size near the resonance
+    freq_step_size = np.mean(np.diff(frequency_interp[above_half_max]))
     uncertainty_resonant_freq = freq_step_size / 2
     uncertainty_fwhh = freq_step_size
     
