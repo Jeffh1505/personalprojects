@@ -15,12 +15,12 @@ four_point_five_k_frequency = [38.7, 101.5, 159.9, 223.3, 278.6, 342.4, 398, 455
 def normalize_voltage(voltage):
     return np.array(voltage) / max(voltage)
 
-# Convert regular frequency to angular frequency (ω = 2πf) in rad/s
+# Convert regular frequency to angular frequency (ω = 2πf)
 def to_angular_frequency(frequency):
     return 2 * np.pi * np.array(frequency)
 
-# Convert angular frequency to krad/s for display
-def to_krad_per_second(angular_freq):
+# Convert angular frequency to kHz (ω/1000)
+def to_angular_khz(angular_freq):
     return angular_freq / 1000
 
 # Modified interpolation function to work with angular frequencies
@@ -31,7 +31,7 @@ def interpolate_data(frequency, voltage, num_points=1000):
     voltage_interp = f_interp(angular_freq_interp)
     return angular_freq_interp, voltage_interp
 
-# Modified resonance finder to work with and return angular frequencies
+# Modified resonance finder to work with angular frequencies
 def find_resonance_and_fwhh(frequency, voltage):
     angular_freq_interp, voltage_interp = interpolate_data(frequency, voltage)
     
@@ -55,7 +55,7 @@ def find_resonance_and_fwhh(frequency, voltage):
 # Calculate theoretical angular frequency
 inductor_value = 150e-3  # 150 mH
 capacitor_value = 0.5e-6  # 0.5 μF
-expected_angular_frequency = 1 / np.sqrt(inductor_value * capacitor_value)  # This is already ω = 1/√(LC)
+expected_angular_frequency = 1 / np.sqrt(inductor_value * capacitor_value)  # This is ω = 1/√(LC)
 
 # Normalize voltages
 one_point_two_k_voltage_normalized = normalize_voltage(one_point_two_k_voltage)
@@ -67,22 +67,22 @@ one_point_two_k_resonance = find_resonance_and_fwhh(one_point_two_k_frequency, o
 three_point_three_k_resonance = find_resonance_and_fwhh(three_point_three_k_frequency, three_point_three_k_voltage_normalized)
 four_point_five_k_resonance = find_resonance_and_fwhh(four_point_five_k_frequency, four_point_five_k_voltage_normalized)
 
-# Generate LaTeX table with angular frequencies
+# Generate LaTeX table with angular frequencies in kHz
 def generate_latex_table(resonance_results, expected_freq):
-    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Angular Frequencies, FWHH, and Expected Angular Frequency with Uncertainties}\n"
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Angular Frequencies and FWHH with Uncertainties}\n"
     latex_table += "\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
-    latex_table += "Dataset & Resonant Frequency (krad/s) & FWHH (krad/s) & Expected Frequency (krad/s) \\\\ \\hline\n"
+    latex_table += "Dataset & Angular Frequency ω (kHz) & FWHH (kHz) & Expected ω (kHz) \\\\ \\hline\n"
     
     for i, resonance in enumerate(resonance_results):
         resonant_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh = resonance
-        # Convert to krad/s for display
-        resonant_freq_krad = to_krad_per_second(resonant_freq)
-        uncertainty_krad = to_krad_per_second(uncertainty_resonant_freq)
-        fwhh_krad = to_krad_per_second(fwhh)
-        uncertainty_fwhh_krad = to_krad_per_second(uncertainty_fwhh)
-        expected_freq_krad = to_krad_per_second(expected_freq)
+        # Convert to angular kHz for display
+        resonant_freq_khz = to_angular_khz(resonant_freq)
+        uncertainty_khz = to_angular_khz(uncertainty_resonant_freq)
+        fwhh_khz = to_angular_khz(fwhh)
+        uncertainty_fwhh_khz = to_angular_khz(uncertainty_fwhh)
+        expected_freq_khz = to_angular_khz(expected_freq)
         
-        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {resonant_freq_krad:.2f} ± {uncertainty_krad:.2f} & {fwhh_krad:.2f} ± {uncertainty_fwhh_krad:.2f} & {expected_freq_krad:.2f} \\\\ \\hline\n"
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {resonant_freq_khz:.2f} ± {uncertainty_khz:.2f} & {fwhh_khz:.2f} ± {uncertainty_fwhh_khz:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
@@ -94,7 +94,7 @@ latex_table_output = generate_latex_table(resonance_results, expected_angular_fr
 # Print LaTeX table
 print(latex_table_output)
 
-# Plotting with angular frequencies
+# Plotting with angular frequencies in kHz
 plt.figure(figsize=(10, 6))
 datasets = [
     (one_point_two_k_frequency, one_point_two_k_voltage_normalized, "1.2 kΩ"),
@@ -104,15 +104,15 @@ datasets = [
 
 for freq, volt, label in datasets:
     angular_freq_interp, volt_interp = interpolate_data(freq, volt)
-    plt.plot(to_krad_per_second(angular_freq_interp), volt_interp, label=label, marker='o')
+    plt.plot(to_angular_khz(angular_freq_interp), volt_interp, label=label, marker='o')
 
 plt.title('Voltage vs. Angular Frequency for Different Resistances')
-plt.xlabel('Angular Frequency (krad/s)')
+plt.xlabel('Angular Frequency ω (kHz)')
 plt.ylabel('Normalized Voltage')
 plt.legend()
 plt.grid()
 plt.tight_layout()
 
 # Save the plot
-plt.savefig('voltage_vs_angular_frequency.png')
+plt.savefig('voltage_vs_angular_frequency_khz.png')
 plt.show()
