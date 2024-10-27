@@ -131,13 +131,33 @@ plt.show()
 def calculate_relative_accuracy(observed_freq, expected_freq):
     return (1 - abs(observed_freq - expected_freq) / expected_freq) * 100
 
-# Calculate relative accuracy for each dataset
-one_point_two_k_accuracy = calculate_relative_accuracy(one_point_two_k_resonance[0], expected_angular_frequency)
-three_point_three_k_accuracy = calculate_relative_accuracy(three_point_three_k_resonance[0], expected_angular_frequency)
-four_point_five_k_accuracy = calculate_relative_accuracy(four_point_five_k_resonance[0], expected_angular_frequency)
 
-# Display results
-print("Relative accuracy for each dataset:")
-print(f"1.2 kΩ: {one_point_two_k_accuracy:.2f}%")
-print(f"3.3 kΩ: {three_point_three_k_accuracy:.2f}%")
-print(f"4.5 kΩ: {four_point_five_k_accuracy:.2f}%")
+
+# Generate LaTeX table with relative accuracy for each resistance
+def generate_accuracy_latex_table(resonance_results, expected_freq, relative_accuracies):
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequency Accuracy for Different Resistances}\n"
+    latex_table += "\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
+    latex_table += "Resistance & Observed Resonant Frequency ω (kHz) & Expected Resonant Frequency ω (kHz) & Relative Accuracy (\%) \\\\ \\hline\n"
+    
+    for i, resonance in enumerate(resonance_results):
+        resonant_freq, _, _, _ = resonance
+        observed_freq_khz = to_angular_khz(resonant_freq)
+        expected_freq_khz = to_angular_khz(expected_freq)
+        relative_accuracy = relative_accuracies[i]
+        
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {observed_freq_khz:.2f} & {expected_freq_khz:.2f} & {relative_accuracy:.2f} \\\\ \\hline\n"
+    
+    latex_table += "\\end{tabular}\n\\end{table}"
+    return latex_table
+
+# Calculate relative accuracies
+relative_accuracies = [
+    calculate_relative_accuracy(one_point_two_k_resonance[0], expected_angular_frequency),
+    calculate_relative_accuracy(three_point_three_k_resonance[0], expected_angular_frequency),
+    calculate_relative_accuracy(four_point_five_k_resonance[0], expected_angular_frequency)
+]
+
+# Generate and print the LaTeX table
+latex_accuracy_table_output = generate_accuracy_latex_table(resonance_results, expected_angular_frequency, relative_accuracies)
+print(latex_accuracy_table_output)
+
