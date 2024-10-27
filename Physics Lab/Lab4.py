@@ -52,10 +52,14 @@ def find_resonance_and_fwhh(frequency, voltage):
     
     return resonant_angular_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh
 
-# Calculate theoretical angular frequency
+# Component values with tolerance
 inductor_value = 150e-3  # 150 mH
 capacitor_value = 0.5e-6  # 0.5 μF
+tolerance = 0.10  # 10% tolerance
+
+# Calculate theoretical angular frequency and uncertainty
 expected_angular_frequency = 1 / np.sqrt(inductor_value * capacitor_value)  # This is ω = 1/√(LC)
+uncertainty_expected_frequency = expected_angular_frequency * (tolerance / 2)
 
 # Normalize voltages
 one_point_two_k_voltage_normalized = normalize_voltage(one_point_two_k_voltage)
@@ -68,7 +72,7 @@ three_point_three_k_resonance = find_resonance_and_fwhh(three_point_three_k_freq
 four_point_five_k_resonance = find_resonance_and_fwhh(four_point_five_k_frequency, four_point_five_k_voltage_normalized)
 
 # Generate LaTeX table with angular frequencies in kHz
-def generate_latex_table(resonance_results, expected_freq):
+def generate_latex_table(resonance_results, expected_freq, expected_freq_uncertainty):
     latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Angular Frequencies and FWHH with Uncertainties}\n"
     latex_table += "\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
     latex_table += "Dataset & Angular Frequency ω (kHz) & FWHH (kHz) & Expected ω (kHz) \\\\ \\hline\n"
@@ -81,15 +85,16 @@ def generate_latex_table(resonance_results, expected_freq):
         fwhh_khz = to_angular_khz(fwhh)
         uncertainty_fwhh_khz = to_angular_khz(uncertainty_fwhh)
         expected_freq_khz = to_angular_khz(expected_freq)
+        expected_freq_uncertainty_khz = to_angular_khz(expected_freq_uncertainty)
         
-        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {resonant_freq_khz:.2f} ± {uncertainty_khz:.2f} & {fwhh_khz:.2f} ± {uncertainty_fwhh_khz:.2f} & {expected_freq_khz:.2f} \\\\ \\hline\n"
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {resonant_freq_khz:.2f} ± {uncertainty_khz:.2f} & {fwhh_khz:.2f} ± {uncertainty_fwhh_khz:.2f} & {expected_freq_khz:.2f} ± {expected_freq_uncertainty_khz:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
 
 # Generate table
 resonance_results = [one_point_two_k_resonance, three_point_three_k_resonance, four_point_five_k_resonance]
-latex_table_output = generate_latex_table(resonance_results, expected_angular_frequency)
+latex_table_output = generate_latex_table(resonance_results, expected_angular_frequency, uncertainty_expected_frequency)
 
 # Print LaTeX table
 print(latex_table_output)
