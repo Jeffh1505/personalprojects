@@ -33,24 +33,28 @@ def interpolate_data(frequency, voltage, num_points=1000):
 
 # Modified resonance finder to work with angular frequencies
 def find_resonance_and_fwhh(frequency, voltage):
-    angular_freq_interp, voltage_interp = interpolate_data(frequency, voltage)
+    angular_freq = to_angular_frequency(frequency)
     
-    max_voltage = max(voltage_interp)
+    # Find resonant frequency directly from raw data
+    resonant_index = np.argmax(voltage)
+    resonant_angular_freq = angular_freq[resonant_index]
+    
+    # Calculate FWHH directly from raw data
+    max_voltage = max(voltage)
     half_max_voltage = max_voltage / 2
     
-    resonant_index = np.argmax(voltage_interp)
-    resonant_angular_freq = angular_freq_interp[resonant_index]
-    
-    above_half_max = np.where(voltage_interp >= half_max_voltage)[0]
-    lower_bound = angular_freq_interp[above_half_max[0]]
-    upper_bound = angular_freq_interp[above_half_max[-1]]
+    above_half_max = np.where(voltage >= half_max_voltage)[0]
+    lower_bound = angular_freq[above_half_max[0]]
+    upper_bound = angular_freq[above_half_max[-1]]
     fwhh = upper_bound - lower_bound
     
-    freq_step_size = np.mean(np.diff(angular_freq_interp[above_half_max]))
+    # Estimate uncertainties based on frequency step size
+    freq_step_size = np.mean(np.diff(angular_freq[above_half_max]))
     uncertainty_resonant_freq = freq_step_size / 2
     uncertainty_fwhh = freq_step_size
     
     return resonant_angular_freq, uncertainty_resonant_freq, fwhh, uncertainty_fwhh
+
 
 # Component values with tolerance
 inductor_value = 150e-3  # 150 mH
