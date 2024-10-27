@@ -78,20 +78,20 @@ def calculate_expected_phase_difference(frequency):
 expected_phase_diff_inductor_pi, expected_phase_diff_uncertainty_inductor_pi = calculate_expected_phase_difference(frequency_inductor)
 expected_phase_diff_capacitor_pi, expected_phase_diff_uncertainty_capacitor_pi = calculate_expected_phase_difference(frequency_capacitor)
 
-# Generate LaTeX table with ± for uncertainties
+# Generate LaTeX table with uncertainties reported in the same column
 def generate_latex_table_inductor_capacitor(phase_inductor, uncertainty_inductor, 
                                               phase_capacitor, uncertainty_capacitor,
                                               expected_phase_inductor, expected_uncertainty_inductor,
                                               expected_phase_capacitor, expected_uncertainty_capacitor):
     latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Phase Difference with Uncertainties for Inductor and Capacitor}\n"
-    latex_table += "\\begin{tabular}{|c|c|c|c|c|c|}\n\\hline\n"
-    latex_table += "Component & Calculated Phase ($\\pi$) & Uncertainty ($\\pm$ $\\pi$) & Expected Phase ($\\pi$) & Expected Uncertainty ($\\pm$ $\\pi$) \\\\ \\hline\n"
+    latex_table += "\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n"
+    latex_table += "Component & Calculated Phase ($\\pi \\pm$) & Expected Phase ($\\pi \\pm$) \\\\ \\hline\n"
     
     # Add inductor data
-    latex_table += f"Inductor & {phase_inductor:.2f} & {uncertainty_inductor:.2f} & {expected_phase_inductor:.2f} & {expected_uncertainty_inductor:.2f} \\\\ \\hline\n"
+    latex_table += f"Inductor & {phase_inductor:.2f} $\\pm$ {uncertainty_inductor:.2f} & {expected_phase_inductor:.2f} $\\pm$ {expected_uncertainty_inductor:.2f} \\\\ \\hline\n"
     
     # Add capacitor data
-    latex_table += f"Capacitor & {phase_capacitor:.2f} & {uncertainty_capacitor:.2f} & {expected_phase_capacitor:.2f} & {expected_uncertainty_capacitor:.2f} \\\\ \\hline\n"
+    latex_table += f"Capacitor & {phase_capacitor:.2f} $\\pm$ {uncertainty_capacitor:.2f} & {expected_phase_capacitor:.2f} $\\pm$ {expected_uncertainty_capacitor:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
