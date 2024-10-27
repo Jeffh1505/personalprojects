@@ -134,18 +134,13 @@ def calculate_relative_accuracy(observed_freq, expected_freq):
 
 
 # Generate LaTeX table with relative accuracy for each resistance
-def generate_accuracy_latex_table(resonance_results, expected_freq, relative_accuracies):
-    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Resonant Frequency Accuracy for Different Resistances}\n"
-    latex_table += "\\begin{tabular}{|c|c|c|c|}\n\\hline\n"
-    latex_table += "Resistance & Observed Resonant Frequency ω (kHz) & Expected Resonant Frequency ω (kHz) & Relative Accuracy (\%) \\\\ \\hline\n"
+def generate_simplified_accuracy_latex_table(relative_accuracies):
+    latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Relative Accuracy of Observed Resonant Frequency}\n"
+    latex_table += "\\begin{tabular}{|c|c|}\n\\hline\n"
+    latex_table += "Resistance & Relative Accuracy (\%) \\\\ \\hline\n"
     
-    for i, resonance in enumerate(resonance_results):
-        resonant_freq, _, _, _ = resonance
-        observed_freq_khz = to_angular_khz(resonant_freq)
-        expected_freq_khz = to_angular_khz(expected_freq)
-        relative_accuracy = relative_accuracies[i]
-        
-        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {observed_freq_khz:.2f} & {expected_freq_khz:.2f} & {relative_accuracy:.2f} \\\\ \\hline\n"
+    for i, accuracy in enumerate(relative_accuracies):
+        latex_table += f"{['1.2 kΩ', '3.3 kΩ', '4.5 kΩ'][i]} & {accuracy:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
@@ -158,6 +153,6 @@ relative_accuracies = [
 ]
 
 # Generate and print the LaTeX table
-latex_accuracy_table_output = generate_accuracy_latex_table(resonance_results, expected_angular_frequency, relative_accuracies)
-print(latex_accuracy_table_output)
+latex_simplified_accuracy_table_output = generate_simplified_accuracy_latex_table(relative_accuracies)
+print(latex_simplified_accuracy_table_output)
 
