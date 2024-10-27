@@ -125,3 +125,19 @@ plt.tight_layout()
 # Save the plot
 plt.savefig('voltage_vs_angular_frequency_khz.png')
 plt.show()
+
+
+# Function to calculate relative accuracy
+def calculate_relative_accuracy(observed_freq, expected_freq):
+    return (1 - abs(observed_freq - expected_freq) / expected_freq) * 100
+
+# Calculate relative accuracy for each dataset
+one_point_two_k_accuracy = calculate_relative_accuracy(one_point_two_k_resonance[0], expected_angular_frequency)
+three_point_three_k_accuracy = calculate_relative_accuracy(three_point_three_k_resonance[0], expected_angular_frequency)
+four_point_five_k_accuracy = calculate_relative_accuracy(four_point_five_k_resonance[0], expected_angular_frequency)
+
+# Display results
+print("Relative accuracy for each dataset:")
+print(f"1.2 kΩ: {one_point_two_k_accuracy:.2f}%")
+print(f"3.3 kΩ: {three_point_three_k_accuracy:.2f}%")
+print(f"4.5 kΩ: {four_point_five_k_accuracy:.2f}%")
