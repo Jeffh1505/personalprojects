@@ -51,17 +51,47 @@ phase_diff_capacitor_pi, phase_diff_capacitor_uncertainty_pi = calculate_phase_d
     frequency_capacitor, capacitor_data["time_difference_millisec"] * 1e3  # Convert ms to µs
 )
 
+# Function to calculate expected phase difference
+def calculate_expected_phase_difference(frequency):
+    X_L = 2 * np.pi * frequency * L  # Inductive reactance
+    X_C = 1 / (2 * np.pi * frequency * C)  # Capacitive reactance
+    phi_expected = np.arctan((X_L - X_C) / R)  # Phase difference in radians
+    phi_expected_pi = phi_expected / np.pi  # Phase difference in terms of pi
+    
+    # Uncertainty calculation for expected phase difference
+    # Calculate uncertainties for X_L, X_C, and R
+    X_L_uncertainty = 2 * np.pi * frequency * L_uncertainty
+    X_C_uncertainty = (1 / (2 * np.pi * frequency * C**2)) * C_uncertainty
+    R_relative_uncertainty = R_uncertainty / R
+
+    # Calculate total uncertainty using propagation of uncertainty
+    uncertainty_phi = np.sqrt(
+        (X_L_uncertainty / (R + (X_L - X_C)))**2 +
+        (X_C_uncertainty / (R + (X_L - X_C)))**2 +
+        (R_relative_uncertainty / (1 + ((X_L - X_C) / R)))**2
+    )
+
+    phase_diff_expected_uncertainty = uncertainty_phi / np.pi  # Uncertainty in terms of pi
+    return phi_expected_pi, phase_diff_expected_uncertainty
+
+# Calculate expected phase difference
+expected_phase_diff_inductor_pi, expected_phase_diff_uncertainty_inductor_pi = calculate_expected_phase_difference(frequency_inductor)
+expected_phase_diff_capacitor_pi, expected_phase_diff_uncertainty_capacitor_pi = calculate_expected_phase_difference(frequency_capacitor)
+
 # Generate LaTeX table with ± for uncertainties
-def generate_latex_table_inductor_capacitor(phase_inductor, uncertainty_inductor, phase_capacitor, uncertainty_capacitor):
+def generate_latex_table_inductor_capacitor(phase_inductor, uncertainty_inductor, 
+                                              phase_capacitor, uncertainty_capacitor,
+                                              expected_phase_inductor, expected_uncertainty_inductor,
+                                              expected_phase_capacitor, expected_uncertainty_capacitor):
     latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Phase Difference with Uncertainties for Inductor and Capacitor}\n"
-    latex_table += "\\begin{tabular}{|c|c|c|}\n\\hline\n"
-    latex_table += "Component & Calculated Phase ($\\pi$) & Uncertainty ($\\pm$ $\\pi$) \\\\ \\hline\n"
+    latex_table += "\\begin{tabular}{|c|c|c|c|c|c|}\n\\hline\n"
+    latex_table += "Component & Calculated Phase ($\\pi$) & Uncertainty ($\\pm$ $\\pi$) & Expected Phase ($\\pi$) & Expected Uncertainty ($\\pm$ $\\pi$) \\\\ \\hline\n"
     
     # Add inductor data
-    latex_table += f"Inductor & {phase_inductor:.2f} & {uncertainty_inductor:.2f} \\\\ \\hline\n"
+    latex_table += f"Inductor & {phase_inductor:.2f} & {uncertainty_inductor:.2f} & {expected_phase_inductor:.2f} & {expected_uncertainty_inductor:.2f} \\\\ \\hline\n"
     
     # Add capacitor data
-    latex_table += f"Capacitor & {phase_capacitor:.2f} & {uncertainty_capacitor:.2f} \\\\ \\hline\n"
+    latex_table += f"Capacitor & {phase_capacitor:.2f} & {uncertainty_capacitor:.2f} & {expected_phase_capacitor:.2f} & {expected_uncertainty_capacitor:.2f} \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
@@ -69,6 +99,8 @@ def generate_latex_table_inductor_capacitor(phase_inductor, uncertainty_inductor
 # Print LaTeX table for phase differences
 latex_table_output = generate_latex_table_inductor_capacitor(
     phase_diff_inductor_pi, phase_diff_inductor_uncertainty_pi,
-    phase_diff_capacitor_pi, phase_diff_capacitor_uncertainty_pi
+    phase_diff_capacitor_pi, phase_diff_capacitor_uncertainty_pi,
+    expected_phase_diff_inductor_pi, expected_phase_diff_uncertainty_inductor_pi,
+    expected_phase_diff_capacitor_pi, expected_phase_diff_uncertainty_capacitor_pi
 )
 print(latex_table_output)
