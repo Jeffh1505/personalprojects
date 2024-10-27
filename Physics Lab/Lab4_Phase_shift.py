@@ -64,14 +64,14 @@ for freq, time_diff in data:
     expected_phase_diff_pi, expected_phase_uncertainty_pi = expected_phase_difference_pi(freq)
     results.append((freq, time_diff, calculated_phase_diff_pi, calculated_phase_uncertainty_pi, expected_phase_diff_pi, expected_phase_uncertainty_pi))
 
-# Generate LaTeX table
+# Generate LaTeX table with ± for uncertainties
 def generate_latex_table(results):
     latex_table = "\\begin{table}[h!]\n\\centering\n\\caption{Phase Difference with Uncertainties Compared to Expected Values}\n"
     latex_table += "\\begin{tabular}{|c|c|c|c|c|c|}\n\\hline\n"
-    latex_table += "Frequency (Hz) & Time Diff (µs) & Calculated Phase ($\\pi$) & Calc Uncertainty ($\\pi$) & Expected Phase ($\\pi$) & Expected Uncertainty ($\\pi$) \\\\ \\hline\n"
+    latex_table += "Frequency (Hz) & Time Diff (µs) & Calculated Phase ($\\pi$) & Expected Phase ($\\pi$) \\\\ \\hline\n"
     
     for freq, time_diff, calc_phase_pi, calc_uncertainty_pi, exp_phase_pi, exp_uncertainty_pi in results:
-        latex_table += f"{freq:.1f} & {time_diff} & {calc_phase_pi:.2f}$\\pi$ & {calc_uncertainty_pi:.2f}$\\pi$ & {exp_phase_pi:.2f}$\\pi$ & {exp_uncertainty_pi:.2f}$\\pi$ \\\\ \\hline\n"
+        latex_table += f"{freq:.1f} & {time_diff} & {calc_phase_pi:.2f} ± {calc_uncertainty_pi:.2f} $\\pi$ & {exp_phase_pi:.2f} ± {exp_uncertainty_pi:.2f} $\\pi$ \\\\ \\hline\n"
     
     latex_table += "\\end{tabular}\n\\end{table}"
     return latex_table
