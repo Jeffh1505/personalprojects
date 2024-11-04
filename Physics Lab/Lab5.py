@@ -1,105 +1,129 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
 
-# Constants
+# Physical constants
 mu_0 = 4 * np.pi * 1e-7  # Permeability of free space (T·m/A)
-N = 132  # Number of turns
+N = 132     # Number of turns in the coil
 R = 0.1475  # Radius of coil (m)
-C = (mu_0 * N) / (R * (5/4)**(3/2))  # Calculate the constant C
+C = (mu_0 * N) / (R * (5/4)**(3/2))  # Geometric constant
 
-# Provided data (Radius in cm, Current in A)
-radius_200V = np.array([5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
-current_200V = np.array([2.05, 1.83, 1.65, 1.54, 1.42, 1.34, 1.29, 1.21, 1.16, 1.12, 1.07, 1.02, 0.97])
+# Data for different voltages (converting radius from cm to m)
+def load_voltage_data(radius_cm, current_A):
+    radius_m = np.array(radius_cm) / 100  # Convert to meters
+    current = np.array(current_A)
+    current_error = 0.05 * current  # 5% error
+    return radius_m, current, current_error
 
-radius_300V = np.array([5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
-current_300V = np.array([2.66, 2.4, 2.12, 1.98, 1.86, 1.75, 1.62, 1.53, 1.44, 1.38, 1.32, 1.27, 1.22])
+# Weighted linear regression
+def weighted_linear_regression(x, y, yerr):
+    weights = 1 / yerr**2
+    slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+    
+    # Calculate errors
+    slope_err = np.sqrt(np.sum(weights * (x - np.mean(x))**2))
+    intercept_err = std_err * np.sqrt(np.sum(weights))
+    
+    return slope, intercept, slope_err, intercept_err
 
-radius_400V = np.array([5.25, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
-current_400V = np.array([3, 2.89, 2.6, 2.4, 2.21, 2.03, 1.93, 1.81, 1.7, 1.61, 1.53, 1.46, 1.4])
+# Calculate e/m ratio from slope
+def charge_to_mass_from_slope(slope, V):
+    return (2 * V) / (C * slope)**2
 
-radius_500V = np.array([6, 6, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
-current_500V = np.array([3, 2.96, 2.6, 2.71, 2.54, 2.36, 2.2, 2.06, 1.94, 1.82, 1.71, 1.64, 1.56])
+# Create plot
+def plot_data_and_fits(data_sets, fits):
+    plt.figure(figsize=(10, 6))
+    colors = ['r', 'g', 'b', 'y']
+    
+    for (voltage, radius, current, current_error), fit, color in zip(data_sets, fits, colors):
+        # Plot experimental points with error bars
+        plt.errorbar(radius, current, yerr=current_error, 
+                    fmt='o', label=f'{voltage}V - Experimental', 
+                    capsize=5, color=color)
+        
+        # Plot fit line
+        x_fit = np.linspace(min(radius), max(radius), 100)
+        plt.plot(x_fit, fit[0] * x_fit + fit[1], 
+                '--', label=f'{voltage}V - Fit', 
+                color=color)
+    
+    plt.xlabel('Radius (m)')
+    plt.ylabel('Current (A)')
+    plt.title('Current vs Radius for Different Voltages with Best-Fit Lines')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
-# Define the charge-to-mass ratio function
-def calculate_charge_to_mass_ratio(V, I, r, C):
-    return (2 * V) / (C * I * r)**2
+# Generate LaTeX table
+def create_latex_table(fits, voltages):
+    latex_table = r"""
+    \begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Voltage (V) & Slope (A/m) & Intercept (A) & Slope Error (A/m) & Intercept Error (A) \\ \hline
+    """
+    
+    for voltage, fit in zip(voltages, fits):
+        latex_table += f"{voltage} & {fit[0]:.2e} & {fit[1]:.2e} & {fit[2]:.2e} & {fit[3]:.2e} \\\\ \\hline\n"
+    
+    latex_table += r"""
+    \end{tabular}
+    \caption{Linear Fit Results for Current vs Radius.}
+    \end{table}
+    """
+    return latex_table
 
-# Set voltage values for each dataset
-V_200 = 200
-V_300 = 300
-V_400 = 400
-V_500 = 500
-
-# Calculate charge-to-mass ratios for each voltage
-e_m_200V = calculate_charge_to_mass_ratio(V_200, current_200V, radius_200V, C)
-e_m_300V = calculate_charge_to_mass_ratio(V_300, current_300V, radius_300V, C)
-e_m_400V = calculate_charge_to_mass_ratio(V_400, current_400V, radius_400V, C)
-e_m_500V = calculate_charge_to_mass_ratio(V_500, current_500V, radius_500V, C)
-
-# Print the charge-to-mass ratios
-print("Charge-to-Mass Ratio (e/m) values:")
-print(f"200 V: {e_m_200V.mean():.2e} C/kg")
-print(f"300 V: {e_m_300V.mean():.2e} C/kg")
-print(f"400 V: {e_m_400V.mean():.2e} C/kg")
-print(f"500 V: {e_m_500V.mean():.2e} C/kg")
-
-# Create LaTeX table with charge-to-mass ratio results
-latex_table = r"""
-\begin{table}[ht]
-\centering
-\begin{tabular}{|c|c|}
-\hline
-Voltage (V) & Charge-to-Mass Ratio (e/m) [C/kg] \\ \hline
-200 & {:.2e} \\ \hline
-300 & {:.2e} \\ \hline
-400 & {:.2e} \\ \hline
-500 & {:.2e} \\ \hline
-\end{tabular}
-\caption{Calculated charge-to-mass ratios at different voltages.}
-\end{table}
-""".format(e_m_200V.mean(), e_m_300V.mean(), e_m_400V.mean(), e_m_500V.mean())
-
-# Output LaTeX table
-print("\nLaTeX Table for Charge-to-Mass Ratio:")
-print(latex_table)
-
-# Plotting the experimental and theoretical current vs radius
-def calculate_theoretical_current(V, r, C, e_m):
-    return (1 / C) * np.sqrt((2 * V) / e_m) * (1 / r)
-
-# Calculate theoretical currents using the mean charge-to-mass ratio from the 200V data
-theoretical_current_200V = calculate_theoretical_current(V_200, radius_200V, C, e_m_200V.mean())
-theoretical_current_300V = calculate_theoretical_current(V_300, radius_300V, C, e_m_300V.mean())
-theoretical_current_400V = calculate_theoretical_current(V_400, radius_400V, C, e_m_400V.mean())
-theoretical_current_500V = calculate_theoretical_current(V_500, radius_500V, C, e_m_500V.mean())
-
-# Plot the results
-plt.figure(figsize=(10, 6))
-
-# 200V plot
-plt.plot(radius_200V, current_200V, 'o-', label='200 V - Experimental')
-plt.plot(radius_200V, theoretical_current_200V, 'x--', label='200 V - Theoretical')
-
-# 300V plot
-plt.plot(radius_300V, current_300V, 'o-', label='300 V - Experimental')
-plt.plot(radius_300V, theoretical_current_300V, 'x--', label='300 V - Theoretical')
-
-# 400V plot
-plt.plot(radius_400V, current_400V, 'o-', label='400 V - Experimental')
-plt.plot(radius_400V, theoretical_current_400V, 'x--', label='400 V - Theoretical')
-
-# 500V plot
-plt.plot(radius_500V, current_500V, 'o-', label='500 V - Experimental')
-plt.plot(radius_500V, theoretical_current_500V, 'x--', label='500 V - Theoretical')
-
-# Adding plot details
-plt.title("Current vs Radius for Different Voltages")
-plt.xlabel("Radius (m)")
-plt.ylabel("Current (A)")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-
-# Save and show plot
-plt.savefig("current_vs_radius_plot.png")
-plt.show()
+# Main analysis
+if __name__ == "__main__":
+    # Complete datasets from original code
+    data_sets = [
+        (200, 
+         [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11],
+         [2.05, 1.83, 1.65, 1.54, 1.42, 1.34, 1.29, 1.21, 1.16, 1.12, 1.07, 1.02, 0.97]),
+        (300,
+         [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11],
+         [2.66, 2.4, 2.12, 1.98, 1.86, 1.75, 1.62, 1.53, 1.44, 1.38, 1.32, 1.27, 1.22]),
+        (400,
+         [5.25, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11],
+         [3, 2.89, 2.6, 2.4, 2.21, 2.03, 1.93, 1.81, 1.7, 1.61, 1.53, 1.46, 1.4]),
+        (500,
+         [6, 6, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11],
+         [3, 2.96, 2.6, 2.71, 2.54, 2.36, 2.2, 2.06, 1.94, 1.82, 1.71, 1.64, 1.56])
+    ]
+    
+    # Process each dataset
+    processed_data = []
+    fits = []
+    em_ratios = []
+    voltages = []
+    
+    for voltage, radius_cm, current_A in data_sets:
+        radius, current, current_error = load_voltage_data(radius_cm, current_A)
+        fit = weighted_linear_regression(radius, current, current_error)
+        
+        processed_data.append((voltage, radius, current, current_error))
+        fits.append(fit)
+        voltages.append(voltage)
+        
+        em_ratio = charge_to_mass_from_slope(fit[0], voltage)
+        em_ratios.append(em_ratio)
+    
+    # Calculate weighted average
+    em_ratios = np.array(em_ratios)
+    errors = np.array([fit[2] for fit in fits])
+    weights = 1 / errors**2
+    weighted_avg = np.sum(em_ratios * weights) / np.sum(weights)
+    weighted_std_err = np.sqrt(1 / np.sum(weights))
+    
+    # Print results
+    print("\nWeighted Average of Charge-to-Mass Ratio: {:.2e} C/kg".format(weighted_avg))
+    print("Weighted Standard Error: {:.2e} C/kg".format(weighted_std_err))
+    
+    # Generate and print LaTeX table
+    latex_table = create_latex_table(fits, voltages)
+    print("\nLaTeX Table for Linear Fit Results:")
+    print(latex_table)
+    
+    # Plot results
+    plot_data_and_fits(processed_data, fits)
