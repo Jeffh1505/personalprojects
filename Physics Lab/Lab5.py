@@ -33,6 +33,9 @@ current_400V = cleaned_data['Current_400V'].astype(float)
 radius_500V = cleaned_data['Voltage_500V_Diameter'].astype(float) / 200
 current_500V = cleaned_data['Current_500V'].astype(float)
 
+# Remove any rows with zero values for current or radius
+cleaned_data = cleaned_data.replace(0, np.nan).dropna()
+
 # Define the charge-to-mass ratio function
 def calculate_charge_to_mass_ratio(V, I, r, C):
     return (2 * V) / (C * I * r)**2
