@@ -19,9 +19,17 @@ data = pd.read_excel(file_path)
 # Clean the data
 cleaned_data = data.iloc[4:].dropna(how='all').reset_index(drop=True)
 
+# Check the number of columns in the data
+print("Columns in the dataset:", cleaned_data.columns)
+
+# Use only the relevant columns (adjust based on actual column names)
 # Assign appropriate column names
+# This assumes there are 13 columns, if different, adjust accordingly
 cleaned_data.columns = ['Voltage_200V_Diameter', 'Current_200V', 'NaN1', 'Voltage_300V_Diameter', 'Current_300V', 
-                        'NaN2', 'Voltage_400V_Diameter', 'Current_400V', 'NaN3', 'Voltage_500V_Diameter', 'Current_500V', 'NaN4']
+                        'NaN2', 'Voltage_400V_Diameter', 'Current_400V', 'NaN3', 'Voltage_500V_Diameter', 'Current_500V', 'NaN4', 'NaN5']
+
+# If there are unnecessary columns, drop them (e.g., NaN columns)
+cleaned_data = cleaned_data.drop(columns=['NaN1', 'NaN2', 'NaN3', 'NaN4', 'NaN5'])
 
 # Extract diameters and amperes for each voltage group (convert diameters to radii in meters)
 radius_200V = cleaned_data['Voltage_200V_Diameter'].astype(float) / 200  # Convert diameter (cm) to radius (m)
