@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,33 +7,18 @@ N = 132  # Number of turns
 R = 0.1475  # Radius of coil (m)
 C = (mu_0 * N) / (R * (5/4)**(3/2))  # Calculate the constant C
 
-# Load the Excel file (change the path if necessary)
-file_path = r"C:\Users\summe\Downloads\columbiaphyslab5.xlsx"
-data = pd.read_excel(file_path)
+# Provided data (Radius in cm, Current in A)
+radius_200V = np.array([5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
+current_200V = np.array([2.05, 1.83, 1.65, 1.54, 1.42, 1.34, 1.29, 1.21, 1.16, 1.12, 1.07, 1.02, 0.97])
 
-# Clean the data
-cleaned_data = data.iloc[4:].dropna(how='all').reset_index(drop=True)
+radius_300V = np.array([5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
+current_300V = np.array([2.66, 2.4, 2.12, 1.98, 1.86, 1.75, 1.62, 1.53, 1.44, 1.38, 1.32, 1.27, 1.22])
 
-# Check the number of columns in the data
-cleaned_data.columns = ['Voltage_200V_Diameter', 'Current_200V', 'NaN1', 'Voltage_300V_Diameter', 'Current_300V', 
-                        'NaN2', 'Voltage_400V_Diameter', 'Current_400V', 'NaN3', 'Voltage_500V_Diameter', 'Current_500V', 'NaN4', 'NaN5']
-cleaned_data = cleaned_data.drop(columns=['NaN1', 'NaN2', 'NaN3', 'NaN4', 'NaN5'])
+radius_400V = np.array([5.25, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
+current_400V = np.array([3, 2.89, 2.6, 2.4, 2.21, 2.03, 1.93, 1.81, 1.7, 1.61, 1.53, 1.46, 1.4])
 
-# Extract diameters and amperes for each voltage group (convert diameters to radii in meters)
-radius_200V = cleaned_data['Voltage_200V_Diameter'].astype(float) / 200  # Convert diameter (cm) to radius (m)
-current_200V = cleaned_data['Current_200V'].astype(float)
-
-radius_300V = cleaned_data['Voltage_300V_Diameter'].astype(float) / 200
-current_300V = cleaned_data['Current_300V'].astype(float)
-
-radius_400V = cleaned_data['Voltage_400V_Diameter'].astype(float) / 200
-current_400V = cleaned_data['Current_400V'].astype(float)
-
-radius_500V = cleaned_data['Voltage_500V_Diameter'].astype(float) / 200
-current_500V = cleaned_data['Current_500V'].astype(float)
-
-# Remove any rows with zero values for current or radius
-cleaned_data = cleaned_data.replace(0, np.nan).dropna()
+radius_500V = np.array([6, 6, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11]) / 100  # Convert to meters
+current_500V = np.array([3, 2.96, 2.6, 2.71, 2.54, 2.36, 2.2, 2.06, 1.94, 1.82, 1.71, 1.64, 1.56])
 
 # Define the charge-to-mass ratio function
 def calculate_charge_to_mass_ratio(V, I, r, C):
@@ -54,10 +38,10 @@ e_m_500V = calculate_charge_to_mass_ratio(V_500, current_500V, radius_500V, C)
 
 # Print the charge-to-mass ratios
 print("Charge-to-Mass Ratio (e/m) values:")
-print(f"200 V: {e_m_200V.mean()} C/kg")
-print(f"300 V: {e_m_300V.mean()} C/kg")
-print(f"400 V: {e_m_400V.mean()} C/kg")
-print(f"500 V: {e_m_500V.mean()} C/kg")
+print(f"200 V: {e_m_200V.mean():.2e} C/kg")
+print(f"300 V: {e_m_300V.mean():.2e} C/kg")
+print(f"400 V: {e_m_400V.mean():.2e} C/kg")
+print(f"500 V: {e_m_500V.mean():.2e} C/kg")
 
 # Create LaTeX table with charge-to-mass ratio results
 latex_table = r"""
@@ -79,19 +63,15 @@ Voltage (V) & Charge-to-Mass Ratio (e/m) [C/kg] \\ \hline
 print("\nLaTeX Table for Charge-to-Mass Ratio:")
 print(latex_table)
 
-# Optionally save the LaTeX table to a file
-with open("charge_to_mass_ratio_table.tex", "w") as f:
-    f.write(latex_table)
-
 # Plotting the experimental and theoretical current vs radius
-def calculate_theoretical_current(V, r, C):
-    return (1 / C) * np.sqrt((2 * V) / (e_m_200V.mean())) * (1 / r)
+def calculate_theoretical_current(V, r, C, e_m):
+    return (1 / C) * np.sqrt((2 * V) / e_m) * (1 / r)
 
-# Calculate theoretical currents
-theoretical_current_200V = calculate_theoretical_current(V_200, radius_200V, C)
-theoretical_current_300V = calculate_theoretical_current(V_300, radius_300V, C)
-theoretical_current_400V = calculate_theoretical_current(V_400, radius_400V, C)
-theoretical_current_500V = calculate_theoretical_current(V_500, radius_500V, C)
+# Calculate theoretical currents using the mean charge-to-mass ratio from the 200V data
+theoretical_current_200V = calculate_theoretical_current(V_200, radius_200V, C, e_m_200V.mean())
+theoretical_current_300V = calculate_theoretical_current(V_300, radius_300V, C, e_m_300V.mean())
+theoretical_current_400V = calculate_theoretical_current(V_400, radius_400V, C, e_m_400V.mean())
+theoretical_current_500V = calculate_theoretical_current(V_500, radius_500V, C, e_m_500V.mean())
 
 # Plot the results
 plt.figure(figsize=(10, 6))
