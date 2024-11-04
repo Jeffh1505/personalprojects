@@ -13,7 +13,13 @@ def load_voltage_data(radius_cm, current_A):
     radius_m = np.array(radius_cm) / 100  # Convert to meters
     current = np.array(current_A)
     current_error = 0.05 * current  # 5% error
-    return radius_m, current, current_error
+    # Calculate 1/r and its error
+    inverse_radius = 1 / radius_m
+    # Error propagation for 1/r: δ(1/r) = (1/r^2)δr
+    # Assuming 1mm uncertainty in radius measurements
+    radius_error = 0.001  # 1mm error in radius
+    inverse_radius_error = (inverse_radius**2) * radius_error
+    return inverse_radius, current, current_error, inverse_radius_error
 
 # Weighted linear regression
 def weighted_linear_regression(x, y, yerr):
@@ -35,21 +41,23 @@ def plot_data_and_fits(data_sets, fits):
     plt.figure(figsize=(10, 6))
     colors = ['r', 'g', 'b', 'y']
     
-    for (voltage, radius, current, current_error), fit, color in zip(data_sets, fits, colors):
+    for (voltage, inv_radius, current, current_error, inv_radius_error), fit, color in zip(data_sets, fits, colors):
         # Plot experimental points with error bars
-        plt.errorbar(radius, current, yerr=current_error, 
+        plt.errorbar(inv_radius, current, 
+                    xerr=inv_radius_error,
+                    yerr=current_error, 
                     fmt='o', label=f'{voltage}V - Experimental', 
                     capsize=5, color=color)
         
         # Plot fit line
-        x_fit = np.linspace(min(radius), max(radius), 100)
+        x_fit = np.linspace(min(inv_radius), max(inv_radius), 100)
         plt.plot(x_fit, fit[0] * x_fit + fit[1], 
                 '--', label=f'{voltage}V - Fit', 
                 color=color)
     
-    plt.xlabel('Radius (m)')
+    plt.xlabel('1/r (m⁻¹)')
     plt.ylabel('Current (A)')
-    plt.title('Current vs Radius for Different Voltages with Best-Fit Lines')
+    plt.title('Current vs 1/r for Different Voltages with Best-Fit Lines')
     plt.legend()
     plt.grid(True)
     plt.show()
@@ -61,7 +69,7 @@ def create_latex_table(fits, voltages):
     \centering
     \begin{tabular}{|c|c|c|c|c|}
     \hline
-    Voltage (V) & Slope (A/m) & Intercept (A) & Slope Error (A/m) & Intercept Error (A) \\ \hline
+    Voltage (V) & Slope (A·m) & Intercept (A) & Slope Error (A·m) & Intercept Error (A) \\ \hline
     """
     
     for voltage, fit in zip(voltages, fits):
@@ -69,7 +77,7 @@ def create_latex_table(fits, voltages):
     
     latex_table += r"""
     \end{tabular}
-    \caption{Linear Fit Results for Current vs Radius.}
+    \caption{Linear Fit Results for Current vs 1/r.}
     \end{table}
     """
     return latex_table
@@ -99,10 +107,10 @@ if __name__ == "__main__":
     voltages = []
     
     for voltage, radius_cm, current_A in data_sets:
-        radius, current, current_error = load_voltage_data(radius_cm, current_A)
-        fit = weighted_linear_regression(radius, current, current_error)
+        inv_radius, current, current_error, inv_radius_error = load_voltage_data(radius_cm, current_A)
+        fit = weighted_linear_regression(inv_radius, current, current_error)
         
-        processed_data.append((voltage, radius, current, current_error))
+        processed_data.append((voltage, inv_radius, current, current_error, inv_radius_error))
         fits.append(fit)
         voltages.append(voltage)
         
