@@ -4,8 +4,8 @@ import numpy as np
 d = 0.00025  # slit separation (m)
 L = 1.030    # screen distance (m)
 
-# Data (already in meters)
-positions = np.array([0.017, 0.036, 0.052, 0.078, 0.104, 0.119, 0.138])  # Already in meters
+# Data (convert from cm to m)
+positions = np.array([0.017, 0.036, 0.052, 0.078, 0.104, 0.119, 0.138]) * 0.01  # Convert cm to m
 order_numbers = np.arange(-(len(positions) - 1) // 2, (len(positions)) // 2 + 1)
 
 # Remove zero order
