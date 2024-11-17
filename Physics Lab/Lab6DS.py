@@ -49,7 +49,7 @@ for m, pos, ang, wave in zip(order_numbers, positions, angles, wavelengths_nm):
     print(f"{m:5d} | {pos*1000:11.3f} | {np.degrees(ang):10.3f} | {wave:13.1f}")
 
 print("\nFinal Result:")
-print(f"Wavelength = {mean_wavelength:.1f} ± {uncertainty_nm:.1f} nm")
+print(f"Wavelength = {float(mean_wavelength):.1f} ± {float(uncertainty_nm):.1f} nm")
 
 print("\nUncertainty Breakdown:")
 print(f"Uncertainty due to L: ±{np.mean(L_contribution)*1e9:.1f} nm")
