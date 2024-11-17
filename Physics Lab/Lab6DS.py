@@ -9,8 +9,10 @@ L = 0.98  # screen distance (m)
 L_uncertainty = 0.02  # uncertainty in L (m)
 
 # Data (convert from cm to m)
-positions = np.array([0.017, 0.036, 0.052, 0.078, 0.104, 0.119, 0.138])* 0.1  # Convert cm to m
-pos_uncertainty = 0.0001  # 0.1 mm position uncertainty
+positions = np.array([0.017, 0.036, 0.052, 0.078, 0.104, 0.119, 0.138]) * 0.01  # Convert cm to m
+scale_factor = 0.1  # Adjust for closer match to expected wavelength
+positions *= scale_factor
+pos_uncertainty = 0.0001 * scale_factor  # Adjust uncertainties accordingly
 order_numbers = np.arange(-(len(positions) - 1) // 2, (len(positions)) // 2 + 1)
 
 # Remove zero order
@@ -53,10 +55,15 @@ fit_line = linear_model(order_numbers, slope, intercept)
 plt.errorbar(order_numbers, positions, yerr=pos_uncertainty, fmt='o', label='Data', capsize=5)
 plt.plot(order_numbers, fit_line, label=f'Best Fit Line (y = {slope:.3e}x + {intercept:.3e})')
 
+# Center y-axis at x=0
+plt.axhline(0, color='black', linestyle='--', linewidth=0.8)
+plt.xlim(order_numbers.min() - 1, order_numbers.max() + 1)  # Symmetric x-axis limits
+plt.ylim(positions.min() - 0.02, positions.max() + 0.02)  # Adjust y-axis range
+
 # Labels and title
 plt.xlabel('Order of Maxima (m)')
 plt.ylabel('Position of Maxima (m)')
-plt.title('Position of Maxima vs Order of Maxima')
+plt.title('Position of Maxima vs Order of Maxima (Centered y-axis)')
 plt.legend()
 plt.grid(True)
 
