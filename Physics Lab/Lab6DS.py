@@ -3,7 +3,7 @@ import numpy as np
 # Constants with uncertainties
 d = 0.00025  # slit separation (m)
 d_uncertainty = 0.00001  # uncertainty in d (m)
-L = 1.030  # screen distance (m)
+L = 0.98  # screen distance (m)
 L_uncertainty = 0.02  # uncertainty in L (m)
 
 # Data (convert from cm to m)
