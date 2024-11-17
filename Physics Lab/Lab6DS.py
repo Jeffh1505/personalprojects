@@ -34,9 +34,8 @@ L_contribution = np.abs(wavelengths_plus - wavelengths_minus) / 2
 
 # Total uncertainty (combining L, d, and position uncertainties)
 # Using error propagation formula
-relative_uncertainty = np.sqrt((L_uncertainty/L)**2 + (d_uncertainty/d)**2 + (pos_uncertainty/positions)**2)
+relative_uncertainty = np.mean(np.sqrt((L_uncertainty/L)**2 + (d_uncertainty/d)**2 + (pos_uncertainty/positions)**2))
 total_uncertainty = np.mean(wavelengths) * relative_uncertainty
-print(total_uncertainty)
 # Convert all to nm
 mean_wavelength = np.mean(wavelengths_nm)
 uncertainty_nm = total_uncertainty * 1e9
