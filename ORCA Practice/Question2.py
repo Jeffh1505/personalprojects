@@ -7,5 +7,7 @@ arr[arr==7] = 14
 print(arr)
 nan_indicies = np.where(arr == np.nan)
 print(nan_indicies)
-max_cols = np.nanmax(arr, axis=1)
+max_cols = np.nanmax(arr, axis=0)
 print(max_cols)
+descending_sort = np.sort(arr)[::-1]
+print(descending_sort)
