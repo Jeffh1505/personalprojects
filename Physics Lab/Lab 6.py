@@ -61,8 +61,8 @@ plt.grid(True)
 plt.show()
 
 # Print fit parameters and R-squared value
-print(f"Slope: {slope:.3f}")
-print(f"Intercept: {intercept:.3f}")
+print(f"Slope: {slope:.3f} ± {std_err:.3f}")
+print(f"Intercept: {intercept:.3f} ± {std_err:.3f}")
 print(f"R-squared: {r_value**2:.3f}")
 
 # Signal-to-noise ratio calculation
@@ -81,26 +81,27 @@ noise = intensities[noise_angle_index]
 snr = signal / noise
 print(f"Signal-to-Noise Ratio (SNR): {snr:.3f}")
 
-# LaTeX table output
-table_rows = []
-for adjusted_angles, intensity in zip(adjusted_angles, intensities):
-    table_rows.append(f"{adjusted_angles:.1f} & {intensity:.2f} \\\\")
+# LaTeX table output with uncertainties
+table_rows_with_uncertainties = []
+for angle, intensity in zip(adjusted_angles, intensities):
+    table_rows_with_uncertainties.append(
+        f"{angle:.1f} $\\pm$ 0.1 & {intensity:.2f} $\\pm$ 1 \\\\")
 
 # Create the LaTeX table
-latex_table = r"""
+latex_table_with_uncertainties = r"""
 \begin{table}[h!]
 \centering
 \begin{tabular}{|c|c|}
 \hline
 Angle (degrees) & Intensity \\
 \hline
-""" + "\n".join(table_rows) + r"""
+""" + "\n".join(table_rows_with_uncertainties) + r"""
 \hline
 \end{tabular}
-\caption{Angle and Intensity Data}
-\label{tab:angle_intensity}
+\caption{Angle and Intensity Data with Uncertainties. The angle uncertainty is $\pm 0.1^\circ$ and the intensity uncertainty is $\pm 1$.}
+\label{tab:angle_intensity_uncertainties}
 \end{table}
 """
 
 print("Copy the following LaTeX table code into your document:")
-print(latex_table)
+print(latex_table_with_uncertainties)
