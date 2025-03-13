@@ -21,5 +21,6 @@ print(df.loc[df["Quantity"] > 3, ["Quantity"]])
 df_electronics = df["Category"] == "Electronics"
 print(df_electronics)
 
+df = df.mask(df_electronics, other= "Tech")
 print(df)
 
