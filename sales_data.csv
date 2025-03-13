@@ -1,0 +1,6 @@
+OrderID,Product,Category,Price,Quantity,Discount,Revenue
+1001,Laptop,Electronics,1200,2,0.1,2160.0
+1002,Headphones,Electronics,150,5,0.05,712.5
+1003,Coffee Maker,Home Appliances,80,3,0.2,192.0
+1004,Smartphone,Electronics,900,1,0.15,765.0
+1005,Desk Chair,Furniture,200,4,0.1,720.0
