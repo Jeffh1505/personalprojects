@@ -6,3 +6,6 @@ df = pd.read_csv(r"C:\Users\summe\OneDrive\Desktop\personalprojects\ORCA Practic
 
 # Display first 5 rows
 print(df.head())
+
+df = df.assign(Final_price = df["Price"] - (df["Price"]*df["Discount"]))
+print(df)
