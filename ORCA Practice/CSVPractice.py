@@ -11,3 +11,6 @@ df = df.assign(Final_price = df["Price"] - (df["Price"]*df["Discount"]))
 print(df)
 
 print(df.loc[df["Final_price"] > 500, ["Final_price"]])
+
+sorted_df = df.sort_values(by="Revenue", ascending=False)
+print(sorted_df)
