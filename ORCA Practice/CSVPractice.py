@@ -9,3 +9,5 @@ print(df.head())
 
 df = df.assign(Final_price = df["Price"] - (df["Price"]*df["Discount"]))
 print(df)
+
+print(df.loc[df["Final_price"] > 500, ["Final_price"]])
