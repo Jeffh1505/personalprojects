@@ -20,6 +20,6 @@ print(df.loc[df["Quantity"] > 3, ["Quantity"]])
 
 df_electronics = df["Category"] == "Electronics"
 print(df_electronics)
-df[df_electronics, "Category"] = "Tech"
+
 print(df)
 
