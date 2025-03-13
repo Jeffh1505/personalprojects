@@ -17,3 +17,8 @@ print(sorted_df)
 
 
 print(df.loc[df["Quantity"] > 3, ["Quantity"]])
+
+df_electronics = df["Category"] == "Electronics"
+print(df_electronics)
+df[df_electronics] = "Tech"
+print(df)
