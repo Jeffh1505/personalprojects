@@ -14,3 +14,6 @@ print(df.loc[df["Final_price"] > 500, ["Final_price"]])
 
 sorted_df = df.sort_values(by="Revenue", ascending=False)
 print(sorted_df)
+
+
+print(df.iloc[df["Quantity"]>3])
