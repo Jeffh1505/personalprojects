@@ -10,7 +10,7 @@ division = x/y
 print(division)
 
 z = np.arange(1,4,1)
-print(z)
+
 mult = x*z 
 
 print(mult)
